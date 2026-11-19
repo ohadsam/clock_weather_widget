@@ -5,6 +5,9 @@ Native Android (Kotlin) **widget-first** app: a very beautiful, large, resizable
 Start with `docs/CONTEXT.md` (status, file map, rules) -> `docs/PLAN.md` (next batch) -> `docs/REQUESTS.md` (owner's ledger) -> `AGENT.md` (recent / open / not verifiable). Then follow `.claude/skills/release-checklist/SKILL.md` for every change.
 The method is in `.claude/skills/app-development/` (read "Project overrides" at the top of its SKILL.md and `references/native-widget-app.md`) and `.claude/skills/android-native-dev/` (CI-gated native workflow).
 
+## Branch
+`main` is the primary branch (owner, 2026-11-19): work and push there; every push to `main` runs CI and publishes the signed APK as pre-release `latest` (with the in-place-update check).
+
 ## Facts you must not re-derive
 - Two Gradle modules. `:core` = pure Kotlin/JVM (no Android imports, time always a parameter) and is built and tested **in the sandbox**: `gradle :core:test`. `:app` needs the Android SDK, which the sandbox lacks (Google Maven blocked) -> `:app` is compiled/tested only by GitHub Actions (`android-ci.yml`). `settings.gradle.kts` includes `:app` only when `ANDROID_HOME`/`ANDROID_SDK_ROOT` or `-PwithApp` is set.
 - Open-Meteo / Hebcal are unreachable from the sandbox: confirm API shapes with `.github/workflows/api-probe.yml`, never assume.
