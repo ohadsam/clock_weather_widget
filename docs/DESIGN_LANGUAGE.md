@@ -64,4 +64,4 @@ Weather accents (use consistently): sun #FFB300 / #FFD54F glow, cloud light #F4F
 | Widget picker preview | `preview_<style>.png` and `preview_kind_<kind>.png` | 640 x 360 | styles: flip, digital, analog, minimal; kinds: classic, clock, weather, agenda, strip |
 
 ## Status of the kit
-Nothing has been generated yet (2026-11-19). Round 0 (style bible + logo) must be approved first; it is the reference image set uploaded with every later prompt. See `docs/PENDING_CHATGPT_PROMPTS.md`.
+Round 0 delivered 2026-11-19: **style bible approved** (`design/round0/style_bible.jpg`); logo files rejected, fix round 0B pending. No other asset exists yet. Round 0 (style bible + logo) must be approved first; it is the reference image set uploaded with every later prompt. See `docs/PENDING_CHATGPT_PROMPTS.md`.
