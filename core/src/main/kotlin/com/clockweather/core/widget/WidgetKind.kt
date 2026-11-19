@@ -32,7 +32,8 @@ enum class Preset(val id: String, val he: String, val en: String) {
     NIGHT_STAND("night_stand", "שולחן ליל", "Night stand"),
     MINIMAL("minimal", "מינימלי", "Minimal"),
     SUNSET_ANALOG("sunset_analog", "שקיעה אנלוגי", "Sunset analog"),
-    SHABBAT_CALM("shabbat_calm", "שבת רגועה", "Shabbat calm");
+    SHABBAT_CALM("shabbat_calm", "שבת רגועה", "Shabbat calm"),
+    POCKET_GOLD("pocket_gold", "שעון כיס זהב", "Gold pocket watch");
 
     fun apply(s: WidgetSettings): WidgetSettings = when (this) {
         CLASSIC_HTC -> s.copy(clockStyle = ClockStyle.FLIP, paletteId = "classic_white", backgroundAlphaPct = 0, panelAlphaPct = 75, cornerRadiusDp = 18, scalePct = 100, calmAnimations = false)
@@ -40,6 +41,7 @@ enum class Preset(val id: String, val he: String, val en: String) {
         NIGHT_STAND -> s.copy(clockStyle = ClockStyle.FLIP, paletteId = "midnight", backgroundAlphaPct = 80, panelAlphaPct = 90, cornerRadiusDp = 24, scalePct = 110, calmAnimations = false)
         MINIMAL -> s.copy(clockStyle = ClockStyle.MINIMAL, paletteId = "graphite", backgroundAlphaPct = 0, panelAlphaPct = 0, cornerRadiusDp = 12, scalePct = 90, showWorldClocks = false, showSunTimes = false, showAgenda = false)
         SUNSET_ANALOG -> s.copy(clockStyle = ClockStyle.ANALOG, paletteId = "sunset", backgroundAlphaPct = 15, panelAlphaPct = 60, cornerRadiusDp = 30, scalePct = 100, calmAnimations = false)
+        POCKET_GOLD -> s.copy(clockStyle = ClockStyle.POCKET, paletteId = "sand", backgroundAlphaPct = 0, panelAlphaPct = 70, cornerRadiusDp = 20, scalePct = 100, calmAnimations = false)
         SHABBAT_CALM -> s.copy(clockStyle = ClockStyle.DIGITAL, paletteId = "sand", backgroundAlphaPct = 20, panelAlphaPct = 70, cornerRadiusDp = 20, scalePct = 100, calmAnimations = true, showHolidays = true, showHebrewDate = true, showSunTimes = true)
     }
 }

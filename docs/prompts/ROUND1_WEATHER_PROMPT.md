@@ -44,6 +44,9 @@ People of all ages glancing at the home screen for one second, in sunlight, in H
 ## The name (owner, 2026-11-19): **ClockWise**
 One word, capital C and capital W, Latin letters in both Hebrew and English UI. The logo lockup contains the name as a wordmark; it is the ONLY artwork allowed to contain text. The "W" may subtly echo the hinge seam (two strokes meeting on a horizontal seam). The name pun: a clock that is wise - calm, smart, helpful.
 
+## Two clock worlds (owner, 2026-11-19)
+**Flip cards = a DIGITAL clock** (digits on cards; the logo's card carries digits, never hands). **Hands = an ANALOG clock** and it must look completely different: the **golden pocket watch** (hunter-case lid that opens on a top hinge, chain, crown, bow ring, cream/ivory dial, ornate hands), as on the antique watches carried on a chain in a waistcoat pocket. Never mix hands on a card or digits on the watch.
+
 ## Quality bar (owner, 2026-11-19: "designed, beautiful, invested; one consistent design line")
 Every asset must look like it came from ONE professional studio, at the level of a premium weather/clock app (think award-winning iOS/Android weather apps, but original). Rich but calm: considered lighting, soft layered depth, crisp edges, careful colour harmony. Reject (and redo) anything that looks like clip-art, a generic emoji, stock icon-set, flat sticker, AI-glossy plastic, or that differs in style from its siblings. Detail is welcome only if it still reads at 40 px.
 
@@ -74,7 +77,7 @@ Weather accents (use consistently): sun #FFB300 / #FFD54F glow, cloud light #F4F
 1. 100 % original work, created for this app; no copyrighted characters, logos, stock or brand look-alikes; you may only use generic shapes. Treat the output as CC0 and say if you cannot.
 2. Output backgrounds are a FLAT solid magenta #FF00FF (exactly), no gradient, no shadow on the magenta, no magenta inside the art - the app keys it out. (ChatGPT transparency creates halos; flat magenta does not.) Drop shadows are drawn INSIDE the art as soft dark-blue-grey (#1B2A3A at <= 25 % opacity) only close to the object, never reaching the canvas edge.
 3. Every asset fits fully inside its canvas with >= 6 % empty margin; nothing is cut off.
-4. No text, numbers, letters, watermarks or signatures in any image - EXCEPT the logo lockup/wordmark files, which contain exactly the word "ClockWise" (check the spelling letter by letter) and nothing else.
+4. No text, numbers, letters, watermarks or signatures in any image - EXCEPT (a) the logo lockup/wordmark files, which contain exactly the word "ClockWise" (check the spelling letter by letter); (b) the two digits "10" on the logo's flip card; (c) the pocket-watch dial numerals (Roman or Arabic) in Round 6.
 5. Consistency beats novelty: when in doubt copy the previously approved image's style exactly.
 
 ## Asset contract (what the app loads - names are exact, lowercase, underscores)
@@ -88,6 +91,7 @@ Weather accents (use consistently): sun #FFB300 / #FFD54F glow, cloud light #F4F
 | Spot art | `spot_<name>.png` | 640 x 480 | onboarding / empty states: add_widget, location, calendar, alarm, steps, offline |
 | Logo | `logo_mark.png` (mark only, colour, 1024 x 1024 on magenta), `logo_mono.png` (single colour mark), `logo_lockup_dark.png`, `logo_lockup_light.png` (mark + wordmark "ClockWise", horizontal, 2048 x 768), `logo_wordmark_dark.png`, `logo_wordmark_light.png` (text only, 2048 x 512) | see left | Round 0; the app icon in Round 2 is mark-only and built from it |
 | Weather animation | `wxa_<sky>_<day|night>_<NN>.png`, NN = 01..12 | 512 x 512 each, magenta background | seamless loop frames, frame 01 = still; delivered also as a 4x3 sheet 2048 x 1536 |
+| Pocket watch (analog style) | `pw_case_closed.png`, `pw_bezel_<gold|silver|rose>.png`, `pw_dial_<cream|ivory|black>.png` (1024 x 1024); `pw_hand_hour.png`, `pw_hand_minute.png`, `pw_hand_second.png` (256 x 1024, pivot at x=128,y=768); `pw_lid_01..12.png` (1024 x 1024 opening sequence); `pw_chain.png` (1024 x 512) | see left | Round 6 |
 | Widget picker preview | `preview_<style>.png` and `preview_kind_<kind>.png` | 640 x 360 | styles: flip, digital, analog, minimal; kinds: classic, clock, weather, agenda, strip |
 === END DESIGN LANGUAGE ===
 

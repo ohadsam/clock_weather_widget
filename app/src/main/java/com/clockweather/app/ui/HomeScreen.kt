@@ -79,7 +79,7 @@ fun HomeScreen(settings: WidgetSettings, onSettings: () -> Unit, onWeather: () -
             ChipRow(listOf(true to stringResource(R.string.wall_dark), false to stringResource(R.string.wall_light)), { it == darkWall }, { darkWall = it })
             Text(stringResource(R.string.clock_style), style = MaterialTheme.typography.titleMedium)
             ChipRow(
-                listOf(ClockStyle.FLIP to R.string.style_flip, ClockStyle.DIGITAL to R.string.style_digital, ClockStyle.ANALOG to R.string.style_analog, ClockStyle.MINIMAL to R.string.style_minimal)
+                listOf(ClockStyle.FLIP to R.string.style_flip, ClockStyle.DIGITAL to R.string.style_digital, ClockStyle.ANALOG to R.string.style_analog, ClockStyle.MINIMAL to R.string.style_minimal, ClockStyle.POCKET to R.string.style_pocket)
                     .map { it.first to stringResource(it.second) },
                 { it == settings.clockStyle }, { onChange(settings.copy(clockStyle = it)) },
             )

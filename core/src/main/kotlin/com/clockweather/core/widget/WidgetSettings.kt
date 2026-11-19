@@ -6,7 +6,8 @@ import com.clockweather.core.weather.Place
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
-enum class ClockStyle { FLIP, DIGITAL, ANALOG, MINIMAL }
+/** FLIP and DIGITAL are digital clocks (digits); ANALOG is a plain hands dial; POCKET is the golden pocket watch (owner, 2026-11-19). */
+enum class ClockStyle { FLIP, DIGITAL, ANALOG, MINIMAL, POCKET }
 
 /** Everything the owner can change about the widget. Every field has a default; unknown or bad stored values are repaired by [sanitized]. */
 @Serializable

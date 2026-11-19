@@ -135,6 +135,7 @@ private fun styleName(c: ClockStyle): Int = when (c) {
     ClockStyle.DIGITAL -> R.string.style_digital
     ClockStyle.ANALOG -> R.string.style_analog
     ClockStyle.MINIMAL -> R.string.style_minimal
+    ClockStyle.POCKET -> R.string.style_pocket
 }
 
 @Composable

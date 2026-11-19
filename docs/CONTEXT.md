@@ -8,6 +8,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 - Next: `docs/PLAN.md`.
 
 ## Decisions (do not re-litigate)
+- 2026-11-19 (owner) Two clock worlds: flip cards = digital (digits); analog = a golden pocket watch with an opening lid and chain (NOT hands on a card). Clock styles: FLIP, DIGITAL, MINIMAL (digital) and ANALOG (plain dial), POCKET (gold pocket watch, placeholder art until Round 6).
 - 2026-11-19 (owner) Name: **ClockWise** (one word). Package/applicationId `com.clockweather.app` and repo name `clock_weather_widget` stay unchanged so builds keep updating in place.
 - 2026-11-19 (owner) The calendar is **Google Calendar** (Gmail), not Outlook: read through the device calendar, which already carries it - no Google login or API key.
 - 2026-11-19 (owner) All ROADMAP suggestions are approved (ledger R28). The user chooses what the widget shows or hides (Settings -> What to show) and there are several widget TYPES in the launcher picker (R29, R30), plus one-tap look presets (R31).

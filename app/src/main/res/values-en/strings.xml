@@ -96,4 +96,5 @@
     <string name="show_steps">Steps (coming soon)</string>
     <string name="show_hint">These settings apply to all widgets. Each widget type shows only the parts that suit it.</string>
     <string name="widget_types_hint">Widget types in the picker: full dashboard, clock, weather, agenda and alarm, slim strip. Add as many as you like and resize them.</string>
+    <string name="style_pocket">Gold pocket watch</string>
 </resources>

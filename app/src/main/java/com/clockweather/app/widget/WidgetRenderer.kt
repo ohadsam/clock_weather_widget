@@ -89,6 +89,7 @@ object WidgetRenderer {
                 ClockStyle.DIGITAL -> drawBigText(r, timeText(), Typeface.create("sans-serif-thin", Typeface.NORMAL))
                 ClockStyle.MINIMAL -> drawBigText(RectF(r.left, r.top, r.right, r.top + r.height() * 0.7f), timeText(), Typeface.create("sans-serif-light", Typeface.NORMAL))
                 ClockStyle.ANALOG -> drawAnalog(r)
+                ClockStyle.POCKET -> drawPocketWatch(r)
             }
         }
 
@@ -193,10 +194,36 @@ object WidgetRenderer {
             p.color = pal.accent; c.drawCircle(cx, cy, dp(4.5f), p)
         }
 
-        fun hand(cx: Float, cy: Float, len: Float, deg: Float, width: Float) {
+        fun hand(cx: Float, cy: Float, len: Float, deg: Float, width: Float, color: Int = pal.digit) {
             val a = Math.toRadians(deg - 90.0)
-            p.color = pal.digit; p.strokeWidth = width; p.strokeCap = Paint.Cap.ROUND
+            p.color = color; p.strokeWidth = width; p.strokeCap = Paint.Cap.ROUND
             c.drawLine(cx, cy, cx + cos(a).toFloat() * len, cy + sin(a).toFloat() * len, p)
+        }
+
+        /** PLACEHOLDER pocket watch (gold case, bow ring, crown, cream dial) until the ChatGPT round 6 art (pw_*.png) arrives. */
+        fun drawPocketWatch(r: RectF) {
+            val gold = 0xFFE0A800.toInt(); val goldDark = 0xFF9A6B00.toInt(); val cream = 0xFFFFF4D6.toInt(); val brown = 0xFF3B2F1E.toInt()
+            val rad = minOf(r.width(), r.height() - dp(22f)) / 2f * 0.96f
+            val cx = r.centerX(); val cy = r.bottom - rad - dp(2f)
+            p.reset(); p.isAntiAlias = true; p.style = Paint.Style.STROKE; p.strokeWidth = dp(2.5f); p.color = goldDark
+            c.drawCircle(cx, cy - rad - dp(9f), dp(7f), p)
+            p.style = Paint.Style.FILL; p.color = gold
+            c.drawRoundRect(RectF(cx - dp(6f), cy - rad - dp(4f), cx + dp(6f), cy - rad + dp(3f)), dp(2f), dp(2f), p)
+            p.setShadowLayer(dp(5f), 0f, dp(2f), 0x66000000); c.drawCircle(cx, cy, rad, p); p.clearShadowLayer()
+            p.color = goldDark; c.drawCircle(cx, cy, rad * 0.93f, p)
+            p.color = cream; c.drawCircle(cx, cy, rad * 0.88f, p)
+            p.color = brown; p.strokeCap = Paint.Cap.ROUND
+            for (i in 0 until 12) {
+                val a = Math.toRadians(i * 30.0 - 90.0); val big = i % 3 == 0
+                p.strokeWidth = dp(if (big) 2.4f else 1.2f)
+                val r1 = rad * (if (big) 0.68f else 0.76f); val r2 = rad * 0.82f
+                c.drawLine(cx + cos(a).toFloat() * r1, cy + sin(a).toFloat() * r1, cx + cos(a).toFloat() * r2, cy + sin(a).toFloat() * r2, p)
+            }
+            val min = local.minute + local.second / 60f
+            val hr = (local.hour % 12) + min / 60f
+            hand(cx, cy, rad * 0.45f, hr * 30f, dp(4f), brown)
+            hand(cx, cy, rad * 0.68f, min * 6f, dp(2.6f), brown)
+            p.color = gold; c.drawCircle(cx, cy, dp(4f), p)
         }
 
         // ---------- text helpers ----------
