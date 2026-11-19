@@ -17,13 +17,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <View
+        <FrameLayout
             android:id="@+id/tap_clock"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3" />
 
-        <View
+        <FrameLayout
             android:id="@+id/tap_weather"
             android:layout_width="match_parent"
             android:layout_height="0dp"
