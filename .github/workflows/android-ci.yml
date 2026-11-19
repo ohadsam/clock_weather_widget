@@ -42,8 +42,8 @@ jobs:
           VER=$(grep -m1 'val appVersionName' app/build.gradle.kts | sed -E 's/.*"([^"]+)".*/\1/')
           SHA=$(git rev-parse --short HEAD)
           mkdir -p dist
-          cp app/build/outputs/apk/debug/app-debug.apk "dist/ClockWeather-v${VER}-${SHA}-debug.apk"
-          echo "Built ClockWeather v${VER} @ ${SHA}"
+          cp app/build/outputs/apk/debug/app-debug.apk "dist/ClockWise-v${VER}-${SHA}-debug.apk"
+          echo "Built ClockWise v${VER} @ ${SHA}"
       - name: Signing certificate (must stay identical across builds)
         run: keytool -printcert -jarfile dist/*-debug.apk | grep -E 'SHA256|Owner' || true
       - uses: actions/upload-artifact@v4
