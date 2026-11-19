@@ -1,4 +1,4 @@
-# ClockWeather - instructions for Claude
+# ClockWise - instructions for Claude
 
 Native Android (Kotlin) **widget-first** app: a very beautiful, large, resizable, transparent home-screen widget (flip-card / digital / analog / minimal clock, weather, Hebrew + Gregorian date and holidays, next alarm, Google-calendar banner, world clocks, sun times) plus an app for live preview, settings and weather drill-down. Hebrew first (RTL), English equal. Owner writes Hebrew: reply in Hebrew, short; code, commits and docs in English.
 

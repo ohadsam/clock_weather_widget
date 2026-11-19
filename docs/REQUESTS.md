@@ -38,4 +38,4 @@ Status: DONE (verified as noted) · CODE (written, needs CI/phone proof) · ART 
 | R31 | (owner) Different designs | CODE 6 one-tap presets (classic, frosted glass, night stand, minimal, sunset analog, Shabbat calm) |
 | R32 | (owner) Calendar means Google Calendar, not Outlook | DONE in code and docs (device calendar route) |
 | R33 | (owner) Prompts in an organised, copy-ready form | DONE `docs/prompts/00_ALL_PROMPTS_IN_ORDER.md` |
-
+| R34 | (owner) The app is named **ClockWise**: in the logo (wordmark), the prompt, and the app itself | DONE in strings (app + widget names, he/en), docs, CI APK names, Gradle root, Round 0 prompt (logo lockups + wordmark). applicationId stays `com.clockweather.app` on purpose (in-place updates). Logo ART waits for owner |

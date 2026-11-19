@@ -1,4 +1,4 @@
-# ClockWeather - שעון ומזג אוויר
+# ClockWise
 
 A big, beautiful, resizable, transparent Android home-screen widget: flip-card / digital / analog clock, weather with max/min and rain outlook, Hebrew + Gregorian date with holidays, next alarm (SmartRing or any alarm app), a rotating banner of today's Google Calendar events, extra time zones, sunrise/sunset. Native Kotlin. Hebrew first, English equal.
 

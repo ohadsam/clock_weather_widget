@@ -5,7 +5,7 @@
 ```text
 REFERENCE: attach the approved Round 0 images (logo + style bible sheet) to this chat first and match them exactly - same light, same hinge seam, same sparkle, same palette. If you have no reference images yet, STOP and ask me for them.
 
-ROLE: You are the lead illustrator for a premium Android home-screen clock and weather widget called "ClockWeather". You will create ONE consistent family of weather illustrations that are used large (up to 160 dp) on the widget and in the app.
+ROLE: You are the lead illustrator for a premium Android home-screen clock and weather widget called "ClockWise". You will create ONE consistent family of weather illustrations that are used large (up to 160 dp) on the widget and in the app.
 
 DELIVERABLE: the weather pack from the Asset contract: files wx_<sky>_<day|night>.png, 512 x 512 px each. Skies: clear, mostly_clear, partly_cloudy, overcast, fog, drizzle, rain, heavy_rain, freezing_rain, snow, thunderstorm, hail, unknown. Day AND night variants for clear, mostly_clear, partly_cloudy; the other skies have a day version only. Total 19 images.
 
@@ -41,6 +41,9 @@ People of all ages glancing at the home screen for one second, in sunlight, in H
 * Hebrew/RTL safety: no text or letters in any art; no left/right-only symbolism that breaks when mirrored (mirroring must stay correct).
 
 
+## The name (owner, 2026-11-19): **ClockWise**
+One word, capital C and capital W, Latin letters in both Hebrew and English UI. The logo lockup contains the name as a wordmark; it is the ONLY artwork allowed to contain text. The "W" may subtly echo the hinge seam (two strokes meeting on a horizontal seam). The name pun: a clock that is wise - calm, smart, helpful.
+
 ## Quality bar (owner, 2026-11-19: "designed, beautiful, invested; one consistent design line")
 Every asset must look like it came from ONE professional studio, at the level of a premium weather/clock app (think award-winning iOS/Android weather apps, but original). Rich but calm: considered lighting, soft layered depth, crisp edges, careful colour harmony. Reject (and redo) anything that looks like clip-art, a generic emoji, stock icon-set, flat sticker, AI-glossy plastic, or that differs in style from its siblings. Detail is welcome only if it still reads at 40 px.
 
@@ -71,7 +74,7 @@ Weather accents (use consistently): sun #FFB300 / #FFD54F glow, cloud light #F4F
 1. 100 % original work, created for this app; no copyrighted characters, logos, stock or brand look-alikes; you may only use generic shapes. Treat the output as CC0 and say if you cannot.
 2. Output backgrounds are a FLAT solid magenta #FF00FF (exactly), no gradient, no shadow on the magenta, no magenta inside the art - the app keys it out. (ChatGPT transparency creates halos; flat magenta does not.) Drop shadows are drawn INSIDE the art as soft dark-blue-grey (#1B2A3A at <= 25 % opacity) only close to the object, never reaching the canvas edge.
 3. Every asset fits fully inside its canvas with >= 6 % empty margin; nothing is cut off.
-4. No text, numbers, letters, watermarks or signatures in any image.
+4. No text, numbers, letters, watermarks or signatures in any image - EXCEPT the logo lockup/wordmark files, which contain exactly the word "ClockWise" (check the spelling letter by letter) and nothing else.
 5. Consistency beats novelty: when in doubt copy the previously approved image's style exactly.
 
 ## Asset contract (what the app loads - names are exact, lowercase, underscores)
@@ -83,7 +86,7 @@ Weather accents (use consistently): sun #FFB300 / #FFD54F glow, cloud light #F4F
 | Card textures | `tex_card_<light|dark|warm>.png` | 1024 x 1024 tileable greyscale | tinted by the app per palette |
 | App icon | `ic_launcher_fg.png`, `ic_launcher_bg.png`, `ic_launcher_mono.png` | 432 x 432 | adaptive icon layers, safe zone = centre 66 % |
 | Spot art | `spot_<name>.png` | 640 x 480 | onboarding / empty states: add_widget, location, calendar, alarm, steps, offline |
-| Logo | `logo_mark.png` (1024 x 1024 colour on magenta), `logo_mono.png` (single colour on magenta), `logo_lockup_dark.png`, `logo_lockup_light.png` (mark only, no text) | 1024 | Round 0; the app icon in Round 2 is built from it |
+| Logo | `logo_mark.png` (mark only, colour, 1024 x 1024 on magenta), `logo_mono.png` (single colour mark), `logo_lockup_dark.png`, `logo_lockup_light.png` (mark + wordmark "ClockWise", horizontal, 2048 x 768), `logo_wordmark_dark.png`, `logo_wordmark_light.png` (text only, 2048 x 512) | see left | Round 0; the app icon in Round 2 is mark-only and built from it |
 | Weather animation | `wxa_<sky>_<day|night>_<NN>.png`, NN = 01..12 | 512 x 512 each, magenta background | seamless loop frames, frame 01 = still; delivered also as a 4x3 sheet 2048 x 1536 |
 | Widget picker preview | `preview_<style>.png` and `preview_kind_<kind>.png` | 640 x 360 | styles: flip, digital, analog, minimal; kinds: classic, clock, weather, agenda, strip |
 === END DESIGN LANGUAGE ===

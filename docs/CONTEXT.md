@@ -1,4 +1,4 @@
-# CONTEXT - ClockWeather (read first)
+# CONTEXT - ClockWise (read first)
 
 ## Product
 Widget-first native Android app. The home-screen widget is the product: a big, beautiful, resizable, **transparent** widget (reference: an HTC-Sense-style flip clock over the wallpaper with a dark weather panel below; direction only, not a copy). Shows: flip / digital / analog / minimal clock, weather (current, max/min, "rain expected / sunny"), Gregorian + Hebrew date with holidays, next alarm (from a chosen alarm app, e.g. SmartRing), a rotating banner of today's Google Calendar events, up to 3 extra time zones, sunrise/sunset, optional steps. The app = live preview + settings + weather drill-down (hourly temp / rain / humidity, up to 4 places). Tapping widget regions opens the matching screen.
@@ -8,6 +8,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 - Next: `docs/PLAN.md`.
 
 ## Decisions (do not re-litigate)
+- 2026-11-19 (owner) Name: **ClockWise** (one word). Package/applicationId `com.clockweather.app` and repo name `clock_weather_widget` stay unchanged so builds keep updating in place.
 - 2026-11-19 (owner) The calendar is **Google Calendar** (Gmail), not Outlook: read through the device calendar, which already carries it - no Google login or API key.
 - 2026-11-19 (owner) All ROADMAP suggestions are approved (ledger R28). The user chooses what the widget shows or hides (Settings -> What to show) and there are several widget TYPES in the launcher picker (R29, R30), plus one-tap look presets (R31).
 - 2026-11-19 Native Kotlin, widget drawn as one Bitmap via Canvas (not Glance) for pixel-exact flip/analog faces and a transparent plate.

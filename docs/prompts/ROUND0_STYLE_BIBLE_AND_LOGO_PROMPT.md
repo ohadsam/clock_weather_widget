@@ -5,12 +5,12 @@
 ```text
 REFERENCE: the owner's reference screenshot of a flip-clock widget (an HTC-Sense-style home-screen clock: two large white flip cards with thin numerals over a wallpaper, and a dark weather bar below). Use it ONLY as a mood/structure hint (physical cards, hinge, calm numerals) - do NOT copy it; our design is original and more refined.
 
-ROLE: You are a senior brand and illustration designer at a top studio. We are creating "ClockWeather" (Hebrew name: "שעון ומזג אוויר"), an Android home-screen clock + weather widget app. You will define the visual identity and ONE consistent illustration line that all later work (weather art, animations, holiday badges, icon) must follow.
+ROLE: You are a senior brand and illustration designer at a top studio. We are creating "ClockWise" (Hebrew name: "שעון ומזג אוויר"), an Android home-screen clock + weather widget app. You will define the visual identity and ONE consistent illustration line that all later work (weather art, animations, holiday badges, icon) must follow.
 
-STAGE 1 - Logo concepts: 4 different logo mark concepts, each 1024 x 1024 on a light #F2F2F2 background and again on dark #15171A, mark only (no text). All must follow the signature: a flip card split by the hinge seam, a luminous sun/moon rising from behind it, a 4-point sparkle. Vary the composition and the level of detail (one minimal geometric, one soft-3D, one gradient-glass, one warm tactile). Rate honestly which is best at 24 px. Wait for my pick.
-STAGE 2 - Refine the chosen logo: 3 refinements (colour, proportions, sparkle placement). Wait for my pick.
-STAGE 3 - Final logo files on flat magenta #FF00FF: logo_mark.png (full colour, 1024), logo_mono.png (single colour silhouette, 1024), logo_lockup_dark.png and logo_lockup_light.png (mark with soft shadow tuned for dark/light backgrounds, 1024; mark only, NO text). Show them also at 192, 96 and 48 px to prove legibility.
-STAGE 4 - Style bible sheet (this is the reference for every later round): one 2048 x 1536 sheet showing the SAME hero treatment applied to 6 sample objects: sun, cloud, raindrop cluster, snowflake, crescent moon, thunderbolt - each with the hinge seam, the sparkle, the lighting rules, the 3-stop gradients and the soft shadow, on light and dark halves. Add a palette strip with the exact hex values from the design language. Then a one-paragraph written rule list ("what is always the same") that I can paste into future chats.
+STAGE 1 - Logo concepts: 4 different logo concepts, each shown as a horizontal lockup (mark on the left + the wordmark "ClockWise" on the right) on a light #F2F2F2 background and again on dark #15171A, 2048 x 768 each. The mark follows the signature: a flip card split by the hinge seam, a luminous sun/moon rising from behind it, a 4-point sparkle. The wordmark is the exact text ClockWise (capital C, capital W, no space, no other text): a custom-feeling geometric or humanist sans with soft rounded terminals; the "W" may subtly echo the hinge seam. Check the spelling letter by letter before showing me. Vary the composition and level of detail (one minimal geometric, one soft-3D, one gradient-glass, one warm tactile). Rate honestly which is best at 24 px for the mark and at 120 px wide for the wordmark. Wait for my pick.
+STAGE 2 - Refine the chosen logo: 3 refinements (colour, proportions, sparkle placement, letter shapes/spacing of the wordmark). Wait for my pick.
+STAGE 3 - Final logo files on flat magenta #FF00FF: logo_mark.png (mark only, full colour, 1024 x 1024), logo_mono.png (single-colour silhouette of the mark, 1024 x 1024), logo_lockup_dark.png and logo_lockup_light.png (mark + wordmark, horizontal, 2048 x 768, tuned for dark and light backgrounds), logo_wordmark_dark.png and logo_wordmark_light.png (text only, 2048 x 512). Show the lockup also at 480, 240 and 120 px wide and the mark at 192, 96 and 48 px to prove legibility. The ONLY text anywhere is the word ClockWise.
+STAGE 4 - Style bible sheet (this is the reference for every later round): one 2048 x 1536 sheet showing the SAME hero treatment applied to 6 sample objects: sun, cloud, raindrop cluster, snowflake, crescent moon, thunderbolt - each with the hinge seam, the sparkle, the lighting rules, the 3-stop gradients and the soft shadow, on light and dark halves; add the ClockWise wordmark once as a style reference (it is the only text). Add a palette strip with the exact hex values from the design language. Then a one-paragraph written rule list ("what is always the same") that I can paste into future chats.
 STAGE 5 - Packaging: validation and report. I will re-attach the logo files and the style bible sheet to every later round.
 
 === DESIGN LANGUAGE (apply to everything) ===
@@ -27,6 +27,9 @@ People of all ages glancing at the home screen for one second, in sunlight, in H
 * Motion (when animation is requested): calm, 800 ms or longer loops, first frame is a complete still image, no flashing, nothing faster than 3 Hz; a "calm animations" switch exists in the app.
 * Hebrew/RTL safety: no text or letters in any art; no left/right-only symbolism that breaks when mirrored (mirroring must stay correct).
 
+
+## The name (owner, 2026-11-19): **ClockWise**
+One word, capital C and capital W, Latin letters in both Hebrew and English UI. The logo lockup contains the name as a wordmark; it is the ONLY artwork allowed to contain text. The "W" may subtly echo the hinge seam (two strokes meeting on a horizontal seam). The name pun: a clock that is wise - calm, smart, helpful.
 
 ## Quality bar (owner, 2026-11-19: "designed, beautiful, invested; one consistent design line")
 Every asset must look like it came from ONE professional studio, at the level of a premium weather/clock app (think award-winning iOS/Android weather apps, but original). Rich but calm: considered lighting, soft layered depth, crisp edges, careful colour harmony. Reject (and redo) anything that looks like clip-art, a generic emoji, stock icon-set, flat sticker, AI-glossy plastic, or that differs in style from its siblings. Detail is welcome only if it still reads at 40 px.
@@ -58,7 +61,7 @@ Weather accents (use consistently): sun #FFB300 / #FFD54F glow, cloud light #F4F
 1. 100 % original work, created for this app; no copyrighted characters, logos, stock or brand look-alikes; you may only use generic shapes. Treat the output as CC0 and say if you cannot.
 2. Output backgrounds are a FLAT solid magenta #FF00FF (exactly), no gradient, no shadow on the magenta, no magenta inside the art - the app keys it out. (ChatGPT transparency creates halos; flat magenta does not.) Drop shadows are drawn INSIDE the art as soft dark-blue-grey (#1B2A3A at <= 25 % opacity) only close to the object, never reaching the canvas edge.
 3. Every asset fits fully inside its canvas with >= 6 % empty margin; nothing is cut off.
-4. No text, numbers, letters, watermarks or signatures in any image.
+4. No text, numbers, letters, watermarks or signatures in any image - EXCEPT the logo lockup/wordmark files, which contain exactly the word "ClockWise" (check the spelling letter by letter) and nothing else.
 5. Consistency beats novelty: when in doubt copy the previously approved image's style exactly.
 
 ## Asset contract (what the app loads - names are exact, lowercase, underscores)
@@ -70,12 +73,12 @@ Weather accents (use consistently): sun #FFB300 / #FFD54F glow, cloud light #F4F
 | Card textures | `tex_card_<light|dark|warm>.png` | 1024 x 1024 tileable greyscale | tinted by the app per palette |
 | App icon | `ic_launcher_fg.png`, `ic_launcher_bg.png`, `ic_launcher_mono.png` | 432 x 432 | adaptive icon layers, safe zone = centre 66 % |
 | Spot art | `spot_<name>.png` | 640 x 480 | onboarding / empty states: add_widget, location, calendar, alarm, steps, offline |
-| Logo | `logo_mark.png` (1024 x 1024 colour on magenta), `logo_mono.png` (single colour on magenta), `logo_lockup_dark.png`, `logo_lockup_light.png` (mark only, no text) | 1024 | Round 0; the app icon in Round 2 is built from it |
+| Logo | `logo_mark.png` (mark only, colour, 1024 x 1024 on magenta), `logo_mono.png` (single colour mark), `logo_lockup_dark.png`, `logo_lockup_light.png` (mark + wordmark "ClockWise", horizontal, 2048 x 768), `logo_wordmark_dark.png`, `logo_wordmark_light.png` (text only, 2048 x 512) | see left | Round 0; the app icon in Round 2 is mark-only and built from it |
 | Weather animation | `wxa_<sky>_<day|night>_<NN>.png`, NN = 01..12 | 512 x 512 each, magenta background | seamless loop frames, frame 01 = still; delivered also as a 4x3 sheet 2048 x 1536 |
 | Widget picker preview | `preview_<style>.png` and `preview_kind_<kind>.png` | 640 x 360 | styles: flip, digital, analog, minimal; kinds: classic, clock, weather, agenda, strip |
 === END DESIGN LANGUAGE ===
 
-RULES YOU MUST FOLLOW: original work only (CC0), no text/letters/numbers inside the art (except where a stage says otherwise), flat #FF00FF background where specified, 6 % margin, one consistent studio style across all files. Work in STAGES and wait for me to say "continue" between stages. Aim for the highest craft you can: if a result is merely decent, redo it before showing me.
+RULES YOU MUST FOLLOW: original work only (CC0), no text/letters/numbers inside the art (the ONLY exception: the word "ClockWise" in the Round 0 logo wordmark files), flat #FF00FF background where specified, 6 % margin, one consistent studio style across all files. Work in STAGES and wait for me to say "continue" between stages. Aim for the highest craft you can: if a result is merely decent, redo it before showing me.
 
 VALIDATION AND REPORT (final message of the last stage):
 1. List every file with exact name, pixel size and whether the background is flat #FF00FF.

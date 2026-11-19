@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Clock &amp; Weather</string>
-    <string name="widget_name">Clock &amp; Weather</string>
+    <string name="app_name">ClockWise</string>
+    <string name="widget_name">ClockWise</string>
     <string name="widget_description">Big flip clock, weather, Hebrew and Gregorian date, alarm and today\'s events</string>
     <string name="back">Back</string>
     <string name="settings">Settings</string>
@@ -17,7 +17,7 @@
     <string name="style_analog">Analog</string>
     <string name="style_minimal">Minimal</string>
     <string name="add_widget">Add the widget to the home screen</string>
-    <string name="add_widget_hint">Long-press the home screen, choose Widgets, then Clock &amp; Weather</string>
+    <string name="add_widget_hint">Long-press the home screen, choose Widgets, then ClockWise</string>
     <string name="weather_details">Weather details</string>
     <string name="no_place_hint">To see the weather, add a place in Settings, Places</string>
     <string name="no_weather_yet">No weather data yet. Add a place in Settings and refresh.</string>
@@ -83,10 +83,10 @@
     <string name="sec_privacy">Privacy and about</string>
     <string name="sec_privacy_sum">Version %1$s</string>
     <string name="privacy_body">Your data stays on the device. Only two requests leave it: weather and city search (Open-Meteo), with rounded coordinates only. Location, calendar and steps are read only if you allow it and are never sent anywhere. The Hebrew calendar and holidays are computed on the device.</string>
-    <string name="widget_name_clock">Clock</string>
-    <string name="widget_name_weather">Weather</string>
-    <string name="widget_name_agenda">Agenda and alarm</string>
-    <string name="widget_name_strip">Slim clock strip</string>
+    <string name="widget_name_clock">ClockWise Clock</string>
+    <string name="widget_name_weather">ClockWise Weather</string>
+    <string name="widget_name_agenda">ClockWise Agenda</string>
+    <string name="widget_name_strip">ClockWise Strip</string>
     <string name="widget_desc_clock">Just the big clock, in any style, with the date</string>
     <string name="widget_desc_weather">Big weather: temperature, max and min, rain or sun, sunrise and sunset</string>
     <string name="widget_desc_agenda">Today\'s Google Calendar events and the next alarm</string>

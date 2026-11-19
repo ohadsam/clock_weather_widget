@@ -1,7 +1,7 @@
-# User guide - ClockWeather
+# User guide - ClockWise
 
 ## Add the widget
-Long-press an empty spot on the home screen -> Widgets -> Clock & Weather -> drag it. Or open the app and press **Add the widget to the home screen**. Resize it by long-pressing and dragging the handles: bigger widgets show more (weather, date line, alarm, events, extra clocks, sunrise/sunset).
+Long-press an empty spot on the home screen -> Widgets -> ClockWise -> drag it. Or open the app and press **Add the widget to the home screen**. Resize it by long-pressing and dragging the handles: bigger widgets show more (weather, date line, alarm, events, extra clocks, sunrise/sunset).
 
 ## Widget types
 In the launcher's widget picker you will find: **Full dashboard**, **Clock**, **Weather**, **Agenda and alarm**, and **Slim strip**. Add as many as you like, in any size; all follow the Settings below. Settings -> Look -> "Ready-made looks" switches the whole design in one tap.

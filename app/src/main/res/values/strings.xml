@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">שעון ומזג אוויר</string>
-    <string name="widget_name">שעון ומזג אוויר</string>
+    <string name="app_name">ClockWise</string>
+    <string name="widget_name">ClockWise</string>
     <string name="widget_description">שעון מתהפך גדול, מזג אוויר, תאריך עברי ולועזי, שעון מעורר ואירועי היום</string>
     <string name="back">חזרה</string>
     <string name="settings">הגדרות</string>
@@ -17,7 +17,7 @@
     <string name="style_analog">מחוגים</string>
     <string name="style_minimal">מינימלי</string>
     <string name="add_widget">הוסף ווידג׳ט למסך הבית</string>
-    <string name="add_widget_hint">לחץ לחיצה ארוכה על מסך הבית ← ווידג׳טים ← שעון ומזג אוויר</string>
+    <string name="add_widget_hint">לחץ לחיצה ארוכה על מסך הבית ← ווידג׳טים ← ClockWise</string>
     <string name="weather_details">פרטי מזג האוויר</string>
     <string name="no_place_hint">כדי לראות מזג אוויר, הוסף מיקום בהגדרות ← מיקומים</string>
     <string name="no_weather_yet">עדיין אין נתוני מזג אוויר. הוסף מיקום בהגדרות ורענן.</string>
@@ -83,10 +83,10 @@
     <string name="sec_privacy">פרטיות ואודות</string>
     <string name="sec_privacy_sum">גרסה %1$s</string>
     <string name="privacy_body">הנתונים נשארים במכשיר. רק שתי בקשות יוצאות לרשת: מזג אוויר וחיפוש עיר (Open-Meteo), עם קואורדינטות מעוגלות בלבד. מיקום, לוח שנה וצעדים נקראים רק אם אישרת, ואף פעם לא נשלחים החוצה. הלוח העברי והחגים מחושבים במכשיר.</string>
-    <string name="widget_name_clock">שעון</string>
-    <string name="widget_name_weather">מזג אוויר</string>
-    <string name="widget_name_agenda">יומן ושעון מעורר</string>
-    <string name="widget_name_strip">פס שעון צר</string>
+    <string name="widget_name_clock">ClockWise · שעון</string>
+    <string name="widget_name_weather">ClockWise · מזג אוויר</string>
+    <string name="widget_name_agenda">ClockWise · יומן ושעון מעורר</string>
+    <string name="widget_name_strip">ClockWise · פס צר</string>
     <string name="widget_desc_clock">שעון גדול בלבד, בכל סגנון, עם התאריך</string>
     <string name="widget_desc_weather">מזג אוויר גדול: טמפרטורה, מקסימום ומינימום, גשם או שמש, זריחה ושקיעה</string>
     <string name="widget_desc_agenda">אירועי היום מ-Google Calendar והשעון המעורר הבא</string>
