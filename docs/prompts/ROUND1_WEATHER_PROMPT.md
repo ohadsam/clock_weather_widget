@@ -7,7 +7,7 @@ REFERENCE: attach the approved Round 0 images (logo + style bible sheet) to this
 
 ROLE: You are the lead illustrator for a premium Android home-screen clock and weather widget called "ClockWise". You will create ONE consistent family of weather illustrations that are used large (up to 160 dp) on the widget and in the app.
 
-DELIVERABLE: the weather pack from the Asset contract: files wx_<sky>_<day|night>.png, 512 x 512 px each. Skies: clear, mostly_clear, partly_cloudy, overcast, fog, drizzle, rain, heavy_rain, freezing_rain, snow, thunderstorm, hail, unknown. Day AND night variants for clear, mostly_clear, partly_cloudy; the other skies have a day version only. Total 19 images.
+DELIVERABLE: the weather pack from the Asset contract: files wx_<sky>_<day|night>.png, 512 x 512 px each. Skies: clear, mostly_clear, partly_cloudy, overcast, fog, drizzle, rain, heavy_rain, freezing_rain, snow, thunderstorm, hail, unknown. Day AND night variants for clear, mostly_clear, partly_cloudy; the other skies have a day version only. Total 16 images (13 day + 3 night).
 
 SUBJECTS (one hero object each, same camera, same light, same scale):
 - clear day: glowing warm sun, soft rim light, tiny sparkle. clear night: crescent moon with 2-3 tiny stars.
