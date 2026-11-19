@@ -1,6 +1,6 @@
 # ClockWeather - instructions for Claude
 
-Native Android (Kotlin) **widget-first** app: a very beautiful, large, resizable, transparent home-screen widget (flip-card / digital / analog / minimal clock, weather, Hebrew + Gregorian date and holidays, next alarm, Outlook-calendar banner, world clocks, sun times) plus an app for live preview, settings and weather drill-down. Hebrew first (RTL), English equal. Owner writes Hebrew: reply in Hebrew, short; code, commits and docs in English.
+Native Android (Kotlin) **widget-first** app: a very beautiful, large, resizable, transparent home-screen widget (flip-card / digital / analog / minimal clock, weather, Hebrew + Gregorian date and holidays, next alarm, Google-calendar banner, world clocks, sun times) plus an app for live preview, settings and weather drill-down. Hebrew first (RTL), English equal. Owner writes Hebrew: reply in Hebrew, short; code, commits and docs in English.
 
 Start with `docs/CONTEXT.md` (status, file map, rules) -> `docs/PLAN.md` (next batch) -> `docs/REQUESTS.md` (owner's ledger) -> `AGENT.md` (recent / open / not verifiable). Then follow `.claude/skills/release-checklist/SKILL.md` for every change.
 The method is in `.claude/skills/app-development/` (read "Project overrides" at the top of its SKILL.md and `references/native-widget-app.md`) and `.claude/skills/android-native-dev/` (CI-gated native workflow).

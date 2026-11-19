@@ -28,6 +28,7 @@ data class WidgetSettings(
     val scalePct: Int = 100,
     val use24h: Boolean = true,
     val showAmPm: Boolean = true,
+    val showClock: Boolean = true,
     val showWeather: Boolean = true,
     val showHiLo: Boolean = true,
     val showOutlook: Boolean = true,

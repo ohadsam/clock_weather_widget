@@ -9,7 +9,7 @@ import com.clockweather.core.agenda.AgendaEvent
 import java.time.Instant
 import java.time.ZoneId
 
-/** Read-only device calendar (Outlook for Android syncs into it). Needs READ_CALENDAR; returns empty without it. */
+/** Read-only device calendar (Google Calendar syncs into it, as does any calendar account on the phone). Needs READ_CALENDAR; returns empty without it. */
 object CalendarSource {
     data class Cal(val id: Long, val name: String, val account: String)
 

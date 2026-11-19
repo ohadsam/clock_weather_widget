@@ -11,11 +11,13 @@ PART A - Card textures (greyscale, tileable): tex_card_light.png, tex_card_dark.
 
 PART B - Spot art, 640 x 480, flat magenta background: spot_add_widget (a phone home screen with an empty slot being filled by a flip-clock card - no text), spot_location (soft map pin over a gentle landscape), spot_calendar (a calendar page with two small coloured event dots), spot_alarm (a bell with a clock card), spot_steps (two stylised footprints with a path), spot_offline (a calm cloud with a small disconnected plug) - all in the design language, friendly, not childish.
 
-PART C - Widget picker previews, 640 x 360, flat magenta background around a phone-widget mock (no phone frame, just the widget floating with soft shadow, as it appears over a blurred wallpaper that you paint as a rounded rectangle inside the image): preview_flip (two big flip cards with a dark info panel below), preview_digital (large thin digits, no cards), preview_analog (analog dial with hands), preview_minimal (tiny clock and one line of weather). Use only placeholder blocks for text lines (grey rounded bars), NO real text or digits.
+PART C - Widget picker previews, 640 x 360, flat magenta background around a phone-widget mock (no phone frame, just the widget floating with soft shadow over a blurred wallpaper that you paint as a rounded rectangle inside the image). Use only placeholder blocks for text lines (grey rounded bars), NO real text or digits. Two families:
+ (a) by clock style: preview_flip (two big flip cards with a dark info panel below), preview_digital (large thin digits, no cards), preview_analog (analog dial with hands), preview_minimal (tiny clock and one line of weather).
+ (b) by widget type: preview_kind_classic (full dashboard: clock, date line, weather panel, alarm chip, event banner, world clocks, footer), preview_kind_clock (clock only with a date line), preview_kind_weather (big weather panel with illustration, temperature, max/min bars, sunrise/sunset), preview_kind_agenda (3 event rows as rounded pills + an alarm chip), preview_kind_strip (one slim wide row: time on one side, two small text bars in the middle, weather icon and temperature on the other side).
 
 STAGE 1: texture family test: tex_card_light only + one spot art (spot_location) so I can approve the surface style and the illustration style. Wait for "continue".
 STAGE 2: all three textures + remaining spot art (3 per message).
-STAGE 3: the four previews.
+STAGE 3: the nine previews (4 by clock style, 5 by widget type), 3 per message.
 STAGE 4: packaging.
 
 === DESIGN LANGUAGE (apply to everything) ===
@@ -77,7 +79,7 @@ Weather accents (use consistently): sun #FFB300 / #FFD54F glow, cloud light #F4F
 | Spot art | `spot_<name>.png` | 640 x 480 | onboarding / empty states: add_widget, location, calendar, alarm, steps, offline |
 | Logo | `logo_mark.png` (1024 x 1024 colour on magenta), `logo_mono.png` (single colour on magenta), `logo_lockup_dark.png`, `logo_lockup_light.png` (mark only, no text) | 1024 | Round 0; the app icon in Round 2 is built from it |
 | Weather animation | `wxa_<sky>_<day|night>_<NN>.png`, NN = 01..12 | 512 x 512 each, magenta background | seamless loop frames, frame 01 = still; delivered also as a 4x3 sheet 2048 x 1536 |
-| Widget picker preview | `preview_<style>.png` | 640 x 360 | styles: flip, digital, analog, minimal |
+| Widget picker preview | `preview_<style>.png` and `preview_kind_<kind>.png` | 640 x 360 | styles: flip, digital, analog, minimal; kinds: classic, clock, weather, agenda, strip |
 === END DESIGN LANGUAGE ===
 
 RULES YOU MUST FOLLOW: original work only (CC0), no text/letters/numbers in images, flat #FF00FF background, 6 % margin, same style family across all files. Work in STAGES and wait for me to say "continue" between stages.

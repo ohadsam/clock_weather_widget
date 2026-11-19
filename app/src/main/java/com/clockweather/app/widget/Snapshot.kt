@@ -6,6 +6,7 @@ import com.clockweather.app.data.CalendarSource
 import com.clockweather.app.data.SettingsStore
 import com.clockweather.app.data.WeatherRepository
 import com.clockweather.core.agenda.AgendaEvent
+import com.clockweather.core.widget.WidgetKind
 import java.time.Instant
 import java.time.ZoneId
 import java.util.Locale
@@ -21,14 +22,15 @@ object Snapshot {
         else -> Locale.getDefault().language.let { it == "he" || it == "iw" }
     }
 
-    fun build(ctx: Context, now: Instant = Instant.now(), flipFrom: IntArray? = null, progress: Float = 1f): RenderState {
+    fun build(ctx: Context, now: Instant = Instant.now(), flipFrom: IntArray? = null, progress: Float = 1f, kind: WidgetKind = WidgetKind.CLASSIC): RenderState {
         val s = SettingsStore.load(ctx)
         val zone = ZoneId.systemDefault()
         val forecast = s.activePlaceId?.let { WeatherRepository.cached(ctx, it) }
-        val agenda = if (s.showAgenda) agenda(ctx, s.agendaCalendarIds, now, zone) else emptyList()
+        val shaped = kind.shape(s)
+        val agenda = if (shaped.showAgenda) agenda(ctx, s.agendaCalendarIds, now, zone) else emptyList()
         return RenderState(
-            settings = s, now = now, zone = zone, hebrew = isHebrew(ctx, s.language), forecast = forecast,
-            nextAlarm = if (s.showAlarm) AlarmSource.next(ctx) else null, agenda = agenda,
+            settings = s, kind = kind, now = now, zone = zone, hebrew = isHebrew(ctx, s.language), forecast = forecast,
+            nextAlarm = if (shaped.showAlarm) AlarmSource.next(ctx) else null, agenda = agenda,
             flipFrom = flipFrom, flipProgress = progress,
         )
     }

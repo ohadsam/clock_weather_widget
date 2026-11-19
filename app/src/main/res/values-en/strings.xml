@@ -67,10 +67,10 @@
     <string name="alarm_samsung">Samsung Clock</string>
     <string name="alarm_within">Show when the alarm is within</string>
     <string name="always">Always</string>
-    <string name="sec_calendar">Calendar (Outlook)</string>
+    <string name="sec_calendar">Calendar (Google)</string>
     <string name="sec_calendar_sum_on">%1$d calendars available</string>
     <string name="sec_calendar_sum_off">Not connected — needs permission</string>
-    <string name="calendar_hint">Events are read from the device calendar that Outlook syncs into. Read-only.</string>
+    <string name="calendar_hint">Events are read from the device calendar that Google Calendar (your Gmail account) syncs into. Read-only.</string>
     <string name="allow_calendar">Allow calendar access</string>
     <string name="include_all_day">Include all-day events</string>
     <string name="rotate_every">Switch event every</string>
@@ -83,4 +83,17 @@
     <string name="sec_privacy">Privacy and about</string>
     <string name="sec_privacy_sum">Version %1$s</string>
     <string name="privacy_body">Your data stays on the device. Only two requests leave it: weather and city search (Open-Meteo), with rounded coordinates only. Location, calendar and steps are read only if you allow it and are never sent anywhere. The Hebrew calendar and holidays are computed on the device.</string>
+    <string name="widget_name_clock">Clock</string>
+    <string name="widget_name_weather">Weather</string>
+    <string name="widget_name_agenda">Agenda and alarm</string>
+    <string name="widget_name_strip">Slim clock strip</string>
+    <string name="widget_desc_clock">Just the big clock, in any style, with the date</string>
+    <string name="widget_desc_weather">Big weather: temperature, max and min, rain or sun, sunrise and sunset</string>
+    <string name="widget_desc_agenda">Today\'s Google Calendar events and the next alarm</string>
+    <string name="widget_desc_strip">One slim row: time, date and temperature</string>
+    <string name="presets">Ready-made looks (one tap)</string>
+    <string name="show_clock">Clock</string>
+    <string name="show_steps">Steps (coming soon)</string>
+    <string name="show_hint">These settings apply to all widgets. Each widget type shows only the parts that suit it.</string>
+    <string name="widget_types_hint">Widget types in the picker: full dashboard, clock, weather, agenda and alarm, slim strip. Add as many as you like and resize them.</string>
 </resources>

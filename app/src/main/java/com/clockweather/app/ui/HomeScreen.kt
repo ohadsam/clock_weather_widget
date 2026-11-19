@@ -91,6 +91,7 @@ fun HomeScreen(settings: WidgetSettings, onSettings: () -> Unit, onWeather: () -
             } else Text(stringResource(R.string.add_widget_hint), style = MaterialTheme.typography.bodyMedium)
             OutlinedButton(onClick = onWeather, modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) { Text(stringResource(R.string.weather_details)) }
             OutlinedButton(onClick = onSettings, modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) { Text(stringResource(R.string.settings)) }
+            Text(stringResource(R.string.widget_types_hint), style = MaterialTheme.typography.bodySmall)
             if (settings.places.isEmpty()) Text(stringResource(R.string.no_place_hint), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.secondary)
         }
     }

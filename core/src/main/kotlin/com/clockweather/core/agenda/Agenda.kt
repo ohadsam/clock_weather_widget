@@ -6,7 +6,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-/** One calendar event as read from the device calendar (Outlook syncs into it). Titles are untrusted text. */
+/** One calendar event as read from the device calendar (Google Calendar syncs into it). Titles are untrusted text. */
 data class AgendaEvent(
     val id: Long,
     val title: String,

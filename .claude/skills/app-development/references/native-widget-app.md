@@ -20,7 +20,7 @@
 | Place search | Open-Meteo geocoding | up to 4 saved places, "current location" optional (coarse permission) |
 | Hebrew date + holidays | **local algorithm in `:core`** | no network; holiday rules confirmed with the owner (`docs/REQUESTS.md` R-DOM-*) |
 | Alarms | `AlarmManager.getNextAlarmClock()` (works with SmartRing `setAlarmClock`, any alarm app) + optional deep link to SmartRing | the "which alarm app" setting filters by `showIntent` creator package |
-| Calendar (Outlook) | `CalendarContract` provider (Outlook Android syncs into it) - read-only, `READ_CALENDAR`, user picks which calendars | no Microsoft login/Graph needed |
+| Calendar (Google) | `CalendarContract` provider (Google Calendar syncs into it) - read-only, `READ_CALENDAR`, user picks which calendars | no Microsoft login/Graph needed |
 | Steps | Health Connect (`READ_STEPS`) preferred, `TYPE_STEP_COUNTER` fallback | permission + explained in-app |
 
 ## Design assets

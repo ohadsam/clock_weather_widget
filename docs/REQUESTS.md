@@ -16,7 +16,7 @@ Status: DONE (verified as noted) · CODE (written, needs CI/phone proof) · ART 
 | R10 | Tap into app for more weather: hourly temp, rain, humidity | CODE `WeatherScreen` (3 days) |
 | R11 | Choose another location; up to 3-4 places in the app | CODE 4 places + search + current location |
 | R12 | Extra smaller clocks for other time zones | CODE up to 3 (`WorldClock`) |
-| R13 | Banner of today's Outlook events, rotating with animation | CODE device-calendar route + rotation; animated transition TODO (batch 3). CONFIRM Outlook route |
+| R13 | Banner of today's Google Calendar events, rotating with animation | CODE device-calendar route + rotation; animated transition TODO (batch 3). route confirmed 2026-11-19: Google Calendar via the device calendar |
 | R14 | Settings window; drill-down per area; buttons to open apps (clock settings, location, weather...) | PARTIAL settings done; per-area deep links to system screens TODO batch 3 |
 | R15 | More suggestions from me | DONE `docs/ROADMAP.md` |
 | R16 | Design is critical; accuracy is critical | ONGOING release checklist rule 2 + renderer tests + screenshots |
@@ -32,3 +32,10 @@ Status: DONE (verified as noted) · CODE (written, needs CI/phone proof) · ART 
 | R25 | A designed, beautiful logo for the app | PROMPT DONE (Round 0); ART waits for owner; icon (Round 2) derives from it |
 | R26 | Illustrations polished and invested, with one consistent, beautiful design line | DONE in docs: quality bar + signature (hinge seam + sparkle) in `DESIGN_LANGUAGE.md`, style bible stage in Round 0, every prompt requires the approved reference images |
 | R27 | Beautiful, invested animations in the same design line | PROMPT DONE (Round 5: 12-frame seamless loops, motion language); app-side frame player TODO batch 3 (calm mode shows frame 01); flip card + agenda transition animated in code |
+| R28 | (owner) "All your suggestions sound great" = every item of `docs/ROADMAP.md` (A1-E20) is approved | TODO by batches: presets DONE (code), the rest scheduled in PLAN batches 4-9 |
+| R29 | (owner) In Settings the user chooses what to show and what to hide on the widget | CODE: What-to-show section now covers clock, weather, max/min, outlook, both dates, holidays, alarm, events, extra clocks, sun times, steps. TODO: per-widget choice (batch 6) and element order |
+| R30 | (owner) Many kinds of widgets in different sizes, layouts and designs | CODE 5 types (full dashboard, clock, weather, agenda+alarm, slim strip) x 4 clock styles x 7 palettes x free resizing; more types and per-widget settings TODO (batch 6) |
+| R31 | (owner) Different designs | CODE 6 one-tap presets (classic, frosted glass, night stand, minimal, sunset analog, Shabbat calm) |
+| R32 | (owner) Calendar means Google Calendar, not Outlook | DONE in code and docs (device calendar route) |
+| R33 | (owner) Prompts in an organised, copy-ready form | DONE `docs/prompts/00_ALL_PROMPTS_IN_ORDER.md` |
+

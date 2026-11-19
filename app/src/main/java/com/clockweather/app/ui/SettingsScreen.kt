@@ -48,6 +48,7 @@ import com.clockweather.core.widget.ClockStyle
 import com.clockweather.core.widget.ClockZoneSetting
 import com.clockweather.core.widget.Palettes
 import com.clockweather.core.widget.PlaceSetting
+import com.clockweather.core.widget.Preset
 import com.clockweather.core.widget.WidgetSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -63,6 +64,8 @@ fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack
 
         SectionCard(stringResource(R.string.sec_look), stringResource(R.string.sec_look_sum, stringResource(styleName(s.clockStyle)), s.backgroundAlphaPct), startOpen = true) {
             ChipRow(ClockStyle.values().map { it to stringResource(styleName(it)) }, { it == s.clockStyle }, { onChange(s.copy(clockStyle = it)) })
+            Text(stringResource(R.string.presets), style = MaterialTheme.typography.titleSmall)
+            ChipRow(Preset.values().map { it to (if (hebrew) it.he else it.en) }, { false }, { onChange(it.apply(s)) })
             Text(stringResource(R.string.palette), style = MaterialTheme.typography.titleSmall)
             ChipRow(Palettes.ALL.map { it.id to (if (hebrew) it.he else it.en) }, { it == s.paletteId }, { onChange(s.copy(paletteId = it)) })
             SliderRow(stringResource(R.string.bg_transparency), 100 - s.backgroundAlphaPct, 0..100, "${100 - s.backgroundAlphaPct}%") { onChange(s.copy(backgroundAlphaPct = 100 - it)) }
@@ -76,6 +79,7 @@ fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack
         }
 
         SectionCard(stringResource(R.string.sec_show), stringResource(R.string.sec_show_sum)) {
+            SwitchRow(stringResource(R.string.show_clock), s.showClock) { onChange(s.copy(showClock = it)) }
             SwitchRow(stringResource(R.string.show_weather), s.showWeather) { onChange(s.copy(showWeather = it)) }
             SwitchRow(stringResource(R.string.show_hilo), s.showHiLo) { onChange(s.copy(showHiLo = it)) }
             SwitchRow(stringResource(R.string.show_outlook), s.showOutlook) { onChange(s.copy(showOutlook = it)) }
@@ -86,6 +90,8 @@ fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack
             SwitchRow(stringResource(R.string.show_agenda), s.showAgenda) { onChange(s.copy(showAgenda = it)) }
             SwitchRow(stringResource(R.string.show_world), s.showWorldClocks) { onChange(s.copy(showWorldClocks = it)) }
             SwitchRow(stringResource(R.string.show_sun), s.showSunTimes) { onChange(s.copy(showSunTimes = it)) }
+            SwitchRow(stringResource(R.string.show_steps), s.showSteps) { onChange(s.copy(showSteps = it)) }
+            Text(stringResource(R.string.show_hint), style = MaterialTheme.typography.bodySmall)
         }
 
         PlacesSection(s, onChange)

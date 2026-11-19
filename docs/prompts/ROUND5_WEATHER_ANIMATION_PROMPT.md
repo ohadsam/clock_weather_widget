@@ -76,7 +76,7 @@ Weather accents (use consistently): sun #FFB300 / #FFD54F glow, cloud light #F4F
 | Spot art | `spot_<name>.png` | 640 x 480 | onboarding / empty states: add_widget, location, calendar, alarm, steps, offline |
 | Logo | `logo_mark.png` (1024 x 1024 colour on magenta), `logo_mono.png` (single colour on magenta), `logo_lockup_dark.png`, `logo_lockup_light.png` (mark only, no text) | 1024 | Round 0; the app icon in Round 2 is built from it |
 | Weather animation | `wxa_<sky>_<day|night>_<NN>.png`, NN = 01..12 | 512 x 512 each, magenta background | seamless loop frames, frame 01 = still; delivered also as a 4x3 sheet 2048 x 1536 |
-| Widget picker preview | `preview_<style>.png` | 640 x 360 | styles: flip, digital, analog, minimal |
+| Widget picker preview | `preview_<style>.png` and `preview_kind_<kind>.png` | 640 x 360 | styles: flip, digital, analog, minimal; kinds: classic, clock, weather, agenda, strip |
 === END DESIGN LANGUAGE ===
 
 RULES YOU MUST FOLLOW: original work only (CC0), no text/letters/numbers inside the art (except where a stage says otherwise), flat #FF00FF background where specified, 6 % margin, one consistent studio style across all files. Work in STAGES and wait for me to say "continue" between stages. Aim for the highest craft you can: if a result is merely decent, redo it before showing me.

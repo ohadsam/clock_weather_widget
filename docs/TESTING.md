@@ -11,4 +11,4 @@
 `gradle :core:test` + CI (app unit tests, lint, assemble) + emulator UI tests with screenshots of every screen and every widget size/style (open the images and LOOK) + usability audit (touch targets 48 dp, contrast over light/dark wallpaper, font 2.0) + live check of the published APK.
 
 ## Cannot be proven here
-Widget on a real launcher/wallpaper, flip smoothness, exact alarms and battery, permission dialogs, Outlook calendar content, Health Connect, SmartRing alarm appearing under its package.
+Widget on a real launcher/wallpaper, flip smoothness, exact alarms and battery, permission dialogs, Google Calendar content, Health Connect, SmartRing alarm appearing under its package.

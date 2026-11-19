@@ -1,15 +1,17 @@
 # CONTEXT - ClockWeather (read first)
 
 ## Product
-Widget-first native Android app. The home-screen widget is the product: a big, beautiful, resizable, **transparent** widget (reference: an HTC-Sense-style flip clock over the wallpaper with a dark weather panel below; direction only, not a copy). Shows: flip / digital / analog / minimal clock, weather (current, max/min, "rain expected / sunny"), Gregorian + Hebrew date with holidays, next alarm (from a chosen alarm app, e.g. SmartRing), a rotating banner of today's Outlook events, up to 3 extra time zones, sunrise/sunset, optional steps. The app = live preview + settings + weather drill-down (hourly temp / rain / humidity, up to 4 places). Tapping widget regions opens the matching screen.
+Widget-first native Android app. The home-screen widget is the product: a big, beautiful, resizable, **transparent** widget (reference: an HTC-Sense-style flip clock over the wallpaper with a dark weather panel below; direction only, not a copy). Shows: flip / digital / analog / minimal clock, weather (current, max/min, "rain expected / sunny"), Gregorian + Hebrew date with holidays, next alarm (from a chosen alarm app, e.g. SmartRing), a rotating banner of today's Google Calendar events, up to 3 extra time zones, sunrise/sunset, optional steps. The app = live preview + settings + weather drill-down (hourly temp / rain / humidity, up to 4 places). Tapping widget regions opens the matching screen.
 
 ## Status (2026-11-19, version 0.1.0 - foundation)
 - `:core` complete for batch 1-2 and green (`gradle :core:test`). `:app` written but never compiled (needs CI). Widget art is placeholder until ChatGPT rounds arrive (`docs/PENDING_CHATGPT_PROMPTS.md`).
 - Next: `docs/PLAN.md`.
 
 ## Decisions (do not re-litigate)
+- 2026-11-19 (owner) The calendar is **Google Calendar** (Gmail), not Outlook: read through the device calendar, which already carries it - no Google login or API key.
+- 2026-11-19 (owner) All ROADMAP suggestions are approved (ledger R28). The user chooses what the widget shows or hides (Settings -> What to show) and there are several widget TYPES in the launcher picker (R29, R30), plus one-tap look presets (R31).
 - 2026-11-19 Native Kotlin, widget drawn as one Bitmap via Canvas (not Glance) for pixel-exact flip/analog faces and a transparent plate.
-- 2026-11-19 Outlook events come from the device calendar (Outlook for Android syncs into it; read-only `READ_CALENDAR`); no Microsoft login. SmartRing alarm via `AlarmManager.getNextAlarmClock()` + package filter; no change to SmartRing needed.
+- 2026-11-19 Google Calendar events come from the device calendar (Google Calendar syncs into it, as does any calendar account on the phone; read-only `READ_CALENDAR`); no Google login or API key. SmartRing alarm via `AlarmManager.getNextAlarmClock()` + package filter; no change to SmartRing needed.
 - 2026-11-19 Hebrew calendar + holidays computed locally in `:core` (offline). Weather/geocoding = Open-Meteo (no key), coarse coordinates only.
 - 2026-11-19 Default background transparency 100% (owner's request); weather panel plate 75%.
 - 2026-11-19 `:app` only joins the Gradle build where an Android SDK exists, so `:core` tests run in the cloud sandbox.
@@ -27,7 +29,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `app/src/main/java/com/clockweather/app/MainActivity.kt` | App entry + state navigation |
 | `app/src/main/java/com/clockweather/app/WidgetConfigActivity.kt` | Launcher configure hook for the widget |
 | `app/src/main/java/com/clockweather/app/data/AlarmSource.kt` | System next alarm (getNextAlarmClock) |
-| `app/src/main/java/com/clockweather/app/data/CalendarSource.kt` | Read-only device calendar (Outlook sync) |
+| `app/src/main/java/com/clockweather/app/data/CalendarSource.kt` | Read-only device calendar (Google Calendar sync) |
 | `app/src/main/java/com/clockweather/app/data/LocationSource.kt` | Coarse last-known location |
 | `app/src/main/java/com/clockweather/app/data/Net.kt` | The only network entry (HTTPS allow-list, size cap) |
 | `app/src/main/java/com/clockweather/app/data/SettingsStore.kt` | Settings persistence |
@@ -68,6 +70,8 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/test/kotlin/com/clockweather/core/sun/SunTimesTest.kt` | Sunrise/sunset tests |
 | `core/src/test/kotlin/com/clockweather/core/weather/OpenMeteoTest.kt` | Forecast/geocoding parsing, WMO, outlook tests |
 | `core/src/test/kotlin/com/clockweather/core/widget/WidgetTest.kt` | Layout, settings sanitising/JSON, palette contrast tests |
+| `core/src/main/kotlin/com/clockweather/core/widget/WidgetKind.kt` | Widget types (classic/clock/weather/agenda/strip) and one-tap look presets |
+| `core/src/test/kotlin/com/clockweather/core/widget/KindsAndPresetsTest.kt` | Widget kinds, flex layout and presets tests |
 | `app/build.gradle.kts`, `settings.gradle.kts`, `gradle/libs.versions.toml` | build (versionName here is the single source) |
 | `app/src/main/AndroidManifest.xml` | permissions (each commented), widget receiver, activities |
 | `app/src/main/res/*` | strings he/en, widget layout + info, theme, placeholder icon |

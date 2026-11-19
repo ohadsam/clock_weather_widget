@@ -1,7 +1,7 @@
-# Suggestions (owner asked for ideas) - pick what you like; chosen items move to the ledger and PLAN
+# Suggestions - ALL APPROVED by the owner on 2026-11-19 (ledger R28); scheduled in docs/PLAN.md
 
 ## A. Look and feel
-1. **Presets**: one-tap looks ("Classic HTC", "Frosted glass", "Night stand", "Kids", "Shabbat calm") that set style + palette + transparency together.
+1. **Presets** (DONE in code, batch 2): one-tap looks ("Classic HTC", "Frosted glass", "Night stand", "Kids", "Shabbat calm") that set style + palette + transparency together.
 2. **Living weather**: soft animated layers (drifting clouds, falling rain, twinkling stars) - ChatGPT sprite prompt after round 1; calm switch kept.
 3. **Auto day/night palette** that follows sunrise/sunset, and **wallpaper-aware text colour** (shadow strength adapts to the wallpaper brightness).
 4. **Font choices** for digits (thin, bold, slab, rounded) and a Hebrew-friendly font for the date line.

@@ -46,7 +46,7 @@ object WidgetRenderer {
     }
 
     private class Painter(val ctx: Context, val c: Canvas, val d: Float, val st: RenderState, val wDp: Float, val hDp: Float) {
-        val s = st.settings
+        val s = st.kind.shape(st.settings)
         val pal: Palette = Palettes.byId(s.paletteId) ?: Palettes.DEFAULT
         val rtl = st.hebrew
         val local = st.now.atZone(st.zone)
@@ -57,14 +57,14 @@ object WidgetRenderer {
         fun dp(v: Float) = v * d
 
         fun paintAll() {
-            val plan = WidgetLayout.plan(wDp.toInt(), hDp.toInt(), s)
+            val plan = WidgetLayout.plan(wDp.toInt(), hDp.toInt(), st.settings, st.kind)
             if (s.backgroundAlphaPct > 0) {
                 p.style = Paint.Style.FILL; p.color = withAlpha(pal.panel, s.backgroundAlphaPct)
                 c.drawRoundRect(RectF(0f, 0f, c.width.toFloat(), c.height.toFloat()), dp(s.cornerRadiusDp.toFloat()), dp(s.cornerRadiusDp.toFloat()), p)
             }
             var y = 0f
             for (sec in plan.sections) {
-                val hh = if (sec == Section.CLOCK) plan.clockHeightDp.toFloat() else WidgetLayout.costDp(sec).toFloat()
+                val hh = if (sec == plan.flex) plan.clockHeightDp.toFloat() else WidgetLayout.costDp(sec).toFloat()
                 val r = RectF(dp(4f), dp(y), dp(wDp - 4f), dp(y + hh))
                 when (sec) {
                     Section.CLOCK -> drawClock(r)
@@ -74,6 +74,7 @@ object WidgetRenderer {
                     Section.AGENDA_BANNER -> drawAgenda(r)
                     Section.WORLD_CLOCKS -> drawWorld(r)
                     Section.FOOTER -> drawFooter(r)
+                    Section.STRIP -> drawStrip(r)
                 }
                 y += hh
             }
@@ -246,9 +247,10 @@ object WidgetRenderer {
                 fitText(if (st.hebrew) "אין נתוני מזג אוויר" else "No weather data", box, pal.panelText, 12f, shadow = false)
                 return
             }
-            val iconSize = box.height() - dp(10f)
-            val iconBox = if (rtl) RectF(box.right - iconSize - dp(6f), box.top + dp(5f), box.right - dp(6f), box.bottom - dp(5f))
-            else RectF(box.left + dp(6f), box.top + dp(5f), box.left + dp(6f) + iconSize, box.bottom - dp(5f))
+            val iconSize = minOf(box.height() - dp(10f), box.width() * 0.34f)
+            val iconTop = box.centerY() - iconSize / 2f
+            val iconBox = if (rtl) RectF(box.right - iconSize - dp(6f), iconTop, box.right - dp(6f), iconTop + iconSize)
+            else RectF(box.left + dp(6f), iconTop, box.left + dp(6f) + iconSize, iconTop + iconSize)
             WeatherArt.draw(ctx, c, cur?.sky ?: day.sky, cur?.isDay ?: true, iconBox)
             val textLeft = if (rtl) box.left + dp(8f) else iconBox.right + dp(6f)
             val textRight = if (rtl) iconBox.left - dp(6f) else box.right - dp(8f)
@@ -279,6 +281,7 @@ object WidgetRenderer {
 
         fun drawAgenda(r: RectF) {
             val today = Agenda.forToday(st.agenda, st.now, st.zone, s.agendaIncludeAllDay)
+            if (r.height() > dp(64f)) { drawAgendaList(r, today); return }
             val e = Agenda.current(today, st.now, s.agendaRotateSeconds) ?: return
             val box = RectF(r.left + dp(6f), r.top + dp(2f), r.right - dp(6f), r.bottom - dp(2f))
             pill(box)
@@ -286,6 +289,40 @@ object WidgetRenderer {
             val more = Agenda.moreCount(today)
             if (more > 0) text += "   +$more"
             fitText(text, RectF(box.left + dp(10f), box.top, box.right - dp(10f), box.bottom), pal.panelText, 12f, shadow = false)
+        }
+
+        /** Tall agenda widget: the day's events as rows, ongoing first. */
+        fun drawAgendaList(r: RectF, today: List<com.clockweather.core.agenda.AgendaEvent>) {
+            val rowH = dp(30f)
+            val rows = (r.height() / rowH).toInt().coerceAtLeast(1)
+            if (today.isEmpty()) { fitText(if (st.hebrew) "אין אירועים להיום" else "No events today", r, ink, 13f); return }
+            today.take(rows).forEachIndexed { i, e ->
+                val box = RectF(r.left + dp(6f), r.top + i * rowH + dp(2f), r.right - dp(6f), r.top + (i + 1) * rowH - dp(2f))
+                pill(box)
+                fitText(Agenda.bannerText(e, st.now, st.zone, use24, st.hebrew), RectF(box.left + dp(10f), box.top, box.right - dp(10f), box.bottom), pal.panelText, 12f, align = startAlign(), shadow = false)
+            }
+        }
+
+        /** The slim strip: time on the start side, date + outlook in the middle, icon and temperature on the end side. */
+        fun drawStrip(r: RectF) {
+            val f = st.forecast; val day = f?.today(st.now); val cur = f?.current
+            val third = r.width() * 0.34f
+            val timeBox = if (rtl) RectF(r.right - third, r.top, r.right, r.bottom) else RectF(r.left, r.top, r.left + third, r.bottom)
+            val endBox = if (rtl) RectF(r.left, r.top, r.left + third, r.bottom) else RectF(r.right - third, r.top, r.right, r.bottom)
+            val mid = RectF(if (rtl) endBox.right else timeBox.right, r.top, if (rtl) timeBox.left else endBox.left, r.bottom)
+            drawBigText(timeBox, timeText(), Typeface.create("sans-serif-light", Typeface.NORMAL))
+            val dateRows = ArrayList<String>()
+            if (s.showGregorianDate) dateRows += DateTimeFormatter.ofPattern(if (st.hebrew) "EEE, d בMMM" else "EEE, d MMM", if (st.hebrew) Locale("he") else Locale.ENGLISH).format(local)
+            if (s.showHebrewDate) dateRows += HebrewDateFormat.full(HebrewDateFormat.hebrewDateAt(local.toLocalDate(), local.toLocalTime(), day?.sunset?.toLocalTime(), s.rollHebrewAtSunset), st.hebrew, withYear = false)
+            val half = mid.height() / 2f
+            dateRows.take(2).forEachIndexed { i, t -> fitText(t, RectF(mid.left, mid.top + i * half, mid.right, mid.top + (i + 1) * half), ink, 11.5f) }
+            if (day != null && s.showWeather) {
+                val icon = RectF(endBox.left, endBox.top + dp(4f), endBox.left + endBox.height() - dp(8f), endBox.bottom - dp(4f))
+                val iconBox = if (rtl) RectF(endBox.left, icon.top, endBox.left + icon.height(), icon.bottom) else RectF(endBox.right - icon.height(), icon.top, endBox.right, icon.bottom)
+                WeatherArt.draw(ctx, c, cur?.sky ?: day.sky, cur?.isDay ?: true, iconBox)
+                val tBox = if (rtl) RectF(iconBox.right, endBox.top, endBox.right, endBox.bottom) else RectF(endBox.left, endBox.top, iconBox.left, endBox.bottom)
+                fitText(TempFormat.short(cur?.tempC ?: day.maxC, s.fahrenheit), tBox, ink, 20f, bold = true)
+            }
         }
 
         fun drawWorld(r: RectF) {

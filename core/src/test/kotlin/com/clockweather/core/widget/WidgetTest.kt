@@ -17,7 +17,7 @@ class WidgetTest {
         val medium = WidgetLayout.plan(260, 150, full)
         assertTrue(Section.WEATHER_PANEL in medium)
         val large = WidgetLayout.plan(320, 360, full)
-        assertTrue(large.sections.containsAll(Section.values().toList()))
+        assertTrue(large.sections.containsAll(Section.values().filter { it != Section.STRIP }))
         assertTrue(large.clockHeightDp >= 360 * 0.42f)
         assertEquals(Section.CLOCK, large.sections.first())
     }

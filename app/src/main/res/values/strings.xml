@@ -67,10 +67,10 @@
     <string name="alarm_samsung">שעון של סמסונג</string>
     <string name="alarm_within">הצג כשהשעמור בטווח של</string>
     <string name="always">תמיד</string>
-    <string name="sec_calendar">לוח שנה (Outlook)</string>
+    <string name="sec_calendar">לוח שנה (Google)</string>
     <string name="sec_calendar_sum_on">%1$d לוחות שנה זמינים</string>
     <string name="sec_calendar_sum_off">לא מחובר — דורש הרשאה</string>
-    <string name="calendar_hint">האירועים נקראים מלוח השנה של המכשיר, שאליו Outlook מסנכרן. קריאה בלבד.</string>
+    <string name="calendar_hint">האירועים נקראים מלוח השנה של המכשיר, שאליו Google Calendar (Gmail) מסנכרן. קריאה בלבד.</string>
     <string name="allow_calendar">אפשר גישה ללוח השנה</string>
     <string name="include_all_day">כולל אירועי \"כל היום\"</string>
     <string name="rotate_every">החלפת אירוע כל</string>
@@ -83,4 +83,17 @@
     <string name="sec_privacy">פרטיות ואודות</string>
     <string name="sec_privacy_sum">גרסה %1$s</string>
     <string name="privacy_body">הנתונים נשארים במכשיר. רק שתי בקשות יוצאות לרשת: מזג אוויר וחיפוש עיר (Open-Meteo), עם קואורדינטות מעוגלות בלבד. מיקום, לוח שנה וצעדים נקראים רק אם אישרת, ואף פעם לא נשלחים החוצה. הלוח העברי והחגים מחושבים במכשיר.</string>
+    <string name="widget_name_clock">שעון</string>
+    <string name="widget_name_weather">מזג אוויר</string>
+    <string name="widget_name_agenda">יומן ושעון מעורר</string>
+    <string name="widget_name_strip">פס שעון צר</string>
+    <string name="widget_desc_clock">שעון גדול בלבד, בכל סגנון, עם התאריך</string>
+    <string name="widget_desc_weather">מזג אוויר גדול: טמפרטורה, מקסימום ומינימום, גשם או שמש, זריחה ושקיעה</string>
+    <string name="widget_desc_agenda">אירועי היום מ-Google Calendar והשעון המעורר הבא</string>
+    <string name="widget_desc_strip">שורה אחת צרה: שעה, תאריך וטמפרטורה</string>
+    <string name="presets">מראות מוכנים (בלחיצה אחת)</string>
+    <string name="show_clock">שעון</string>
+    <string name="show_steps">צעדים (בקרוב)</string>
+    <string name="show_hint">ההגדרות האלה חלות על כל הווידג׳טים. כל סוג ווידג׳ט מציג רק את החלקים שמתאימים לו.</string>
+    <string name="widget_types_hint">סוגי ווידג׳טים בבורר: לוח מלא, שעון, מזג אוויר, יומן ושעון מעורר, ופס צר. אפשר להוסיף כמה שרוצים ולשנות את גודלם.</string>
 </resources>

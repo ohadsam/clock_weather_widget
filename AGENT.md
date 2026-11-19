@@ -11,7 +11,7 @@
 1. Push, read CI, fix `:app` compile errors (first compile ever). Then run `api-probe.yml` and adjust `OpenMeteo` if the shape differs.
 2. Owner runs ChatGPT round 1 (weather art) then 4, 2, 3; integrate (validate, key out #FF00FF, drawables, tests).
 3. See `docs/PLAN.md` batches 3+: steps (Health Connect), per-region tap zones from LayoutPlan, in-app guide + screenshots from emulator tests (`ui-tests.yml`), What's New, update check + share app, permissions screen, widget configuration per widget id, drill-down screens (clock settings, location).
-4. Owner must confirm the holiday rules (REQUESTS R-DOM-1) and the Outlook route (device calendar vs Microsoft Graph).
+4. Owner must confirm the holiday rules (REQUESTS R-DOM-1) and the calendar route (device calendar, which already carries Google Calendar).
 
 ## Not verifiable here (needs CI or a phone)
-Everything in `:app`; widget look on a real launcher and wallpapers; flip burst smoothness and launcher throttling; exact-alarm behaviour; battery; Outlook calendar content; Open-Meteo field names; SmartRing `getNextAlarmClock` showing up under its package.
+Everything in `:app`; widget look on a real launcher and wallpapers; flip burst smoothness and launcher throttling; exact-alarm behaviour; battery; Google Calendar content; Open-Meteo field names; SmartRing `getNextAlarmClock` showing up under its package.

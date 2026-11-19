@@ -1,9 +1,10 @@
 package com.clockweather.core.widget
 
 /** The pieces a widget can show, in priority order (the first ones survive when the widget is small). */
-enum class Section { CLOCK, WEATHER_PANEL, DATE_LINE, ALARM_CHIP, AGENDA_BANNER, WORLD_CLOCKS, FOOTER }
+enum class Section { CLOCK, WEATHER_PANEL, DATE_LINE, ALARM_CHIP, AGENDA_BANNER, WORLD_CLOCKS, FOOTER, STRIP }
 
-data class LayoutPlan(val sections: List<Section>, val clockHeightDp: Int, val widthDp: Int, val heightDp: Int) {
+/** [clockHeightDp] is the height of the flexible section [flex] (the clock, or when the clock is hidden the first remaining section). */
+data class LayoutPlan(val sections: List<Section>, val clockHeightDp: Int, val widthDp: Int, val heightDp: Int, val flex: Section = Section.CLOCK) {
     operator fun contains(s: Section) = s in sections
 }
 
@@ -25,11 +26,14 @@ object WidgetLayout {
         Section.AGENDA_BANNER -> 26
         Section.WORLD_CLOCKS -> 26
         Section.FOOTER -> 22
+        Section.STRIP -> 0
     }
 
-    fun plan(widthDp: Int, heightDp: Int, s: WidgetSettings): LayoutPlan {
+    fun plan(widthDp: Int, heightDp: Int, settings: WidgetSettings, kind: WidgetKind = WidgetKind.CLASSIC): LayoutPlan {
         val w = widthDp.coerceAtLeast(40)
         val h = heightDp.coerceAtLeast(40)
+        if (kind == WidgetKind.STRIP) return LayoutPlan(listOf(Section.STRIP), h, w, h, Section.STRIP)
+        val s = kind.shape(settings)
         val wanted = buildList {
             if (s.showWeather) add(Section.WEATHER_PANEL)
             if (s.showGregorianDate || s.showHebrewDate || s.showHolidays) add(Section.DATE_LINE)
@@ -38,6 +42,7 @@ object WidgetLayout {
             if (s.showWorldClocks && s.worldClocks.isNotEmpty()) add(Section.WORLD_CLOCKS)
             if (s.showSteps || s.showSunTimes) add(Section.FOOTER)
         }
+        if (!s.showClock) return planWithoutClock(w, h, wanted)
         val chosen = mutableListOf(Section.CLOCK)
         var used = 0
         for (sec in wanted) {
@@ -49,6 +54,24 @@ object WidgetLayout {
         // Keep the visual order stable: clock, date, weather panel, alarm, agenda, world clocks, footer.
         val order = listOf(Section.CLOCK, Section.DATE_LINE, Section.WEATHER_PANEL, Section.ALARM_CHIP, Section.AGENDA_BANNER, Section.WORLD_CLOCKS, Section.FOOTER)
         return LayoutPlan(chosen.sortedBy { order.indexOf(it) }, h - used, w, h)
+    }
+
+    private val FLEX_ORDER = listOf(Section.WEATHER_PANEL, Section.AGENDA_BANNER, Section.WORLD_CLOCKS, Section.DATE_LINE, Section.ALARM_CHIP, Section.FOOTER)
+    private val STACK_ORDER = listOf(Section.DATE_LINE, Section.WEATHER_PANEL, Section.ALARM_CHIP, Section.AGENDA_BANNER, Section.WORLD_CLOCKS, Section.FOOTER)
+
+    /** Widgets without a clock (weather / agenda types): the first wanted section grows to fill what is left. */
+    private fun planWithoutClock(w: Int, h: Int, wanted: List<Section>): LayoutPlan {
+        val chosen = ArrayList<Section>()
+        var used = 0
+        for (sec in wanted) {
+            if (sec == Section.WEATHER_PANEL && w < MIN_WIDTH_FOR_PANEL) continue
+            if (sec == Section.WORLD_CLOCKS && w < MIN_WIDTH_FOR_WORLD) continue
+            val c = costDp(sec)
+            if (used + c <= h) { chosen += sec; used += c }
+        }
+        if (chosen.isEmpty()) return LayoutPlan(listOf(Section.CLOCK), h, w, h, Section.CLOCK) // never an empty widget
+        val flex = FLEX_ORDER.first { it in chosen }
+        return LayoutPlan(chosen.sortedBy { STACK_ORDER.indexOf(it) }, h - (used - costDp(flex)), w, h, flex)
     }
 
     /** Size of one flip card so two cards (hours, minutes) plus the gap fit the clock area; aspect 0.8 (taller than wide). */
