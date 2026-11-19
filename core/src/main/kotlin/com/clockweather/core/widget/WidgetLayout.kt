@@ -17,7 +17,7 @@ object WidgetLayout {
     const val MIN_WIDTH_FOR_PANEL = 150
     const val MIN_WIDTH_FOR_WORLD = 220
 
-    private fun cost(s: Section): Int = when (s) {
+    fun costDp(s: Section): Int = when (s) {
         Section.CLOCK -> 0
         Section.WEATHER_PANEL -> 58
         Section.DATE_LINE -> 22
@@ -43,7 +43,7 @@ object WidgetLayout {
         for (sec in wanted) {
             if (sec == Section.WEATHER_PANEL && w < MIN_WIDTH_FOR_PANEL) continue
             if (sec == Section.WORLD_CLOCKS && w < MIN_WIDTH_FOR_WORLD) continue
-            val c = cost(sec)
+            val c = costDp(sec)
             if ((h - used - c) >= h * MIN_CLOCK_SHARE && (h - used - c) >= 56) { chosen += sec; used += c }
         }
         // Keep the visual order stable: clock, date, weather panel, alarm, agenda, world clocks, footer.

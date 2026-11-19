@@ -1,0 +1,26 @@
+name: API probe
+# The cloud sandbox cannot reach Open-Meteo, so the real response shape is verified here, never assumed.
+on: workflow_dispatch
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Forecast shape
+        run: |
+          URL="https://api.open-meteo.com/v1/forecast?latitude=32.089&longitude=34.886&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,is_day&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,sunrise,sunset&timezone=auto&forecast_days=3"
+          curl -sS --fail "$URL" -o forecast.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open('forecast.json'))
+          print('timezone', d.get('timezone'), 'utc_offset', d.get('utc_offset_seconds'))
+          for k in ('current','hourly','daily'): print(k, sorted(d.get(k,{}).keys()))
+          print('daily.time', d['daily']['time']); print('sunrise', d['daily']['sunrise'][:1], 'hourly.time[0]', d['hourly']['time'][:1])
+          need={'current':['temperature_2m','weather_code','is_day'],'daily':['time','temperature_2m_max','temperature_2m_min','sunrise','sunset','weather_code'],'hourly':['time','temperature_2m','weather_code']}
+          bad=[f'{s}.{k}' for s,ks in need.items() for k in ks if k not in d.get(s,{})]
+          assert not bad, f'missing fields: {bad}'
+          print('forecast shape OK')
+          PY
+      - name: Geocoding shape (Hebrew query)
+        run: |
+          curl -sS --fail "https://geocoding-api.open-meteo.com/v1/search?name=%D7%A4%D7%AA%D7%97%20%D7%AA%D7%A7%D7%95%D7%95%D7%94&count=3&language=he&format=json" -o geo.json
+          python3 -c "import json;d=json.load(open('geo.json'));r=d['results'][0];print({k:r.get(k) for k in ('name','admin1','country','latitude','longitude','timezone')});assert all(k in r for k in ('name','latitude','longitude'))"
