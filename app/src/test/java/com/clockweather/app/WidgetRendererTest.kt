@@ -6,7 +6,7 @@ import com.clockweather.app.widget.RenderState
 import com.clockweather.app.widget.WidgetRenderer
 import com.clockweather.core.agenda.AgendaEvent
 import com.clockweather.core.alarm.NextAlarm
-import com.clockweather.core.clock.ClockZoneSetting
+import com.clockweather.core.widget.ClockZoneSetting
 import com.clockweather.core.weather.OpenMeteo
 import com.clockweather.core.widget.ClockStyle
 import com.clockweather.core.widget.PlaceSetting
