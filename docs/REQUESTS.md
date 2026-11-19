@@ -29,7 +29,7 @@ Status: DONE (verified as noted) · CODE (written, needs CI/phone proof) · ART 
 | R23 | Use app-development skills: UI tests, user guide, etc. | PARTIAL emulator smoke test + docs; in-app guide + screenshot pipeline TODO batch 3 |
 | R24 | Chat prompts for me | DONE `docs/prompts/` |
 | R-DOM-1 | Holiday rules (owner-confirmed domain rules) | CONFIRM: implemented as Hebcal-style Israel calendar: Yom HaAtzmaut moves (Thu/Tue), fasts never on Shabbat, Rosh Chodesh, Hanukkah days; diaspora toggle gives second days |
-| R25 | A designed, beautiful logo for the app | PROMPT DONE (Round 0); ART waits for owner; icon (Round 2) derives from it |
+| R25 | A designed, beautiful logo for the app | DONE 2026-11-19: approved after rounds 0/0B/0C; integrated as launcher icon (adaptive + monochrome) and Home header lockup. Open: Round 2 may refine the icon; faint pink fringe on the sun edge (acceptable) |
 | R26 | Illustrations polished and invested, with one consistent, beautiful design line | DONE in docs: quality bar + signature (hinge seam + sparkle) in `DESIGN_LANGUAGE.md`, style bible stage in Round 0, every prompt requires the approved reference images |
 | R27 | Beautiful, invested animations in the same design line | PROMPT DONE (Round 5: 12-frame seamless loops, motion language); app-side frame player TODO batch 3 (calm mode shows frame 01); flip card + agenda transition animated in code |
 | R28 | (owner) "All your suggestions sound great" = every item of `docs/ROADMAP.md` (A1-E20) is approved | TODO by batches: presets DONE (code), the rest scheduled in PLAN batches 4-9 |

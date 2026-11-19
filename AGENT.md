@@ -7,6 +7,9 @@
 - ChatGPT prompts 1-4 written (`docs/prompts/`), registered in `docs/PENDING_CHATGPT_PROMPTS.md`.
 - CI: `android-ci.yml`, `latest-apk.yml` (in-place update check), `api-probe.yml`.
 
+## Logo (2026-11-19)
+Approved logo integrated: `scripts/make-logo-assets.py` keys the magenta sheets in `design/logo/originals/` into `design/logo/*.png` and writes `app/src/main/res/drawable-nodpi/{ic_launcher_fg,ic_launcher_mono,brand_lockup_light,brand_lockup_dark}.png`. The old placeholder icon is removed. Not yet compiled in CI at the time of writing.
+
 ## Open items (next)
 1. Push, read CI, fix `:app` compile errors (first compile ever). Then run `api-probe.yml` and adjust `OpenMeteo` if the shape differs.
 2. Owner runs ChatGPT round 1 (weather art) then 4, 2, 3; integrate (validate, key out #FF00FF, drawables, tests).

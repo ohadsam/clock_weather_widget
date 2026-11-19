@@ -63,7 +63,7 @@ fun HomeScreen(settings: WidgetSettings, onSettings: () -> Unit, onWeather: () -
         WidgetRenderer.render(ctx, (wDp * density).toInt(), (hDp * density).toInt(), density, st)
     }
     Column(Modifier.verticalScroll(rememberScrollState()).padding(bottom = 24.dp)) {
-        ScreenHeader(stringResource(R.string.app_name), stringResource(R.string.back), null) {
+        ScreenHeader(stringResource(R.string.app_name), stringResource(R.string.back), null, brand = true) {
             IconButton(onClick = onSettings) { Icon(Icons.Filled.Settings, contentDescription = stringResource(R.string.settings)) }
         }
         val wall = if (darkWall) Brush.verticalGradient(listOf(Color(0xFF1B2A44), Color(0xFF3B5B7E), Color(0xFFE08A4D)))
