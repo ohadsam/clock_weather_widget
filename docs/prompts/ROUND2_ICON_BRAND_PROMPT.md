@@ -3,6 +3,8 @@
 **How to use (owner):** open a NEW ChatGPT chat (image generation on, best model available), paste the whole fenced block below as ONE message, and answer "continue" after each stage when you are happy. Download the final images/zips and send them back to Claude in the session; Claude validates and integrates them. If a stage looks off, reply with what is wrong - do not say continue.
 
 ```text
+REFERENCE: attach the approved Round 0 images (logo + style bible sheet) to this chat first and match them exactly - same light, same hinge seam, same sparkle, same palette. If you have no reference images yet, STOP and ask me for them.
+
 ROLE: Icon designer for "ClockWeather" (a flip-clock + weather widget app for Android, Hebrew-first).
 
 DELIVERABLE: Android adaptive icon layers, 432 x 432 px each (108 dp at 4x): ic_launcher_fg.png (foreground art only, safe zone = centre 66 %, i.e. everything important inside a 285 px circle), ic_launcher_bg.png (background layer: a rich but calm gradient/texture, full bleed, NO magenta needed here - fill the full square), ic_launcher_mono.png (single-colour silhouette on flat magenta for the themed monochrome icon, shape only).
@@ -25,6 +27,21 @@ People of all ages glancing at the home screen for one second, in sunlight, in H
 * Weather art: a single hero object per image (sun, cloud, rain...) built from 2-4 simple volumes with soft gradient shading and a tiny sparkle/rim light; flat colour accents allowed; same camera (front view, no perspective tilt), same light, same scale, same visual weight across the whole family.
 * Motion (when animation is requested): calm, 800 ms or longer loops, first frame is a complete still image, no flashing, nothing faster than 3 Hz; a "calm animations" switch exists in the app.
 * Hebrew/RTL safety: no text or letters in any art; no left/right-only symbolism that breaks when mirrored (mirroring must stay correct).
+
+
+## Quality bar (owner, 2026-11-19: "designed, beautiful, invested; one consistent design line")
+Every asset must look like it came from ONE professional studio, at the level of a premium weather/clock app (think award-winning iOS/Android weather apps, but original). Rich but calm: considered lighting, soft layered depth, crisp edges, careful colour harmony. Reject (and redo) anything that looks like clip-art, a generic emoji, stock icon-set, flat sticker, AI-glossy plastic, or that differs in style from its siblings. Detail is welcome only if it still reads at 40 px.
+
+## The signature (what makes the family unmistakable - every asset has BOTH)
+1. **The hinge seam**: a very thin, soft horizontal split line crossing the hero object at about 52 % height (echoing the flip-card hinge of the logo and the clock), subtle (8-12 % darker, 1 soft highlight beneath). Clouds, sun, moon, flakes, bolts, badges all carry it; in animation it is the line the object "flips" or breathes around.
+2. **The four-point sparkle**: one small crisp 4-point star highlight on the upper-right of the hero object, same shape and proportions everywhere (long thin cross, soft glow, 3 sizes).
+Plus: top-left light, soft shadow bottom-right, 3-stop gradients (light/base/shade of the SAME hue), rim light on the lit edge, no outlines.
+
+## The logo (Round 0 sets it; all later rounds reference it)
+A flip-card mark: a rounded card split by the hinge seam, with a luminous sun/moon rising from behind it, sparkle top-right. Works in one colour, on light and dark, at 24 px.
+
+## Motion language (animations)
+Calm and tactile. Easing: ease-in-out, nothing linear or bouncy. Weather loops: 12 frames, 1.2-2.4 s, seamless, the first frame is a complete still image (used for calm mode), registration between frames pixel-exact (same canvas, same object position/scale), only the elements that should move change. Clear sky: slow ray shimmer + sparkle twinkle; clouds: gentle horizontal drift (+/-4 % width) and soft breathing; rain/drizzle: drops fall on a seamless loop with tiny splashes; snow: flakes sway down; thunderstorm: calm loop with a soft double glow flash (never faster than 3 Hz, never full-screen white); fog: bands drift slowly; night: stars twinkle out of phase. Flip card (drawn by the app in code): fold 0.45 s with soft shade, hinge highlight.
 
 ## Colour tokens (the app's palettes, ARGB hex shown as #RRGGBB)
 | Palette id | Card top | Card bottom | Digit ink | Panel | Panel text | Accent |
@@ -54,6 +71,8 @@ Weather accents (use consistently): sun #FFB300 / #FFD54F glow, cloud light #F4F
 | Card textures | `tex_card_<light|dark|warm>.png` | 1024 x 1024 tileable greyscale | tinted by the app per palette |
 | App icon | `ic_launcher_fg.png`, `ic_launcher_bg.png`, `ic_launcher_mono.png` | 432 x 432 | adaptive icon layers, safe zone = centre 66 % |
 | Spot art | `spot_<name>.png` | 640 x 480 | onboarding / empty states: add_widget, location, calendar, alarm, steps, offline |
+| Logo | `logo_mark.png` (1024 x 1024 colour on magenta), `logo_mono.png` (single colour on magenta), `logo_lockup_dark.png`, `logo_lockup_light.png` (mark only, no text) | 1024 | Round 0; the app icon in Round 2 is built from it |
+| Weather animation | `wxa_<sky>_<day|night>_<NN>.png`, NN = 01..12 | 512 x 512 each, magenta background | seamless loop frames, frame 01 = still; delivered also as a 4x3 sheet 2048 x 1536 |
 | Widget picker preview | `preview_<style>.png` | 640 x 360 | styles: flip, digital, analog, minimal |
 === END DESIGN LANGUAGE ===
 
