@@ -6,7 +6,7 @@ Status: DONE (verified as noted) · CODE (written, needs CI/phone proof) · ART 
 |---|---|---|
 | R1 | Create the app from the distance_analyzer skills (app-development + release-checklist), adapted | DONE `.claude/skills/*` |
 | R2 | Mainly a widget: very beautiful, large, usable; resizable; different designs | CODE `WidgetRenderer`, `WidgetLayout` tiers, 4 styles, 7 palettes, size slider |
-| R3 | Illustrations from ChatGPT -> generate prompts | DONE prompts 1-4; ART waits for owner |
+| R3 | Illustrations from ChatGPT -> generate prompts | DONE: prompts written; weather art (16) delivered, approved and integrated 2026-11-19; remaining rounds: animations (5), pocket watch (6), icon refinements (2), textures/spot art/previews (4), holiday badges (3) |
 | R4 | Transparent background like the reference screenshot | CODE default 100% transparent plate; slider |
 | R5 | Big flip-card clock with nice animation | CODE flip burst (8 frames/0.45 s); phone proof needed |
 | R6 | Weather with nice animation; auto location | CODE weather panel + coarse location; animated weather art = ART round (see ROADMAP A2) |

@@ -1,5 +1,6 @@
-"""Turns the ChatGPT logo sheets (flat #FF00FF background, design/logo/originals) into transparent PNGs and
-the Android launcher / brand drawables. Run:  python3 -I scripts/make-logo-assets.py
+"""Turns the ChatGPT art sheets (flat #FF00FF background) into transparent assets and Android drawables.
+  python3 -I scripts/make-art-assets.py logo      # design/logo/originals -> design/logo + launcher/brand drawables
+  python3 -I scripts/make-art-assets.py weather   # design/weather/originals -> res/drawable-nodpi/wx_*.webp
 Chroma key with despill: alpha from how magenta a pixel is, colour = observation minus the magenta share (so soft
 shadows and glows become clean semi-transparent navy/yellow instead of pink halos). Needs Pillow + numpy."""
 import os, sys
@@ -40,7 +41,33 @@ def on(bg, fg):
     c = Image.new('RGBA', fg.size, bg); c.alpha_composite(fg); return c.convert('RGB')
 
 
+def weather():
+    """16 weather illustrations: keyed, kept on the full 512 canvas (so every icon has the same scale and margin),
+    downscaled to 384 and stored as lossless WebP (Android decodes it natively)."""
+    src = 'design/weather/originals'
+    os.makedirs('design/weather', exist_ok=True)
+    names = sorted(f for f in os.listdir(src) if f.startswith('wx_') and f.endswith('.png'))
+    thumbs = []
+    for n in names:
+        im = key(f'{src}/{n}').resize((384, 384), Image.LANCZOS)
+        im.save(f'{RES}/drawable-nodpi/{n[:-4]}.webp', format='WEBP', lossless=True, quality=100, method=6)
+        thumbs.append((n, im))
+    cols = 4
+    rows = (len(thumbs) + cols - 1) // cols
+    sheet = Image.new('RGB', (cols * 2 * 200, rows * 220), (242, 242, 242))
+    dark = Image.new('RGB', (cols * 200, rows * 220), (21, 23, 26))
+    sheet.paste(dark, (cols * 200, 0))
+    for i, (n, im) in enumerate(thumbs):
+        t = im.resize((180, 180), Image.LANCZOS)
+        x, y = (i % cols) * 200 + 10, (i // cols) * 220 + 10
+        sheet.paste(t, (x, y), t.getchannel('A')); sheet.paste(t, (x + cols * 200, y), t.getchannel('A'))
+    sheet.save('design/weather/review_sheet.png')
+    print(len(thumbs), 'weather assets')
+
+
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] == 'weather':
+        return weather()
     os.makedirs(OUT, exist_ok=True)
     mark = crop(key(f'{SRC}/logo_mark.png'))
     lock_l = crop(key(f'{SRC}/logo_lockup_light.png'))

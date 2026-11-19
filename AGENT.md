@@ -8,7 +8,10 @@
 - CI: `android-ci.yml`, `latest-apk.yml` (in-place update check), `api-probe.yml`.
 
 ## Logo (2026-11-19)
-Approved logo integrated: `scripts/make-logo-assets.py` keys the magenta sheets in `design/logo/originals/` into `design/logo/*.png` and writes `app/src/main/res/drawable-nodpi/{ic_launcher_fg,ic_launcher_mono,brand_lockup_light,brand_lockup_dark}.png`. The old placeholder icon is removed. Not yet compiled in CI at the time of writing.
+Approved logo integrated: `scripts/make-art-assets.py logo` keys the magenta sheets in `design/logo/originals/` into `design/logo/*.png` and writes `app/src/main/res/drawable-nodpi/{ic_launcher_fg,ic_launcher_mono,brand_lockup_light,brand_lockup_dark}.png`. The old placeholder icon is removed. Not yet compiled in CI at the time of writing.
+
+## Weather art (2026-11-19)
+16 approved illustrations are in `app/src/main/res/drawable-nodpi/wx_*.webp` (made by `scripts/make-art-assets.py weather` from `design/weather/originals/`). `WeatherArt` already loads them by name; the code-drawn placeholder is only the fallback. Light clouds are pale on a light wallpaper (soft blue shade keeps them visible) - check on a phone.
 
 ## Open items (next)
 1. Push, read CI, fix `:app` compile errors (first compile ever). Then run `api-probe.yml` and adjust `OpenMeteo` if the shape differs.
