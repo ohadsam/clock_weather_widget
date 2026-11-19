@@ -10,6 +10,7 @@ import com.clockweather.core.widget.ClockZoneSetting
 import com.clockweather.core.weather.OpenMeteo
 import com.clockweather.core.widget.ClockStyle
 import com.clockweather.core.widget.PlaceSetting
+import com.clockweather.core.widget.WidgetKind
 import com.clockweather.core.widget.WidgetSettings
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -36,16 +37,17 @@ class WidgetRendererTest {
                 "sunrise":["2026-11-19T06:14"],"sunset":["2026-11-19T16:38"]}}
     """.trimIndent()
 
-    private fun state(style: ClockStyle, hebrew: Boolean, flipFrom: IntArray? = null, p: Float = 1f): RenderState {
+    private fun state(style: ClockStyle, hebrew: Boolean, flipFrom: IntArray? = null, p: Float = 1f, kind: WidgetKind = WidgetKind.CLASSIC): RenderState {
         val s = WidgetSettings(
             clockStyle = style, showSteps = true,
             places = listOf(PlaceSetting("pt", "Petah Tikva", 32.09, 34.88)), activePlaceId = "pt",
             worldClocks = listOf(ClockZoneSetting("America/New_York", "NYC")),
         ).sanitized()
         return RenderState(
-            s, now, ZoneId.of("Asia/Jerusalem"), hebrew, OpenMeteo.parseForecast("pt", forecastJson, 0),
-            NextAlarm(now.toEpochMilli() + 9 * 3_600_000L, "com.smartring.app"),
-            listOf(AgendaEvent(1, "Team sync", now.toEpochMilli() + 30 * 60_000L, now.toEpochMilli() + 90 * 60_000L, false)),
+            settings = s, kind = kind, now = now, zone = ZoneId.of("Asia/Jerusalem"), hebrew = hebrew,
+            forecast = OpenMeteo.parseForecast("pt", forecastJson, 0),
+            nextAlarm = NextAlarm(now.toEpochMilli() + 9 * 3_600_000L, "com.smartring.app"),
+            agenda = listOf(AgendaEvent(1, "Team sync", now.toEpochMilli() + 30 * 60_000L, now.toEpochMilli() + 90 * 60_000L, false)),
             steps = 4210, flipFrom = flipFrom, flipProgress = p,
         )
     }
@@ -62,6 +64,14 @@ class WidgetRendererTest {
             val bmp = WidgetRenderer.render(ctx, w * 2, h * 2, 2f, state(style, hebrew))
             assertEquals(w * 2, bmp.width); assertEquals(h * 2, bmp.height)
             assertTrue("$style he=$hebrew ${w}x$h is blank", opaquePixels(bmp) > 0)
+        }
+    }
+
+    @Test fun everyWidgetKindRendersAtSeveralSizes() {
+        for (kind in WidgetKind.values()) for (hebrew in listOf(true, false)) for ((w, h) in listOf(180 to 40, 250 to 110, 280 to 160, 330 to 340)) {
+            val bmp = WidgetRenderer.render(ctx, w * 2, h * 2, 2f, state(ClockStyle.FLIP, hebrew, kind = kind))
+            assertEquals(w * 2, bmp.width)
+            assertTrue("$kind he=$hebrew ${w}x$h is blank", opaquePixels(bmp) > 0)
         }
     }
 
