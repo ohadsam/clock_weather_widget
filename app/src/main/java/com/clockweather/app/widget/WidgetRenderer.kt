@@ -18,6 +18,7 @@ import com.clockweather.core.hebrew.HebrewDateFormat
 import com.clockweather.core.hebrew.HolidayBadge
 import com.clockweather.core.hebrew.Holidays
 import com.clockweather.core.sun.SunTimes
+import com.clockweather.core.sun.Zmanim
 import com.clockweather.core.weather.TempFormat
 import com.clockweather.core.weather.WeatherOutlook
 import com.clockweather.core.widget.ClockStyle
@@ -425,6 +426,12 @@ object WidgetRenderer {
                 val rise = sr ?: calc?.sunrise; val set = ss ?: calc?.sunset
                 val fmt = DateTimeFormatter.ofPattern(if (use24) "HH:mm" else "h:mm a", Locale.ENGLISH)
                 if (rise != null && set != null) parts += "☀↑ ${fmt.format(rise)}   ☀↓ ${fmt.format(set)}"
+                if (s.showNightfall) s.places.firstOrNull { it.id == s.activePlaceId }?.let { p ->
+                    Zmanim.of(local.toLocalDate(), p.lat, p.lon, st.zone)?.let { z ->
+                        if (Zmanim.isCandleLightingDay(local.toLocalDate())) parts += "🕯 ${fmt.format(z.candleLighting)}"
+                        z.nightfall?.let { parts += "🌙 ${fmt.format(it)}" }
+                    }
+                }
             }
             if (s.showSteps && st.steps != null) parts += "👣 ${"%,d".format(st.steps)}"
             if (parts.isNotEmpty()) fitText(parts.joinToString("    "), r, ink, 11.5f)

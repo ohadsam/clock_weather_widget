@@ -22,7 +22,11 @@ object SunTimes {
         return Result(rise, set)
     }
 
-    private fun event(date: LocalDate, lat: Double, lon: Double, zone: ZoneId, rising: Boolean): LocalTime? {
+    /** Evening moment when the sun is [degreesBelowHorizon] below the horizon (8.5 = nightfall / tzeit hakochavim). Null if it never gets there. */
+    fun eveningAtDepression(date: LocalDate, latitude: Double, longitude: Double, zone: ZoneId, degreesBelowHorizon: Double): LocalTime? =
+        event(date, latitude, longitude, zone, rising = false, zenith = 90.0 + degreesBelowHorizon)
+
+    private fun event(date: LocalDate, lat: Double, lon: Double, zone: ZoneId, rising: Boolean, zenith: Double = 90.833): LocalTime? {
         val noon = date.atTime(12, 0).atZone(zone)
         val offsetHours = noon.offset.totalSeconds / 3600.0
         val dayOfYear = date.dayOfYear
@@ -30,7 +34,7 @@ object SunTimes {
         val eqTime = 229.18 * (0.000075 + 0.001868 * cos(gamma) - 0.032077 * sin(gamma) - 0.014615 * cos(2 * gamma) - 0.040849 * sin(2 * gamma))
         val decl = 0.006918 - 0.399912 * cos(gamma) + 0.070257 * sin(gamma) - 0.006758 * cos(2 * gamma) + 0.000907 * sin(2 * gamma) - 0.002697 * cos(3 * gamma) + 0.00148 * sin(3 * gamma)
         val latRad = Math.toRadians(lat)
-        val cosHa = cos(Math.toRadians(90.833)) / (cos(latRad) * cos(decl)) - tan(latRad) * tan(decl)
+        val cosHa = cos(Math.toRadians(zenith)) / (cos(latRad) * cos(decl)) - tan(latRad) * tan(decl)
         if (cosHa < -1.0 || cosHa > 1.0) return null
         val ha = Math.toDegrees(acos(cosHa))
         val minutesUtc = 720.0 - 4.0 * (lon + (if (rising) ha else -ha)) - eqTime

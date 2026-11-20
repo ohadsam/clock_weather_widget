@@ -52,3 +52,6 @@ Status: DONE (verified as noted) · CODE (written, needs CI/phone proof) · ART 
 | R40 | (owner, 2026-11-20) Share the app | Code written: link or the installed APK; needs a phone |
 | R41 | (owner, 2026-11-20) In-app daily forecast with hours, split into rain / temperature / humidity, animated | Code written (`WeatherScreen`, `HourChart`, `DayChart` tested in `:core`); needs a phone |
 | R42 | (owner, 2026-11-20) More than one place at once inside the app | Code written: swipe pager + chips in the forecast, `PlacesOverview` on Home; needs a phone |
+| R43 | (owner, 2026-11-20) Nightfall (tzeit) and candle lighting times | Code: `Zmanim` (core, tested) + footer of the widget + setting `showNightfall`; needs a phone check |
+| R44 | (owner, 2026-11-20) Permission check: what is missing | Code: Settings -> Permissions (location, calendar, exact alarms, install updates) with allow / open settings; needs a phone |
+| R45 | (owner, 2026-11-20) Step counter | NOT STARTED (Health Connect / step sensor; needs the owner to choose; cannot be verified here) |

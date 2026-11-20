@@ -127,4 +127,18 @@
     <string name="metric_humidity">Humidity</string>
     <string name="my_places">My places</string>
     <string name="no_hours">No hourly data for this day</string>
+    <string name="show_nightfall">Nightfall and candle lighting</string>
+    <string name="sec_permissions">Permissions</string>
+    <string name="sec_permissions_sum">%1$d of %2$d allowed</string>
+    <string name="permissions_hint">All optional. With none of them the widget shows the clock, date and the weather of a fixed city.</string>
+    <string name="perm_location">Location (approximate)</string>
+    <string name="perm_location_why">For a "my location" place. A fixed city needs no permission.</string>
+    <string name="perm_calendar">Calendar</string>
+    <string name="perm_calendar_why">For today\'s events banner (Google Calendar syncs into the device calendar). Read only.</string>
+    <string name="perm_exact">Exact alarms</string>
+    <string name="perm_exact_why">So the clock changes exactly on the minute.</string>
+    <string name="perm_install">Install updates</string>
+    <string name="perm_install_why">To install an app update from inside the app.</string>
+    <string name="perm_allow">Allow</string>
+    <string name="perm_open_settings">Open settings</string>
 </resources>

@@ -127,4 +127,18 @@
     <string name="metric_humidity">לחות</string>
     <string name="my_places">המיקומים שלי</string>
     <string name="no_hours">אין נתונים לפי שעות ליום הזה</string>
+    <string name="show_nightfall">צאת הכוכבים והדלקת נרות</string>
+    <string name="sec_permissions">הרשאות</string>
+    <string name="sec_permissions_sum">%1$d מתוך %2$d מאושרות</string>
+    <string name="permissions_hint">הכול אופציונלי. בלי הרשאות הווידג\'ט מציג שעון, תאריך ומזג אוויר של עיר קבועה.</string>
+    <string name="perm_location">מיקום (משוער)</string>
+    <string name="perm_location_why">למקום "המיקום שלי". עיר קבועה לא צריכה הרשאה.</string>
+    <string name="perm_calendar">יומן</string>
+    <string name="perm_calendar_why">לבאנר האירועים של היום (גוגל קלנדר מסתנכרן ליומן המכשיר). קריאה בלבד.</string>
+    <string name="perm_exact">התראות מדויקות</string>
+    <string name="perm_exact_why">כדי שהשעון יתחלף בדיוק בתחילת הדקה.</string>
+    <string name="perm_install">התקנת עדכונים</string>
+    <string name="perm_install_why">כדי להתקין עדכון של האפליקציה מתוך האפליקציה.</string>
+    <string name="perm_allow">אפשר</string>
+    <string name="perm_open_settings">פתח הגדרות</string>
 </resources>

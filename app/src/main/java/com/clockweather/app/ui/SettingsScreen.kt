@@ -91,6 +91,7 @@ fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack
             SwitchRow(stringResource(R.string.show_agenda), s.showAgenda) { onChange(s.copy(showAgenda = it)) }
             SwitchRow(stringResource(R.string.show_world), s.showWorldClocks) { onChange(s.copy(showWorldClocks = it)) }
             SwitchRow(stringResource(R.string.show_sun), s.showSunTimes) { onChange(s.copy(showSunTimes = it)) }
+            if (s.showSunTimes) SwitchRow(stringResource(R.string.show_nightfall), s.showNightfall) { onChange(s.copy(showNightfall = it)) }
             SwitchRow(stringResource(R.string.show_steps), s.showSteps) { onChange(s.copy(showSteps = it)) }
             Text(stringResource(R.string.show_hint), style = MaterialTheme.typography.bodySmall)
         }
@@ -124,6 +125,7 @@ fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack
             SwitchRow(stringResource(R.string.in_israel), s.inIsrael) { onChange(s.copy(inIsrael = it)) }
         }
 
+        PermissionsSection()
         UpdatesSection(hebrew)
 
         val version = remember { runCatching { ctx.packageManager.getPackageInfo(ctx.packageName, 0).versionName }.getOrNull() ?: "" }

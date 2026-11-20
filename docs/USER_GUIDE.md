@@ -24,6 +24,12 @@ Tap the weather area of the widget (or "Weather details"): current conditions, m
 ## Several places, hourly charts
 With two or more places, Home lists them all; tap one to open its forecast. In the forecast, swipe between places, pick a day, and switch the chart between temperature, rain and humidity.
 
+## Nightfall and candle lighting
+The line under the weather shows sunrise, sunset and nightfall; on a Friday or the eve of a holiday it also shows candle lighting (18 minutes before sunset). Switch it off in Settings.
+
+## Permissions
+Settings > Permissions lists every optional permission, why it is asked, and lets you allow it or open system settings.
+
 ## Updates and sharing
 Settings > Updates: check, download, install. Share the app as a link or as the installed APK.
 
