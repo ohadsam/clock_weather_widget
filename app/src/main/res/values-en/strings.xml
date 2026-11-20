@@ -141,4 +141,11 @@
     <string name="perm_install_why">To install an app update from inside the app.</string>
     <string name="perm_allow">Allow</string>
     <string name="perm_open_settings">Open settings</string>
+    <string name="sec_whats_new">What\'s new</string>
+    <string name="sec_whats_new_sum">Version %1$s</string>
+    <string name="whats_new_body">• Update and install from inside the app, and share the app
+• Hourly forecast with animated charts: temperature, rain, humidity
+• Several places side by side
+• Nightfall and candle lighting
+• Permissions screen</string>
 </resources>

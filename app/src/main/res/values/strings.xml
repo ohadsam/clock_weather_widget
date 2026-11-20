@@ -141,4 +141,11 @@
     <string name="perm_install_why">כדי להתקין עדכון של האפליקציה מתוך האפליקציה.</string>
     <string name="perm_allow">אפשר</string>
     <string name="perm_open_settings">פתח הגדרות</string>
+    <string name="sec_whats_new">מה חדש</string>
+    <string name="sec_whats_new_sum">גרסה %1$s</string>
+    <string name="whats_new_body">• עדכון והתקנה מתוך האפליקציה, ושיתוף האפליקציה
+• תחזית לפי שעות עם גרפים מונפשים: טמפרטורה, משקעים, לחות
+• כמה מקומות במקביל
+• צאת הכוכבים והדלקת נרות
+• מסך הרשאות</string>
 </resources>

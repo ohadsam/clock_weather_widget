@@ -29,6 +29,7 @@ The widget must stay correct with the app closed. Every piece of shown data has 
 | Next alarm (SmartRing or any app) | an alarm is added, edited, snoozed, fired | `NEXT_ALARM_CLOCK_CHANGED` broadcast, plus the minute tick as a safety net | immediate, <= 1 min if the broadcast is not delivered |
 | Calendar events | an event is added/moved/deleted or a sync finishes | `CalendarChangeWorker` (WorkManager content-URI trigger on `CalendarContract`), plus the tick (agenda cache 3 min) | ~2-30 s |
 | Event banner rotation | time | minute tick picks the event from the clock | <= 1 min |
+| Nightfall, candle lighting | date change; place change; clock/time-zone change | computed offline (`Zmanim`) on every minute tick, so no extra trigger | <= 1 min |
 | Weather, sun times | new forecast | `WeatherWorker` every 30 min (network constraint) and on place/settings change; the widget never waits for the network | <= 30 min; stale data is labelled "לפני X" after 90 min |
 | Settings changes | the user | `ClockWidgetProvider.updateAll` right after saving | immediate |
 | Resize / add widget | launcher | `onAppWidgetOptionsChanged`, `onUpdate`, `onEnabled` | immediate |

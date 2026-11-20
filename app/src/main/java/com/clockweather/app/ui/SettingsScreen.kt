@@ -132,6 +132,9 @@ fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack
         SectionCard(stringResource(R.string.sec_privacy), stringResource(R.string.sec_privacy_sum, version)) {
             Text(stringResource(R.string.privacy_body), style = MaterialTheme.typography.bodyMedium)
         }
+        SectionCard(stringResource(R.string.sec_whats_new), stringResource(R.string.sec_whats_new_sum, version)) {
+            Text(stringResource(R.string.whats_new_body), style = MaterialTheme.typography.bodyMedium)
+        }
     }
 }
 
