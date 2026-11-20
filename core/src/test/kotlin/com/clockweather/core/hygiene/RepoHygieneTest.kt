@@ -61,4 +61,13 @@ class RepoHygieneTest {
     @Test fun signingKeyIsCommittedForInPlaceUpdates() {
         assertTrue(File(root, "app/sideload.jks").isFile)
     }
+
+    @Test fun everyResourceXmlParsesAndEachWidgetReceiverHasItsOwnInfoFile() {
+        val factory = javax.xml.parsers.DocumentBuilderFactory.newInstance().apply { isNamespaceAware = true }
+        val xmls = File(root, "app/src/main/res").walkTopDown().filter { it.extension == "xml" }.toList() + File(root, "app/src/main/AndroidManifest.xml")
+        for (f in xmls) runCatching { factory.newDocumentBuilder().parse(f) }.onFailure { throw AssertionError("${f.name} is not well-formed XML (duplicate attribute?): ${it.message}") }
+        val infos = Regex("""android:resource="@xml/(widget_[a-z]+_info)"""").findAll(read("app/src/main/AndroidManifest.xml")).map { it.groupValues[1] }.toList()
+        assertEquals(infos.size, infos.toSet().size, "two receivers share one appwidget-provider file: $infos")
+        for (i in infos) assertTrue(File(root, "app/src/main/res/xml/$i.xml").isFile, "$i.xml missing")
+    }
 }
