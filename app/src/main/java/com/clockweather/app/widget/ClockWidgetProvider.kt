@@ -81,7 +81,22 @@ open class ClockWidgetProvider : AppWidgetProvider() {
                 if (p < 1f) Thread.sleep(FlipMath.DURATION_MS / FlipMath.FRAMES.toLong())
             }
         }
+        playLidOpening(context, manager, settings, screenOn, now)
         playWeatherLoop(context, manager, settings, screenOn, now)
+    }
+
+    /** On the hour the pocket watch lid opens (1 s). Only for clock kinds with the pocket style, screen on, animations not calmed. */
+    private fun playLidOpening(context: Context, manager: AppWidgetManager, settings: com.clockweather.core.widget.WidgetSettings, screenOn: Boolean, now: Instant) {
+        if (!screenOn || settings.calmAnimations || settings.clockStyle != ClockStyle.POCKET) return
+        if (now.atZone(java.time.ZoneId.systemDefault()).minute != 0) return
+        val targets = idsByKind(context, manager).filter { it.first == WidgetKind.CLASSIC || it.first == WidgetKind.CLOCK }
+        if (targets.isEmpty()) return
+        val steps = 12
+        for (i in 0..steps) {
+            val t = i / steps.toFloat(); val eased = (1f - Math.cos(Math.PI * t).toFloat()) / 2f
+            for ((k, ids) in targets) pushAll(context, manager, ids, k, now, lidOpen = eased)
+            Thread.sleep(80L)
+        }
     }
 
     /** One 1.5 s loop of the animated weather illustration, only for kinds that show weather and skies that have a loop. */
@@ -131,9 +146,9 @@ open class ClockWidgetProvider : AppWidgetProvider() {
             for ((k, ids) in idsByKind(context, manager)) pushAll(context, manager, ids, k)
         }
 
-        private fun pushAll(context: Context, manager: AppWidgetManager, ids: IntArray, kind: WidgetKind, now: Instant = Instant.now(), flipFrom: IntArray? = null, progress: Float = 1f, animMs: Long = -1L) {
+        private fun pushAll(context: Context, manager: AppWidgetManager, ids: IntArray, kind: WidgetKind, now: Instant = Instant.now(), flipFrom: IntArray? = null, progress: Float = 1f, animMs: Long = -1L, lidOpen: Float = 1f) {
             val density = context.resources.displayMetrics.density
-            val st = Snapshot.build(context, now, flipFrom, progress, kind, animMs)
+            val st = Snapshot.build(context, now, flipFrom, progress, kind, animMs, lidOpen)
             for (id in ids) {
                 val (wDp, hDp) = sizeDp(manager.getAppWidgetOptions(id), context)
                 val bmp = WidgetRenderer.render(context, (wDp * density).toInt(), (hDp * density).toInt(), density, st)

@@ -1,6 +1,7 @@
 """Turns the ChatGPT art sheets (flat #FF00FF background) into transparent assets and Android drawables.
   python3 -I scripts/make-art-assets.py logo      # design/logo/originals -> design/logo + launcher/brand drawables
   python3 -I scripts/make-art-assets.py weather   # design/weather/originals -> res/drawable-nodpi/wx_*.webp
+  python3 -I scripts/make-art-assets.py pocket    # design/pocketwatch/originals -> aligned case/face/hands webp + core PocketWatchGeometry.kt
   python3 -I scripts/make-art-assets.py anim <dir> # <dir>/wxa_<name>_01..12.png (ChatGPT frames, kept outside git: ~40 MB)
                                                   #   -> res/drawable-nodpi/wxa_<name>_<k>.webp (unique frames only) + core WeatherAnimTable.kt
 Chroma key with despill: alpha from how magenta a pixel is, colour = observation minus the magenta share (so soft
@@ -123,7 +124,118 @@ def anim(src):
     print('animated:', list(table), 'skipped (too little motion):', skipped)
 
 
+def _flood(mask, seed):
+    """Connected region of True pixels containing seed (4-neighbour), numpy only."""
+    reg = np.zeros_like(mask); reg[seed] = mask[seed]
+    while True:
+        n = reg.copy()
+        n[1:, :] |= reg[:-1, :]; n[:-1, :] |= reg[1:, :]; n[:, 1:] |= reg[:, :-1]; n[:, :-1] |= reg[:, 1:]
+        n &= mask
+        if (n == reg).all(): return reg
+        reg = n
+
+
+def _circle(im):
+    """Outer circle of a round object from its alpha: widest left/right extremes and the lowest point (crown/bow are narrower)."""
+    m = np.asarray(im.getchannel('A')) > 128
+    xs = np.where(m.any(0))[0]; ys = np.where(m.any(1))[0]
+    r = (xs.max() - xs.min()) / 2.0
+    return (xs.min() + xs.max()) / 2.0, ys.max() - r, r
+
+
+def pocket():
+    """Aligns the painted pocket-watch pieces: the dial is scaled into the bezel hole, then the whole open face is scaled and moved so
+    its outer circle coincides with the closed case; the crown/bow above the hinge are removed from the face (the case art supplies
+    them in every state). Hands are trimmed. Writes res webp files and a generated geometry object (all values are fractions)."""
+    O = 'design/pocketwatch/originals'
+    case = key(f'{O}/pw_case_closed.png'); bez = key(f'{O}/pw_bezel_gold.png')
+    ccx, ccy, cr = _circle(case); bcx, bcy, br = _circle(bez)
+    A = np.asarray(bez.getchannel('A'))
+    hole = _flood(A < 40, (int(bcy), int(bcx)))
+    ys, xs = np.where(hole)
+    hcx, hcy, hr = (xs.min() + xs.max()) / 2.0, (ys.min() + ys.max()) / 2.0, ((xs.max() - xs.min()) + (ys.max() - ys.min())) / 4.0
+    k2 = cr / br
+    hinge_y = ccy - cr * 0.985
+    # union box of case + transformed face, same canvas for both
+    def place(img, k, ox, oy):
+        sz = (int(round(img.width * k)), int(round(img.height * k)))
+        return img.resize(sz, Image.LANCZOS), ox, oy
+    cw, ch = case.size
+    pad = 24
+    box = (0, 0, cw, ch)
+    faces = {}
+    for dial in ('cream', 'ivory', 'black'):
+        d = key(f'{O}/pw_dial_{dial}.png')
+        dcx, dcy, dr = _circle(d)
+        kd = (hr * 1.04) / dr
+        d2 = d.resize((int(round(d.width * kd)), int(round(d.height * kd))), Image.LANCZOS)
+        face = Image.new('RGBA', bez.size, (0, 0, 0, 0))
+        face.alpha_composite(d2, (int(round(hcx - dcx * kd)), int(round(hcy - dcy * kd))))
+        face.alpha_composite(bez)
+        f2 = face.resize((int(round(face.width * k2)), int(round(face.height * k2))), Image.LANCZOS)
+        canvas = Image.new('RGBA', case.size, (0, 0, 0, 0))
+        canvas.alpha_composite(f2, (int(round(ccx - bcx * k2)), int(round(ccy - bcy * k2))))
+        arr = np.asarray(canvas).copy(); arr[:int(hinge_y), :, 3] = 0   # crown/bow come from the case art
+        faces[dial] = Image.fromarray(arr, 'RGBA')
+    # common crop: bbox of the case, plus margin
+    cb = case.getchannel('A').point(lambda v: 255 if v > 8 else 0).getbbox()
+    crop = (max(cb[0] - pad, 0), max(cb[1] - pad, 0), min(cb[2] + pad, cw), min(cb[3] + pad, ch))
+    W, H = crop[2] - crop[0], crop[3] - crop[1]
+    out_w = 640; sc = out_w / W; out_h = int(round(H * sc))
+    def save(im, name, lossless=False):
+        im = im.crop(crop).resize((out_w, out_h), Image.LANCZOS)
+        im.save(f'{RES}/drawable-nodpi/{name}.webp', format='WEBP', quality=92, alpha_quality=100, lossless=lossless, method=6)
+    save(case, 'pw_case')
+    for dial, f in faces.items(): save(f, f'pw_open_{dial}')
+    fx = lambda v: round(float(v - crop[0]) * sc / out_w, 5)
+    fy = lambda v: round(float(v - crop[1]) * sc / out_h, 5)
+    # dial centre = hole centre transformed
+    dcx_f = fx(ccx + (hcx - bcx) * k2); dcy_f = fy(ccy + (hcy - bcy) * k2); dr_f = round(float(hr * k2 * sc) / out_w, 5)
+    hands = {}
+    for n in ('hour', 'minute', 'second'):
+        h = key(f'{O}/pw_hand_{n}.png'); bb = h.getchannel('A').point(lambda v: 255 if v > 8 else 0).getbbox()
+        t = h.crop(bb); a = np.asarray(t.getchannel('A')) > 128
+        widths = a.sum(1); lower = np.arange(len(widths)) > len(widths) * 0.55
+        py = int(np.argmax(np.where(lower, widths, -1))) if n != 'second' else int(len(widths) * 0.9)
+        px = (a[py].nonzero()[0].min() + a[py].nonzero()[0].max()) / 2.0 if a[py].any() else t.width / 2.0
+        t.save(f'{RES}/drawable-nodpi/pw_hand_{n}.webp', format='WEBP', lossless=True, method=6)
+        hands[n] = (round(px / t.width, 4), round(py / t.height, 4), t.width, t.height)
+    lines = ['package com.clockweather.core.widget', '', '/** GENERATED by scripts/make-art-assets.py pocket - do not edit. Fractions of the pw_case / pw_open_* canvas (they share one canvas). */',
+             'object PocketWatchGeometry {',
+             f'    const val ASPECT = {out_w / out_h:.5f}f // width / height of the canvas',
+             f'    const val HINGE_Y = {fy(hinge_y)}f',
+             f'    const val DIAL_CX = {dcx_f}f', f'    const val DIAL_CY = {dcy_f}f', f'    const val DIAL_R = {dr_f}f // of the canvas WIDTH', '']
+    for n, (px, py, w, h) in hands.items():
+        lines.append(f'    /** pw_hand_{n}: pivot as a fraction of the hand image; image is {w} x {h} px. */')
+        lines += [f'    const val {n.upper()}_PIVOT_X = {px}f', f'    const val {n.upper()}_PIVOT_Y = {py}f', f'    const val {n.upper()}_ASPECT = {w / h:.5f}f']
+    lines += ['}', '']
+    open('core/src/main/kotlin/com/clockweather/core/widget/PocketWatchGeometry.kt', 'w').write('\n'.join(lines))
+    # review: open face with hands at 10:10 + closed
+    prev = Image.new('RGB', (out_w * 2, out_h), (60, 66, 90))
+    for i, nm in enumerate(('cream', 'black')):
+        f = faces[nm].crop(crop).resize((out_w, out_h), Image.LANCZOS)
+        cvs = Image.new('RGBA', (out_w, out_h), (0, 0, 0, 0)); cvs.alpha_composite(f)
+        cvs.alpha_composite(case.crop(crop).resize((out_w, out_h), Image.LANCZOS).crop((0, 0, out_w, int(hinge_y - crop[1]) * out_w // W)).resize((out_w, int(hinge_y - crop[1]) * out_w // W)), (0, 0)) if False else None
+        # hands
+        import math
+        R = dr_f * out_w
+        for n, ang, ln in (('hour', 305, 0.55), ('minute', 60, 0.82)):
+            px, py, w, h = hands[n]
+            t = Image.open(f'{RES}/drawable-nodpi/pw_hand_{n}.webp').convert('RGBA')
+            top = py * t.height; s2 = (ln * R) / top
+            t2 = t.resize((max(1, int(t.width * s2)), max(1, int(t.height * s2))), Image.LANCZOS)
+            pad2 = max(t2.size) * 2
+            big = Image.new('RGBA', (pad2, pad2), (0, 0, 0, 0)); big.alpha_composite(t2, (int(pad2 / 2 - px * t2.width), int(pad2 / 2 - py * t2.height)))
+            rot = big.rotate(-ang, resample=Image.BICUBIC)
+            cvs.alpha_composite(rot, (int(dcx_f * out_w - pad2 / 2), int(dcy_f * out_h - pad2 / 2)))
+        prev.paste(cvs.convert('RGB') if False else cvs, (i * out_w, 0), cvs.getchannel('A'))
+    prev.save('design/pocketwatch/review_open.png')
+    print('pocket assets ok', dcx_f, dcy_f, dr_f, hands)
+
+
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] == 'pocket':
+        return pocket()
     if len(sys.argv) > 2 and sys.argv[1] == 'anim':
         return anim(sys.argv[2])
     if len(sys.argv) > 1 and sys.argv[1] == 'weather':

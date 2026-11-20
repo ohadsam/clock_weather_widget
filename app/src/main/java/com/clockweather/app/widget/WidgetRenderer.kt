@@ -22,6 +22,7 @@ import com.clockweather.core.weather.WeatherOutlook
 import com.clockweather.core.widget.ClockStyle
 import com.clockweather.core.widget.Palette
 import com.clockweather.core.widget.Palettes
+import com.clockweather.core.widget.PocketWatchGeometry
 import com.clockweather.core.widget.Section
 import com.clockweather.core.widget.WidgetLayout
 import java.time.format.DateTimeFormatter
@@ -201,30 +202,65 @@ object WidgetRenderer {
             c.drawLine(cx, cy, cx + cos(a).toFloat() * len, cy + sin(a).toFloat() * len, p)
         }
 
-        /** PLACEHOLDER pocket watch (gold case, bow ring, crown, cream dial) until the ChatGPT round 6 art (pw_*.png) arrives. */
+        /** Dial variant per palette: dark palettes get the black dial, cool/green the ivory one, the rest cream. */
+        fun dialName(): String = when (pal.id) { "graphite", "midnight" -> "black"; "ocean", "forest", "classic_white" -> "ivory"; else -> "cream" }
+
+        /**
+         * The golden pocket watch from the approved painted art (pw_case = closed hunter case, pw_open_<dial> = open face on the SAME
+         * canvas, hands are separate images rotated here). Geometry fractions come from the generated PocketWatchGeometry.
+         * The lid opens on the hinge by squashing the lower part of pw_case towards the hinge line (lidOpen 0 -> 1).
+         */
         fun drawPocketWatch(r: RectF) {
-            val gold = 0xFFE0A800.toInt(); val goldDark = 0xFF9A6B00.toInt(); val cream = 0xFFFFF4D6.toInt(); val brown = 0xFF3B2F1E.toInt()
-            val rad = minOf(r.width(), r.height() - dp(22f)) / 2f * 0.96f
-            val cx = r.centerX(); val cy = r.bottom - rad - dp(2f)
-            p.reset(); p.isAntiAlias = true; p.style = Paint.Style.STROKE; p.strokeWidth = dp(2.5f); p.color = goldDark
-            c.drawCircle(cx, cy - rad - dp(9f), dp(7f), p)
-            p.style = Paint.Style.FILL; p.color = gold
-            c.drawRoundRect(RectF(cx - dp(6f), cy - rad - dp(4f), cx + dp(6f), cy - rad + dp(3f)), dp(2f), dp(2f), p)
-            p.setShadowLayer(dp(5f), 0f, dp(2f), 0x66000000); c.drawCircle(cx, cy, rad, p); p.clearShadowLayer()
-            p.color = goldDark; c.drawCircle(cx, cy, rad * 0.93f, p)
-            p.color = cream; c.drawCircle(cx, cy, rad * 0.88f, p)
-            p.color = brown; p.strokeCap = Paint.Cap.ROUND
-            for (i in 0 until 12) {
-                val a = Math.toRadians(i * 30.0 - 90.0); val big = i % 3 == 0
-                p.strokeWidth = dp(if (big) 2.4f else 1.2f)
-                val r1 = rad * (if (big) 0.68f else 0.76f); val r2 = rad * 0.82f
-                c.drawLine(cx + cos(a).toFloat() * r1, cy + sin(a).toFloat() * r1, cx + cos(a).toFloat() * r2, cy + sin(a).toFloat() * r2, p)
+            val face = ArtCache.get(ctx, "pw_open_" + dialName()); val case = ArtCache.get(ctx, "pw_case")
+            if (face == null || case == null) { drawPocketPlaceholder(r); return }
+            val g = PocketWatchGeometry
+            var h = r.height(); var w = h * g.ASPECT
+            if (w > r.width()) { w = r.width(); h = w / g.ASPECT }
+            val dst = RectF(r.centerX() - w / 2f, r.centerY() - h / 2f, r.centerX() + w / 2f, r.centerY() + h / 2f)
+            p.reset(); p.isAntiAlias = true; p.isFilterBitmap = true
+            val hingeY = dst.top + g.HINGE_Y * h
+            // open face (without crown/bow) + live hands
+            c.drawBitmap(face, null, dst, p)
+            val dcx = dst.left + g.DIAL_CX * w; val dcy = dst.top + g.DIAL_CY * h; val dr = g.DIAL_R * w
+            val minute = local.minute + local.second / 60f
+            val hour = (local.hour % 12) + minute / 60f
+            if (st.lidOpen >= 0.5f) {
+                drawHand("pw_hand_hour", g.HOUR_PIVOT_X, g.HOUR_PIVOT_Y, dcx, dcy, hour * 30f, dr * 0.58f)
+                drawHand("pw_hand_minute", g.MINUTE_PIVOT_X, g.MINUTE_PIVOT_Y, dcx, dcy, minute * 6f, dr * 0.86f)
             }
+            // crown + bow ring (the part of the case above the hinge) always stay
+            c.save(); c.clipRect(dst.left, dst.top, dst.right, hingeY); c.drawBitmap(case, null, dst, p); c.restore()
+            // the lid: lower part of the case squashed towards the hinge
+            val open = st.lidOpen.coerceIn(0f, 1f)
+            val squash = Math.cos(open * Math.PI / 2.0).toFloat() // 1 closed -> 0 open
+            if (squash > 0.02f) {
+                c.save(); c.clipRect(dst.left, hingeY, dst.right, dst.bottom)
+                c.translate(0f, hingeY); c.scale(1f, squash); c.translate(0f, -hingeY)
+                c.drawBitmap(case, null, dst, p)
+                c.restore()
+            }
+        }
+
+        fun drawHand(name: String, pivotX: Float, pivotY: Float, cx: Float, cy: Float, deg: Float, lengthPx: Float) {
+            val bmp = ArtCache.get(ctx, name) ?: return
+            val sc = lengthPx / (pivotY * bmp.height)
+            p.reset(); p.isAntiAlias = true; p.isFilterBitmap = true
+            p.setShadowLayer(dp(1.5f), dp(0.5f), dp(1f), 0x55000000)
+            c.save(); c.translate(cx, cy); c.rotate(deg); c.scale(sc, sc)
+            c.drawBitmap(bmp, -pivotX * bmp.width, -pivotY * bmp.height, p)
+            c.restore()
+        }
+
+        /** Used only if the art is missing from the build: a plain gold disc watch. */
+        fun drawPocketPlaceholder(r: RectF) {
+            val gold = 0xFFE0A800.toInt(); val cream = 0xFFFFF4D6.toInt(); val brown = 0xFF3B2F1E.toInt()
+            val rad = minOf(r.width(), r.height()) / 2f * 0.92f
+            val cx = r.centerX(); val cy = r.centerY()
+            p.reset(); p.isAntiAlias = true; p.color = gold; c.drawCircle(cx, cy, rad, p)
+            p.color = cream; c.drawCircle(cx, cy, rad * 0.88f, p)
             val min = local.minute + local.second / 60f
             val hr = (local.hour % 12) + min / 60f
-            hand(cx, cy, rad * 0.45f, hr * 30f, dp(4f), brown)
-            hand(cx, cy, rad * 0.68f, min * 6f, dp(2.6f), brown)
-            p.color = gold; c.drawCircle(cx, cy, dp(4f), p)
+            hand(cx, cy, rad * 0.45f, hr * 30f, dp(4f), brown); hand(cx, cy, rad * 0.68f, min * 6f, dp(2.6f), brown)
         }
 
         // ---------- text helpers ----------

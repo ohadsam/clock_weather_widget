@@ -80,6 +80,9 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/main/kotlin/com/clockweather/core/clock/TickMath.kt` | Next-minute tick math and weather freshness labels |
 | `core/src/test/kotlin/com/clockweather/core/clock/TickAndFreshnessTest.kt` | Tick and freshness tests |
 | `app/src/main/java/com/clockweather/app/data/CalendarChangeWorker.kt` | Background watcher: redraw on any calendar change |
+| `core/src/main/kotlin/com/clockweather/core/widget/PocketWatchGeometry.kt` | GENERATED fractions for the pocket-watch art (scripts/make-art-assets.py pocket) |
+| `core/src/test/kotlin/com/clockweather/core/widget/PocketWatchGeometryTest.kt` | Pocket-watch geometry sanity test |
+| `app/src/main/java/com/clockweather/app/widget/ArtCache.kt` | Decodes drawable art once by name |
 | `app/build.gradle.kts`, `settings.gradle.kts`, `gradle/libs.versions.toml` | build (versionName here is the single source) |
 | `app/src/main/AndroidManifest.xml` | permissions (each commented), widget receiver, activities |
 | `app/src/main/res/*` | strings he/en, widget layout + info, theme, placeholder icon |

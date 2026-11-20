@@ -24,4 +24,6 @@ data class RenderState(
     val flipProgress: Float = 1f,
     /** Weather loop time in ms since the loop started; -1 = show the still illustration. */
     val animMs: Long = -1L,
+    /** Pocket watch lid: 0 = closed, 1 = fully open (default, the watch shows the time). */
+    val lidOpen: Float = 1f,
 )

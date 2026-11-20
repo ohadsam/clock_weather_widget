@@ -16,6 +16,9 @@ Approved logo integrated: `scripts/make-art-assets.py logo` keys the magenta she
 ## Weather animations (2026-11-20)
 15 loops integrated (6 reworked with 12 unique frames, sparkle dimming repaired by `repair_dim_sparkles`; thunderstorm reworked in round 5C): `res/drawable-nodpi/wxa_<sky>_<day|night>_<k>.webp` (unique frames, 320 px) + generated `WeatherAnimTable.kt`; made by `python3 -I scripts/make-art-assets.py anim <dir with the 180 ChatGPT PNGs>` (the ChatGPT originals, ~40 MB, are NOT in git; ask the owner for the zips again if a re-run is needed). `WeatherArt.draw(animMs)` plays them; the widget plays one loop per minute tick (setting animateWeather); WeatherScreen loops continuously. Not verified on a phone: launcher throttling of 8 fps updates, battery.
 
+## Pocket watch (2026-11-20)
+Painted art integrated: `pw_case`, `pw_open_cream|ivory|black`, `pw_hand_*` in drawable-nodpi, geometry in generated `PocketWatchGeometry`. `WidgetRenderer.drawPocketWatch` draws open face + live hands + crown/bow, and squashes the lower case art towards the hinge for the lid animation (plays on the hour from `ClockWidgetProvider.playLidOpening`). Not compiled/verified on a phone yet. Optional later: silver/rose bezels, chain.
+
 ## Open items (next)
 1. Push, read CI, fix `:app` compile errors (first compile ever). Then run `api-probe.yml` and adjust `OpenMeteo` if the shape differs.
 2. Owner runs ChatGPT round 1 (weather art) then 4, 2, 3; integrate (validate, key out #FF00FF, drawables, tests).
