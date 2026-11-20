@@ -28,6 +28,9 @@ Painted art integrated: `pw_case`, `pw_open_cream|ivory|black`, `pw_hand_*` in d
 ## Updates, share, forecast charts (2026-11-20)
 Written, NOT yet verified by CI or a phone. The first APK with the updater must be installed by hand; the updater needs `version.json`, which exists only after the next `latest-apk` publish.
 
+## Review of updater/share (2026-11-20, by reading the code; CI green on 206d811)
+Checked: downloads only from allowed hosts with every redirect re-validated; size caps; SHA-256, package, higher versionCode and same signing certificate checked before install; `InstallReceiver` not exported with an explicit mutable PendingIntent (required by PackageInstaller); FileProvider exposes only `cache/share`. Nothing blocking. Still needs a phone: the installer prompt, "install unknown apps" flow, share sheet.
+
 ## Open items (next)
 1. Push, read CI, fix `:app` compile errors (first compile ever). Then run `api-probe.yml` and adjust `OpenMeteo` if the shape differs.
 2. Owner runs ChatGPT round 1 (weather art) then 4, 2, 3; integrate (validate, key out #FF00FF, drawables, tests).
