@@ -99,4 +99,5 @@
     <string name="style_pocket">שעון כיס זהב</string>
     <string name="animate_weather">אנימציית מזג אוויר (פעם בדקה, כשהמסך דלוק)</string>
     <string name="updated_ago">עודכן %1$s</string>
+    <string name="add_place_cta">הוסף מיקום</string>
 </resources>

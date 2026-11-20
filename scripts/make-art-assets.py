@@ -1,6 +1,7 @@
 """Turns the ChatGPT art sheets (flat #FF00FF background) into transparent assets and Android drawables.
   python3 -I scripts/make-art-assets.py logo      # design/logo/originals -> design/logo + launcher/brand drawables
   python3 -I scripts/make-art-assets.py weather   # design/weather/originals -> res/drawable-nodpi/wx_*.webp
+  python3 -I scripts/make-art-assets.py ui        # design/ui/originals (picker previews + onboarding spots) -> res/drawable-nodpi/preview_*.webp, spot_*.webp
   python3 -I scripts/make-art-assets.py pocket    # design/pocketwatch/originals -> aligned case/face/hands webp + core PocketWatchGeometry.kt
   python3 -I scripts/make-art-assets.py anim <dir> # <dir>/wxa_<name>_01..12.png (ChatGPT frames, kept outside git: ~40 MB)
                                                   #   -> res/drawable-nodpi/wxa_<name>_<k>.webp (unique frames only) + core WeatherAnimTable.kt
@@ -233,7 +234,34 @@ def pocket():
     print('pocket assets ok', dcx_f, dcy_f, dr_f, hands)
 
 
+def drop_specks(im, min_share=0.02):
+    """Removes small disconnected fragments (cut-out debris at the sheet edge): components under min_share of the total opaque area."""
+    a = np.asarray(im).copy(); m = a[..., 3] > 20; total = int(m.sum()); left = m.copy()
+    while left.any():
+        ys, xs = np.where(left); seed = (ys[0], xs[0])
+        comp = _flood(left, seed)
+        if comp.sum() < min_share * total: a[comp, 3] = 0
+        left &= ~comp
+    return Image.fromarray(a, 'RGBA')
+
+
+def ui():
+    """Widget-picker previews (keyed, tight crop, width 480) and onboarding spot art (keyed, tight crop, width 420)."""
+    src = 'design/ui/originals'
+    for n in sorted(os.listdir(src)):
+        if not n.endswith('.png'): continue
+        im = key(f'{src}/{n}')
+        if n.startswith('spot_'): im = drop_specks(im)
+        im = crop(im, pad=0.02)
+        w = 480 if n.startswith('preview_') else 420
+        im = im.resize((w, max(1, round(im.height * w / im.width))), Image.LANCZOS)
+        im.save(f'{RES}/drawable-nodpi/{n[:-4]}.webp', format='WEBP', quality=90, alpha_quality=100, method=6)
+    print('ui assets ok')
+
+
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] == 'ui':
+        return ui()
     if len(sys.argv) > 1 and sys.argv[1] == 'pocket':
         return pocket()
     if len(sys.argv) > 2 and sys.argv[1] == 'anim':

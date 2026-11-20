@@ -11,6 +11,7 @@
     android:widgetCategory="home_screen"
     android:updatePeriodMillis="1800000"
     android:description="@string/widget_desc_strip"
+    android:previewImage="@drawable/preview_kind_strip"
     android:initialLayout="@layout/widget_clock"
     android:configure="com.clockweather.app.WidgetConfigActivity"
     tools:ignore="UnusedAttribute"

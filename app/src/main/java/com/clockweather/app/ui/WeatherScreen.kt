@@ -2,6 +2,9 @@ package com.clockweather.app.ui
 
 import android.graphics.RectF
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.height
+import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -56,7 +59,10 @@ fun WeatherScreen(s: WidgetSettings, onBack: () -> Unit) {
             IconButton(onClick = { WeatherWorker.refreshNow(ctx) }) { Icon(Icons.Filled.Refresh, contentDescription = stringResource(R.string.refresh)) }
         }
         if (forecast == null || forecast.days.isEmpty()) {
-            Text(stringResource(R.string.no_weather_yet), Modifier.padding(16.dp), style = MaterialTheme.typography.bodyLarge)
+            Column(Modifier.fillMaxWidth().padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                Image(painterResource(R.drawable.spot_offline), contentDescription = null, modifier = Modifier.height(150.dp))
+                Text(stringResource(R.string.no_weather_yet), style = MaterialTheme.typography.bodyLarge)
+            }
             return@Column
         }
         val day = forecast.days[dayIndex.coerceIn(0, forecast.days.lastIndex)]

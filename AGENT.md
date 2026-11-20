@@ -19,6 +19,9 @@ Approved logo integrated: `scripts/make-art-assets.py logo` keys the magenta she
 ## Pocket watch (2026-11-20)
 Painted art integrated: `pw_case`, `pw_open_cream|ivory|black`, `pw_hand_*` in drawable-nodpi, geometry in generated `PocketWatchGeometry`. `WidgetRenderer.drawPocketWatch` draws open face + live hands + crown/bow, and squashes the lower case art towards the hinge for the lid animation (plays on the hour from `ClockWidgetProvider.playLidOpening`). Not compiled/verified on a phone yet. Optional later: silver/rose bezels, chain.
 
+## UI art (2026-11-20)
+`python3 -I scripts/make-art-assets.py ui` keys `design/ui/originals` into `drawable-nodpi/preview_*.webp` and `spot_*.webp`. previewImage set on the 5 widget infos; spots used in Home/Weather/Settings empty states.
+
 ## Open items (next)
 1. Push, read CI, fix `:app` compile errors (first compile ever). Then run `api-probe.yml` and adjust `OpenMeteo` if the shape differs.
 2. Owner runs ChatGPT round 1 (weather art) then 4, 2, 3; integrate (validate, key out #FF00FF, drawables, tests).

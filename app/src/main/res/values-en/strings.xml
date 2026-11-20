@@ -99,4 +99,5 @@
     <string name="style_pocket">Gold pocket watch</string>
     <string name="animate_weather">Animate the weather picture (once a minute, screen on)</string>
     <string name="updated_ago">Updated %1$s</string>
+    <string name="add_place_cta">Add a place</string>
 </resources>

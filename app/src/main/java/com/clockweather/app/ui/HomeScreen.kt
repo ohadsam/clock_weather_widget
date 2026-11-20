@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.clockweather.app.R
@@ -88,11 +89,20 @@ fun HomeScreen(settings: WidgetSettings, onSettings: () -> Unit, onWeather: () -
                 Button(onClick = { mgr.requestPinAppWidget(ComponentName(ctx, ClockWidgetProvider::class.java), null, null) }, modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) {
                     Text(stringResource(R.string.add_widget))
                 }
-            } else Text(stringResource(R.string.add_widget_hint), style = MaterialTheme.typography.bodyMedium)
+            } else Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                Image(painterResource(R.drawable.spot_add_widget), contentDescription = null, modifier = Modifier.height(120.dp))
+                Text(stringResource(R.string.add_widget_hint), style = MaterialTheme.typography.bodyMedium)
+            }
             OutlinedButton(onClick = onWeather, modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) { Text(stringResource(R.string.weather_details)) }
             OutlinedButton(onClick = onSettings, modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) { Text(stringResource(R.string.settings)) }
             Text(stringResource(R.string.widget_types_hint), style = MaterialTheme.typography.bodySmall)
-            if (settings.places.isEmpty()) Text(stringResource(R.string.no_place_hint), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.secondary)
+            if (settings.places.isEmpty()) {
+                Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Image(painterResource(R.drawable.spot_location), contentDescription = null, modifier = Modifier.height(140.dp))
+                    Text(stringResource(R.string.no_place_hint), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.secondary)
+                    Button(onClick = onSettings, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.add_place_cta)) }
+                }
+            }
         }
     }
 }

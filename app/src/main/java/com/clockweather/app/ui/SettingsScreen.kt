@@ -210,6 +210,7 @@ private fun CalendarSection(s: WidgetSettings, onChange: (WidgetSettings) -> Uni
     SectionCard(stringResource(R.string.sec_calendar), if (granted) stringResource(R.string.sec_calendar_sum_on, calendars.size) else stringResource(R.string.sec_calendar_sum_off)) {
         Text(stringResource(R.string.calendar_hint), style = MaterialTheme.typography.bodySmall)
         if (!granted) {
+            androidx.compose.foundation.Image(androidx.compose.ui.res.painterResource(R.drawable.spot_calendar), contentDescription = null, modifier = Modifier.heightIn(max = 110.dp))
             Button(onClick = { permission.launch(Manifest.permission.READ_CALENDAR) }, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.allow_calendar)) }
         } else {
             calendars.forEach { cal ->
