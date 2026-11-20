@@ -13,6 +13,7 @@ SRC = 'design/logo/originals'
 OUT = 'design/logo'
 RES = 'app/src/main/res'
 T0, T1 = 30.0, 190.0
+NO_REPAIR = {'thunderstorm_day'}  # bolt/drops would match the dull-warm rule; that loop is not re-worked
 KEY = np.array([255.0, 0.0, 255.0])
 
 
@@ -67,6 +68,30 @@ def weather():
     print(len(thumbs), 'weather assets')
 
 
+def repair_dim_sparkles(im, cool=False):
+    """ChatGPT dims sparkles/stars by DARKENING them to grey-brown, which looks like a dirty speck on a transparent widget.
+    Recolour those dull low-saturation pixels (warm hue 30-60 deg, saturation < 0.45, value 0.25-0.7) to the warm white of the
+    approved sparkle; with cool=True also grey-blue night stars (hue 190-250 deg, saturation < 0.35, value 0.25-0.7)."""
+    a = np.asarray(im).astype(np.float64)
+    r, g, b, al = a[..., 0] / 255, a[..., 1] / 255, a[..., 2] / 255, a[..., 3]
+    mx = np.maximum(np.maximum(r, g), b); mn = np.minimum(np.minimum(r, g), b); d = mx - mn
+    sat = np.where(mx > 0, d / np.maximum(mx, 1e-9), 0.0)
+    h = np.zeros_like(mx)
+    nz = d > 1e-9
+    rc = nz & (mx == r); gc = nz & (mx == g) & ~rc; bc = nz & ~rc & ~gc
+    h[rc] = (60 * ((g - b)[rc] / d[rc])) % 360
+    h[gc] = 60 * ((b - r)[gc] / d[gc]) + 120
+    h[bc] = 60 * ((r - g)[bc] / d[bc]) + 240
+    dull = (mx >= 0.25) & (mx <= 0.70) & (al > 20)
+    warm = dull & (h >= 30) & (h <= 60) & (sat >= 0.08) & (sat < 0.45)
+    mask = warm
+    if cool: mask = mask | (dull & (h >= 190) & (h <= 250) & (sat < 0.35))
+    out = a.copy()
+    out[mask, 0] = 255; out[mask, 1] = 244; out[mask, 2] = 205
+    if cool: out[dull & ~warm & mask, :3] = (232, 240, 255)
+    return Image.fromarray(out.astype(np.uint8), 'RGBA'), int(mask.sum())
+
+
 def anim(src):
     """Animation loops. ChatGPT delivers 12 frames per loop but only ~7 are different (ping-pong); we keep the unique
     frames (320 px, lossy WebP with alpha) and a 12-entry sequence that indexes them. Loops whose frames barely differ
@@ -84,7 +109,9 @@ def anim(src):
             h = hashlib.md5(r.astype(np.uint8).tobytes()).hexdigest()
             if h not in uniq:
                 uniq.append(h)
-                im = key(f'{src}/wxa_{n}_{i + 1:02d}.png').resize((320, 320), Image.LANCZOS)
+                im = key(f'{src}/wxa_{n}_{i + 1:02d}.png')
+                if n not in NO_REPAIR: im, _ = repair_dim_sparkles(im, cool=n.startswith('clear_night'))
+                im = im.resize((320, 320), Image.LANCZOS)
                 im.save(f'{RES}/drawable-nodpi/wxa_{n}_{len(uniq)}.webp', format='WEBP', quality=90, alpha_quality=100, method=6)
             seq.append(uniq.index(h) + 1)
         table[n] = seq

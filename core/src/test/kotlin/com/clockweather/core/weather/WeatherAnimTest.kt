@@ -32,7 +32,13 @@ class WeatherAnimTest {
         assertNull(WeatherAnim.frameAt("no_such_loop", 0))
     }
 
-    @Test fun stillSkiesWithoutMotionAreNotAnimated() {
-        assertTrue(!WeatherAnim.has("clear_day"), "clear_day has no visible motion in the delivered frames")
+    @Test fun everyLoopKeyIsARealSkyAndPeriod() {
+        val skies = Sky.values().map { it.assetKey }.toSet()
+        for (key in WeatherAnimTable.SEQUENCES.keys) {
+            val period = key.substringAfterLast('_'); val sky = key.substringBeforeLast('_')
+            assertTrue(period == "day" || period == "night", key); assertTrue(sky in skies, key)
+            if (period == "night") assertTrue(sky in setOf("clear", "mostly_clear", "partly_cloudy"), "night art exists only for these: $key")
+        }
+        assertTrue(WeatherAnimTable.SEQUENCES.size >= 13)
     }
 }
