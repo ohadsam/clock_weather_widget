@@ -50,7 +50,7 @@ Weather accents (use consistently): sun #FFB300 / #FFD54F glow, cloud light #F4F
 1. 100 % original work, created for this app; no copyrighted characters, logos, stock or brand look-alikes; you may only use generic shapes. Treat the output as CC0 and say if you cannot.
 2. Output backgrounds are a FLAT solid magenta #FF00FF (exactly), no gradient, no shadow on the magenta, no magenta inside the art - the app keys it out. (ChatGPT transparency creates halos; flat magenta does not.) Drop shadows are drawn INSIDE the art as soft dark-blue-grey (#1B2A3A at <= 25 % opacity) only close to the object, never reaching the canvas edge.
 3. Every asset fits fully inside its canvas with >= 6 % empty margin; nothing is cut off.
-4. No text, numbers, letters, watermarks or signatures in any image - EXCEPT (a) the logo lockup/wordmark files, which contain exactly the word "ClockWise" (check the spelling letter by letter); (b) the two digits "10" on the logo's flip card; (c) the pocket-watch dial numerals (Roman or Arabic) in Round 6.
+4. No text, numbers, letters, watermarks or signatures in any image - EXCEPT (a) the logo lockup/wordmark files, which contain exactly the word "ClockWise" (check the spelling letter by letter); (b) the two digits "10" on the logo's flip card; (c) the pocket-watch dial numerals in Round 6 (owner: round decorative antique ARABIC numerals 1-12, not Roman).
 5. Consistency beats novelty: when in doubt copy the previously approved image's style exactly.
 
 ## Asset contract (what the app loads - names are exact, lowercase, underscores)

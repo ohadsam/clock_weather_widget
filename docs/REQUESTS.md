@@ -45,3 +45,5 @@ Status: DONE (verified as noted) · CODE (written, needs CI/phone proof) · ART 
 | R37 | (owner, 2026-11-20) The widget must run in the background and update at the right moment for every change: clock, events, weather, alarms, Hebrew and Gregorian dates | DONE in code (see ARCHITECTURE "Background updates" table): minute tick re-armed first, alarm-changed and exact-alarm broadcasts, calendar content watcher, weather heartbeat, stale-weather label; Doze/OEM behaviour needs a phone |
 | R27b | (update 2026-11-20) Weather loops after rework | 14 of 15 loops integrated with 12 unique frames where reworked; thunderstorm keeps the older clean loop until round 5C |
 | R27c | (update 2026-11-20) All 15 weather loops integrated, including the reworked thunderstorm | DONE (needs a phone for smoothness/battery) |
+| R38 | (owner, 2026-11-20) Pocket-watch dial numerals: round, decorative, antique-style Arabic numerals, NOT Roman | in prompt 6B; art waits |
+
