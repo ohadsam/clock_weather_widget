@@ -74,6 +74,7 @@ fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack
             SliderRow(stringResource(R.string.clock_size), s.scalePct, 50..150, "${s.scalePct}%") { onChange(s.copy(scalePct = it)) }
             SwitchRow(stringResource(R.string.use_24h), s.use24h) { onChange(s.copy(use24h = it)) }
             SwitchRow(stringResource(R.string.calm_animations), s.calmAnimations) { onChange(s.copy(calmAnimations = it)) }
+            SwitchRow(stringResource(R.string.animate_weather), s.animateWeather) { onChange(s.copy(animateWeather = it)) }
             Text(stringResource(R.string.widget_language), style = MaterialTheme.typography.titleSmall)
             ChipRow(listOf("system" to R.string.lang_system, "he" to R.string.lang_he, "en" to R.string.lang_en).map { it.first to stringResource(it.second) }, { it == s.language }, { onChange(s.copy(language = it)) })
         }

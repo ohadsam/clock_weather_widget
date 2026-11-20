@@ -19,7 +19,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -61,7 +63,7 @@ fun WeatherScreen(s: WidgetSettings, onBack: () -> Unit) {
         ChipRow(forecast.days.mapIndexed { i, d -> i to d.date.format(DateTimeFormatter.ofPattern("EEE d/M", if (hebrew) Locale("he") else Locale.ENGLISH)) }, { it == dayIndex }, { dayIndex = it })
         Card(Modifier.fillMaxWidth().padding(12.dp)) {
             Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                SkyIcon(forecast.current?.sky?.takeIf { dayIndex == 0 } ?: day.sky, forecast.current?.isDay ?: true)
+                SkyIcon(forecast.current?.sky?.takeIf { dayIndex == 0 } ?: day.sky, forecast.current?.isDay ?: true, animate = s.animateWeather && !s.calmAnimations)
                 Column(Modifier.padding(start = 16.dp)) {
                     Text(place, style = MaterialTheme.typography.titleMedium)
                     val now = forecast.current
@@ -89,9 +91,11 @@ fun WeatherScreen(s: WidgetSettings, onBack: () -> Unit) {
 }
 
 @Composable
-private fun SkyIcon(sky: Sky, isDay: Boolean, sizeDp: Int = 72) {
+private fun SkyIcon(sky: Sky, isDay: Boolean, sizeDp: Int = 72, animate: Boolean = false) {
     val ctx = LocalContext.current
+    var ms by remember { mutableLongStateOf(0L) }
+    if (animate) LaunchedEffect(sky, isDay) { val t0 = System.currentTimeMillis(); while (true) { ms = System.currentTimeMillis() - t0; kotlinx.coroutines.delay(125) } }
     Canvas(Modifier.size(sizeDp.dp)) {
-        drawIntoCanvas { WeatherArt.draw(ctx, it.nativeCanvas, sky, isDay, RectF(0f, 0f, size.width, size.height)) }
+        drawIntoCanvas { WeatherArt.draw(ctx, it.nativeCanvas, sky, isDay, RectF(0f, 0f, size.width, size.height), if (animate) ms else -1L) }
     }
 }

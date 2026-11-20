@@ -97,4 +97,5 @@
     <string name="show_hint">ההגדרות האלה חלות על כל הווידג׳טים. כל סוג ווידג׳ט מציג רק את החלקים שמתאימים לו.</string>
     <string name="widget_types_hint">סוגי ווידג׳טים בבורר: לוח מלא, שעון, מזג אוויר, יומן ושעון מעורר, ופס צר. אפשר להוסיף כמה שרוצים ולשנות את גודלם.</string>
     <string name="style_pocket">שעון כיס זהב</string>
+    <string name="animate_weather">אנימציית מזג אוויר (פעם בדקה, כשהמסך דלוק)</string>
 </resources>

@@ -278,7 +278,7 @@ object WidgetRenderer {
             val iconTop = box.centerY() - iconSize / 2f
             val iconBox = if (rtl) RectF(box.right - iconSize - dp(6f), iconTop, box.right - dp(6f), iconTop + iconSize)
             else RectF(box.left + dp(6f), iconTop, box.left + dp(6f) + iconSize, iconTop + iconSize)
-            WeatherArt.draw(ctx, c, cur?.sky ?: day.sky, cur?.isDay ?: true, iconBox)
+            WeatherArt.draw(ctx, c, cur?.sky ?: day.sky, cur?.isDay ?: true, iconBox, st.animMs)
             val textLeft = if (rtl) box.left + dp(8f) else iconBox.right + dp(6f)
             val textRight = if (rtl) iconBox.left - dp(6f) else box.right - dp(8f)
             val tempW = dp(70f)
@@ -346,7 +346,7 @@ object WidgetRenderer {
             if (day != null && s.showWeather) {
                 val icon = RectF(endBox.left, endBox.top + dp(4f), endBox.left + endBox.height() - dp(8f), endBox.bottom - dp(4f))
                 val iconBox = if (rtl) RectF(endBox.left, icon.top, endBox.left + icon.height(), icon.bottom) else RectF(endBox.right - icon.height(), icon.top, endBox.right, icon.bottom)
-                WeatherArt.draw(ctx, c, cur?.sky ?: day.sky, cur?.isDay ?: true, iconBox)
+                WeatherArt.draw(ctx, c, cur?.sky ?: day.sky, cur?.isDay ?: true, iconBox, st.animMs)
                 val tBox = if (rtl) RectF(iconBox.right, endBox.top, endBox.right, endBox.bottom) else RectF(endBox.left, endBox.top, iconBox.left, endBox.bottom)
                 fitText(TempFormat.short(cur?.tempC ?: day.maxC, s.fahrenheit), tBox, ink, 20f, bold = true)
             }

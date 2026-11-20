@@ -12,9 +12,11 @@ import android.widget.RemoteViews
 import com.clockweather.app.MainActivity
 import com.clockweather.app.R
 import com.clockweather.app.data.SettingsStore
+import com.clockweather.app.data.WeatherRepository
 import com.clockweather.app.data.WeatherWorker
 import com.clockweather.core.clock.FlipMath
 import com.clockweather.core.clock.WorldClock
+import com.clockweather.core.weather.WeatherAnim
 import com.clockweather.core.widget.ClockStyle
 import com.clockweather.core.widget.WidgetKind
 import java.time.Instant
@@ -76,7 +78,24 @@ open class ClockWidgetProvider : AppWidgetProvider() {
                 if (p < 1f) Thread.sleep(FlipMath.DURATION_MS / FlipMath.FRAMES.toLong())
             }
         }
+        playWeatherLoop(context, manager, settings, screenOn, now)
         TickScheduler.scheduleNext(context, System.currentTimeMillis())
+    }
+
+    /** One 1.5 s loop of the animated weather illustration, only for kinds that show weather and skies that have a loop. */
+    private fun playWeatherLoop(context: Context, manager: AppWidgetManager, settings: com.clockweather.core.widget.WidgetSettings, screenOn: Boolean, now: Instant) {
+        if (!screenOn || settings.calmAnimations || !settings.animateWeather || !settings.showWeather) return
+        val f = settings.activePlaceId?.let { WeatherRepository.cached(context, it) } ?: return
+        val sky = f.current?.sky ?: f.today(now)?.sky ?: return
+        if (!WeatherAnim.has(WeatherAnim.key(sky, f.current?.isDay ?: true))) return
+        val weatherKinds = setOf(WidgetKind.CLASSIC, WidgetKind.WEATHER, WidgetKind.STRIP)
+        val targets = idsByKind(context, manager).filter { it.first in weatherKinds }
+        if (targets.isEmpty()) return
+        for (i in 0 until WeatherAnim.FRAMES) {
+            for ((k, ids) in targets) pushAll(context, manager, ids, k, now, animMs = i * 1000L / WeatherAnim.FPS)
+            Thread.sleep(1000L / WeatherAnim.FPS)
+        }
+        for ((k, ids) in targets) pushAll(context, manager, ids, k, now) // back to the still
     }
 
     companion object {
@@ -106,9 +125,9 @@ open class ClockWidgetProvider : AppWidgetProvider() {
             for ((k, ids) in idsByKind(context, manager)) pushAll(context, manager, ids, k)
         }
 
-        private fun pushAll(context: Context, manager: AppWidgetManager, ids: IntArray, kind: WidgetKind, now: Instant = Instant.now(), flipFrom: IntArray? = null, progress: Float = 1f) {
+        private fun pushAll(context: Context, manager: AppWidgetManager, ids: IntArray, kind: WidgetKind, now: Instant = Instant.now(), flipFrom: IntArray? = null, progress: Float = 1f, animMs: Long = -1L) {
             val density = context.resources.displayMetrics.density
-            val st = Snapshot.build(context, now, flipFrom, progress, kind)
+            val st = Snapshot.build(context, now, flipFrom, progress, kind, animMs)
             for (id in ids) {
                 val (wDp, hDp) = sizeDp(manager.getAppWidgetOptions(id), context)
                 val bmp = WidgetRenderer.render(context, (wDp * density).toInt(), (hDp * density).toInt(), density, st)

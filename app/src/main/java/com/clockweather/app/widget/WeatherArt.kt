@@ -7,6 +7,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
 import com.clockweather.core.weather.Sky
+import com.clockweather.core.weather.WeatherAnim
 
 /**
  * Weather illustration for a [Sky]. Uses the ChatGPT-made PNG `wx_<sky>_<day|night>` from res/drawable-nodpi when it
@@ -17,9 +18,12 @@ object WeatherArt {
     private val cache = HashMap<String, Bitmap?>()
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
-    fun draw(ctx: Context, c: Canvas, sky: Sky, isDay: Boolean, box: RectF) {
+    /** [animMs] >= 0 plays the loop (`wxa_<key>_<n>`) when one exists for this sky, else the still `wx_<key>`. */
+    fun draw(ctx: Context, c: Canvas, sky: Sky, isDay: Boolean, box: RectF, animMs: Long = -1L) {
+        val key = WeatherAnim.key(sky, isDay)
+        val frame = if (animMs >= 0) WeatherAnim.frameAt(key, animMs) else null
+        val name = if (frame != null) "wxa_${key}_$frame" else "wx_$key"
         val night = !isDay && sky in setOf(Sky.CLEAR, Sky.MOSTLY_CLEAR, Sky.PARTLY_CLOUDY)
-        val name = "wx_${sky.assetKey}_${if (night) "night" else "day"}"
         val bmp = cache.getOrPut(name) { load(ctx, name) }
         if (bmp != null) { c.drawBitmap(bmp, null, box, paint); return }
         placeholder(c, sky, night, box)

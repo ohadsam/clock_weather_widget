@@ -22,7 +22,7 @@ object Snapshot {
         else -> Locale.getDefault().language.let { it == "he" || it == "iw" }
     }
 
-    fun build(ctx: Context, now: Instant = Instant.now(), flipFrom: IntArray? = null, progress: Float = 1f, kind: WidgetKind = WidgetKind.CLASSIC): RenderState {
+    fun build(ctx: Context, now: Instant = Instant.now(), flipFrom: IntArray? = null, progress: Float = 1f, kind: WidgetKind = WidgetKind.CLASSIC, animMs: Long = -1L): RenderState {
         val s = SettingsStore.load(ctx)
         val zone = ZoneId.systemDefault()
         val forecast = s.activePlaceId?.let { WeatherRepository.cached(ctx, it) }
@@ -31,7 +31,7 @@ object Snapshot {
         return RenderState(
             settings = s, kind = kind, now = now, zone = zone, hebrew = isHebrew(ctx, s.language), forecast = forecast,
             nextAlarm = if (shaped.showAlarm) AlarmSource.next(ctx) else null, agenda = agenda,
-            flipFrom = flipFrom, flipProgress = progress,
+            flipFrom = flipFrom, flipProgress = progress, animMs = animMs,
         )
     }
 

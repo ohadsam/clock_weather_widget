@@ -48,6 +48,8 @@ data class WidgetSettings(
     /** "system", "he" or "en". */
     val language: String = "system",
     val calmAnimations: Boolean = false,
+    /** Play the weather illustration loop (1.5 s) on every minute tick while the screen is on. */
+    val animateWeather: Boolean = true,
     val places: List<PlaceSetting> = emptyList(),
     val activePlaceId: String? = null,
     val worldClocks: List<ClockZoneSetting> = emptyList(),

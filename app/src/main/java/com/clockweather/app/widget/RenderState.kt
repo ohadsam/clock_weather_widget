@@ -22,4 +22,6 @@ data class RenderState(
     /** Flip animation: digits shown before the change and progress 0..1 (null = static). */
     val flipFrom: IntArray? = null,
     val flipProgress: Float = 1f,
+    /** Weather loop time in ms since the loop started; -1 = show the still illustration. */
+    val animMs: Long = -1L,
 )
