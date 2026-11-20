@@ -17,6 +17,6 @@ internal object WeatherAnimTable {
         "partly_cloudy_night" to intArrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
         "rain_day" to intArrayOf(1, 2, 3, 4, 3, 2, 1, 5, 6, 7, 6, 5),
         "snow_day" to intArrayOf(1, 2, 3, 4, 3, 2, 1, 5, 6, 7, 6, 5),
-        "thunderstorm_day" to intArrayOf(1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2),
+        "thunderstorm_day" to intArrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
     )
 }
