@@ -49,6 +49,7 @@ import com.clockweather.core.weather.OpenMeteo
 import com.clockweather.core.widget.ClockStyle
 import com.clockweather.core.widget.ClockZoneSetting
 import com.clockweather.core.widget.Palettes
+import com.clockweather.core.widget.PocketMetal
 import com.clockweather.core.widget.PlaceSetting
 import com.clockweather.core.widget.Preset
 import com.clockweather.core.widget.WidgetSettings
@@ -69,6 +70,10 @@ fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack
 
         SectionCard(stringResource(R.string.sec_look), stringResource(R.string.sec_look_sum, stringResource(styleName(s.clockStyle)), s.backgroundAlphaPct), startOpen = true) {
             ChipRow(ClockStyle.values().map { it to stringResource(styleName(it)) }, { it == s.clockStyle }, { onChange(s.copy(clockStyle = it)) })
+            if (s.clockStyle == ClockStyle.POCKET) {
+                Text(stringResource(R.string.pocket_metal), style = MaterialTheme.typography.titleSmall)
+                ChipRow(PocketMetal.values().map { it.id to (if (hebrew) it.he else it.en) }, { it == s.pocketMetal }, { onChange(s.copy(pocketMetal = it)) })
+            }
             Text(stringResource(R.string.presets), style = MaterialTheme.typography.titleSmall)
             ChipRow(Preset.values().map { it to (if (hebrew) it.he else it.en) }, { false }, { onChange(it.apply(s)) })
             Text(stringResource(R.string.palette), style = MaterialTheme.typography.titleSmall)

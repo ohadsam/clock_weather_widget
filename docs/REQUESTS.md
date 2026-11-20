@@ -56,3 +56,4 @@ Status: DONE (verified as noted) · CODE (written, needs CI/phone proof) · ART 
 | R44 | (owner, 2026-11-20) Permission check: what is missing | Code: Settings -> Permissions (location, calendar, exact alarms, install updates) with allow / open settings; needs a phone |
 | R45 | (owner, 2026-11-20) Step counter | NOT STARTED (Health Connect / step sensor; needs the owner to choose; cannot be verified here) |
 | R45b | (owner, 2026-11-20) Step counter: use the device sensor | Code: `StepMath` (core, tested), `StepSource`, `StepWorker` every 15 min, setting + permission; needs a phone (sensor, permission dialog, reboot behaviour) |
+| R46 | (owner, 2026-11-20) Pocket watch silver / rose-gold metals (ChatGPT round 6C) | DONE: art integrated by `make-art-assets.py pocket`, setting `pocketMetal` + chips in Settings; needs a phone look |

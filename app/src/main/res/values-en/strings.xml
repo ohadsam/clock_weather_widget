@@ -151,4 +151,5 @@
     <string name="steps_unsupported">This device has no step counter.</string>
     <string name="perm_steps">Physical activity (steps)</string>
     <string name="perm_steps_why">To count today\'s steps from the phone\'s step counter. Never sent anywhere.</string>
+    <string name="pocket_metal">Pocket watch metal</string>
 </resources>

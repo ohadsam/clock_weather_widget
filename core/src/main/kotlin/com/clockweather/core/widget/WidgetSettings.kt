@@ -9,6 +9,13 @@ import kotlinx.serialization.json.Json
 /** FLIP and DIGITAL are digital clocks (digits); ANALOG is a plain hands dial; POCKET is the golden pocket watch (owner, 2026-11-19). */
 enum class ClockStyle { FLIP, DIGITAL, ANALOG, MINIMAL, POCKET }
 
+/** Metal of the pocket watch; [suffix] picks the painted art (`pw_case<suffix>`, `pw_open_<dial><suffix>`). */
+enum class PocketMetal(val id: String, val suffix: String, val he: String, val en: String) {
+    GOLD("gold", "", "זהב", "Gold"), SILVER("silver", "_silver", "כסף", "Silver"), ROSE("rose", "_rose", "זהב ורוד", "Rose gold");
+
+    companion object { fun byId(id: String): PocketMetal = values().firstOrNull { it.id == id } ?: GOLD }
+}
+
 /** Everything the owner can change about the widget. Every field has a default; unknown or bad stored values are repaired by [sanitized]. */
 @Serializable
 data class PlaceSetting(val id: String, val name: String, val lat: Double, val lon: Double, val isCurrent: Boolean = false) {
@@ -20,6 +27,8 @@ data class WidgetSettings(
     val version: Int = VERSION,
     val clockStyle: ClockStyle = ClockStyle.FLIP,
     val paletteId: String = "classic_white",
+    /** [PocketMetal.id], used by the pocket-watch style only. */
+    val pocketMetal: String = "gold",
     /** Plate behind everything: 0 = fully transparent (default, the owner's request). */
     val backgroundAlphaPct: Int = 0,
     /** Plate of the weather/info panel under the clock. */
@@ -75,6 +84,7 @@ data class WidgetSettings(
         return copy(
             version = VERSION,
             paletteId = if (Palettes.byId(paletteId) != null) paletteId else Palettes.DEFAULT.id,
+            pocketMetal = PocketMetal.byId(pocketMetal).id,
             backgroundAlphaPct = backgroundAlphaPct.coerceIn(0, 100),
             panelAlphaPct = panelAlphaPct.coerceIn(0, 100),
             cornerRadiusDp = cornerRadiusDp.coerceIn(0, 36),

@@ -27,6 +27,9 @@ With two or more places, Home lists them all; tap one to open its forecast. In t
 ## Nightfall and candle lighting
 The line under the weather shows sunrise, sunset and nightfall; on a Friday or the eve of a holiday it also shows candle lighting (18 minutes before sunset). Switch it off in Settings.
 
+## Pocket watch metal
+With the pocket-watch clock style, choose gold, silver or rose gold under Look.
+
 ## Steps
 Switch on "Steps today" in Settings and allow physical activity. The widget footer shows 👣 and today's steps, counted from the phone's own step counter (updates about every 15 minutes).
 

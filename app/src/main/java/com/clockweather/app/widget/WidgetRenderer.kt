@@ -18,6 +18,7 @@ import com.clockweather.core.hebrew.HebrewDateFormat
 import com.clockweather.core.hebrew.HolidayBadge
 import com.clockweather.core.hebrew.Holidays
 import com.clockweather.core.sun.SunTimes
+import com.clockweather.core.widget.PocketMetal
 import com.clockweather.core.sun.Zmanim
 import com.clockweather.core.weather.TempFormat
 import com.clockweather.core.weather.WeatherOutlook
@@ -213,7 +214,9 @@ object WidgetRenderer {
          * The lid opens on the hinge by squashing the lower part of pw_case towards the hinge line (lidOpen 0 -> 1).
          */
         fun drawPocketWatch(r: RectF) {
-            val face = ArtCache.get(ctx, "pw_open_" + dialName()); val case = ArtCache.get(ctx, "pw_case")
+            val metal = PocketMetal.byId(s.pocketMetal).suffix
+            val face = ArtCache.get(ctx, "pw_open_" + dialName() + metal) ?: ArtCache.get(ctx, "pw_open_" + dialName())
+            val case = ArtCache.get(ctx, "pw_case" + metal) ?: ArtCache.get(ctx, "pw_case")
             if (face == null || case == null) { drawPocketPlaceholder(r); return }
             val g = PocketWatchGeometry
             var h = r.height(); var w = h * g.ASPECT

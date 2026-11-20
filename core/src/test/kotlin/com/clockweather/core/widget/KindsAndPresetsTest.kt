@@ -61,3 +61,10 @@ class KindsAndPresetsTest {
         assertFalse(WidgetSettings.decode(WidgetSettings.encode(s)).showClock)
     }
 }
+
+class PocketMetalTest {
+    @org.junit.Test fun unknownMetalFallsBackToGold() {
+        kotlin.test.assertEquals("gold", WidgetSettings(pocketMetal = "bronze").sanitized().pocketMetal)
+        kotlin.test.assertEquals("_rose", PocketMetal.byId("rose").suffix)
+    }
+}

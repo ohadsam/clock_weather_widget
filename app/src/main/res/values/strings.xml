@@ -151,4 +151,5 @@
     <string name="steps_unsupported">אין במכשיר הזה חיישן צעדים.</string>
     <string name="perm_steps">פעילות גופנית (צעדים)</string>
     <string name="perm_steps_why">לספירת הצעדים היום, מחיישן הצעדים של הטלפון. לא נשלח לשום מקום.</string>
+    <string name="pocket_metal">מתכת שעון הכיס</string>
 </resources>

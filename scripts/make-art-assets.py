@@ -165,20 +165,20 @@ def pocket():
     cw, ch = case.size
     pad = 24
     box = (0, 0, cw, ch)
-    faces = {}
-    for dial in ('cream', 'ivory', 'black'):
-        d = key(f'{O}/pw_dial_{dial}.png')
+    def build_face(d, bezel):
         dcx, dcy, dr = _circle(d)
         kd = (hr * 1.04) / dr
         d2 = d.resize((int(round(d.width * kd)), int(round(d.height * kd))), Image.LANCZOS)
-        face = Image.new('RGBA', bez.size, (0, 0, 0, 0))
+        face = Image.new('RGBA', bezel.size, (0, 0, 0, 0))
         face.alpha_composite(d2, (int(round(hcx - dcx * kd)), int(round(hcy - dcy * kd))))
-        face.alpha_composite(bez)
+        face.alpha_composite(bezel)
         f2 = face.resize((int(round(face.width * k2)), int(round(face.height * k2))), Image.LANCZOS)
         canvas = Image.new('RGBA', case.size, (0, 0, 0, 0))
         canvas.alpha_composite(f2, (int(round(ccx - bcx * k2)), int(round(ccy - bcy * k2))))
         arr = np.asarray(canvas).copy(); arr[:int(hinge_y), :, 3] = 0   # crown/bow come from the case art
-        faces[dial] = Image.fromarray(arr, 'RGBA')
+        return Image.fromarray(arr, 'RGBA')
+    dial_imgs = {dial: key(f'{O}/pw_dial_{dial}.png') for dial in ('cream', 'ivory', 'black')}
+    faces = {dial: build_face(d, bez) for dial, d in dial_imgs.items()}
     # common crop: bbox of the case, plus margin
     cb = case.getchannel('A').point(lambda v: 255 if v > 8 else 0).getbbox()
     crop = (max(cb[0] - pad, 0), max(cb[1] - pad, 0), min(cb[2] + pad, cw), min(cb[3] + pad, ch))
@@ -189,6 +189,11 @@ def pocket():
         im.save(f'{RES}/drawable-nodpi/{name}.webp', format='WEBP', quality=92, alpha_quality=100, lossless=lossless, method=6)
     save(case, 'pw_case')
     for dial, f in faces.items(): save(f, f'pw_open_{dial}')
+    # silver / rose-gold recolours (round 6C): identical silhouettes, so the gold geometry is reused as is
+    for metal in ('silver', 'rose'):
+        mcase = key(f'{O}/pw_case_{metal}.png'); mbez = key(f'{O}/pw_bezel_{metal}.png')
+        save(mcase, f'pw_case_{metal}')
+        for dial, d in dial_imgs.items(): save(build_face(d, mbez), f'pw_open_{dial}_{metal}')
     fx = lambda v: round(float(v - crop[0]) * sc / out_w, 5)
     fy = lambda v: round(float(v - crop[1]) * sc / out_h, 5)
     # dial centre = hole centre transformed
