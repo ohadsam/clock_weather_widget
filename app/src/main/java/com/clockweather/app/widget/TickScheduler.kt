@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import com.clockweather.core.clock.TickMath
 
 /** Wakes the widget on the next minute boundary so the flip happens on time. One alarm at a time, re-armed by each tick. */
 object TickScheduler {
@@ -17,7 +18,7 @@ object TickScheduler {
 
     fun scheduleNext(ctx: Context, nowMs: Long = System.currentTimeMillis()) {
         val am = ctx.getSystemService(Context.ALARM_SERVICE) as? AlarmManager ?: return
-        val at = (nowMs / 60_000L + 1) * 60_000L
+        val at = TickMath.nextMinuteMs(nowMs)
         val pi = pending(ctx)
         val exactOk = Build.VERSION.SDK_INT < Build.VERSION_CODES.S || am.canScheduleExactAlarms()
         if (exactOk) am.setExactAndAllowWhileIdle(AlarmManager.RTC, at, pi)

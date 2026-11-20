@@ -205,7 +205,7 @@ private fun PlacesSection(s: WidgetSettings, onChange: (WidgetSettings) -> Unit)
 private fun CalendarSection(s: WidgetSettings, onChange: (WidgetSettings) -> Unit) {
     val ctx = LocalContext.current
     var granted by remember { mutableStateOf(CalendarSource.granted(ctx)) }
-    val permission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted = it }
+    val permission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted = it; if (it) com.clockweather.app.data.CalendarChangeWorker.schedule(ctx) }
     val calendars = remember(granted) { CalendarSource.calendars(ctx) }
     SectionCard(stringResource(R.string.sec_calendar), if (granted) stringResource(R.string.sec_calendar_sum_on, calendars.size) else stringResource(R.string.sec_calendar_sum_off)) {
         Text(stringResource(R.string.calendar_hint), style = MaterialTheme.typography.bodySmall)

@@ -11,6 +11,7 @@ import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.clockweather.app.widget.ClockWidgetProvider
+import com.clockweather.app.widget.TickScheduler
 import java.util.concurrent.TimeUnit
 
 /** Refreshes forecasts every 30 minutes (and on demand) and redraws the widgets. */
@@ -19,6 +20,11 @@ class WeatherWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, params
         val settings = SettingsStore.load(applicationContext)
         if (settings.places.isNotEmpty()) WeatherRepository.refreshAll(applicationContext, settings)
         ClockWidgetProvider.updateAll(applicationContext)
+        // Heartbeat: every refresh also repairs the minute-tick chain and the calendar watcher if either was lost.
+        if (ClockWidgetProvider.hasWidgets(applicationContext)) {
+            TickScheduler.scheduleNext(applicationContext)
+            CalendarChangeWorker.schedule(applicationContext)
+        }
         return Result.success()
     }
 

@@ -60,6 +60,7 @@ fun WeatherScreen(s: WidgetSettings, onBack: () -> Unit) {
             return@Column
         }
         val day = forecast.days[dayIndex.coerceIn(0, forecast.days.lastIndex)]
+        if (forecast.fetchedAtEpochSec > 0) Text(stringResource(R.string.updated_ago, com.clockweather.core.clock.Freshness.label(com.clockweather.core.clock.Freshness.ageMinutes(forecast.fetchedAtEpochSec, System.currentTimeMillis() / 1000), hebrew)), Modifier.padding(horizontal = 16.dp), style = MaterialTheme.typography.bodySmall)
         ChipRow(forecast.days.mapIndexed { i, d -> i to d.date.format(DateTimeFormatter.ofPattern("EEE d/M", if (hebrew) Locale("he") else Locale.ENGLISH)) }, { it == dayIndex }, { dayIndex = it })
         Card(Modifier.fillMaxWidth().padding(12.dp)) {
             Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {

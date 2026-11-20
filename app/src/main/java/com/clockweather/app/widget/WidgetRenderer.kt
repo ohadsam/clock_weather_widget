@@ -12,6 +12,7 @@ import com.clockweather.core.agenda.Agenda
 import com.clockweather.core.alarm.AlarmIndicator
 import com.clockweather.core.clock.ClockZone
 import com.clockweather.core.clock.FlipMath
+import com.clockweather.core.clock.Freshness
 import com.clockweather.core.clock.WorldClock
 import com.clockweather.core.hebrew.HebrewDateFormat
 import com.clockweather.core.hebrew.Holidays
@@ -290,7 +291,9 @@ object WidgetRenderer {
             fitText(place, nameBox, pal.panelText, 15f, bold = true, align = startAlign(), shadow = false)
             val lowerLeft = if (rtl) RectF(textLeft + tempW + dp(4f), box.centerY(), textRight, box.bottom - dp(3f)) else RectF(textLeft, box.centerY(), textRight - tempW - dp(4f), box.bottom - dp(3f))
             val outlook = WeatherOutlook.of(day, s.rainLikelyFromPct)
-            val line = if (s.showOutlook) WeatherOutlook.text(outlook, day.rainChancePct, st.hebrew) else (cur?.sky ?: day.sky).label(st.hebrew)
+            val age = Freshness.ageMinutes(f.fetchedAtEpochSec, st.now.epochSecond)
+            val staleNote = if (Freshness.level(age) != Freshness.Level.FRESH && f.fetchedAtEpochSec > 0) " · " + Freshness.label(age, st.hebrew) else ""
+            val line = (if (s.showOutlook) WeatherOutlook.text(outlook, day.rainChancePct, st.hebrew) else (cur?.sky ?: day.sky).label(st.hebrew)) + staleNote
             fitText(line, lowerLeft, withAlpha(pal.panelText, 85), 11.5f, align = startAlign(), shadow = false)
             if (s.showHiLo) {
                 val hiLo = RectF(if (rtl) textLeft else textRight - tempW, box.centerY(), if (rtl) textLeft + tempW else textRight, box.bottom - dp(3f))

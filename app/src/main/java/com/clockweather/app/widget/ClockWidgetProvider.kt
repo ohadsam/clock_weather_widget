@@ -32,6 +32,7 @@ open class ClockWidgetProvider : AppWidgetProvider() {
 
     override fun onEnabled(context: Context) {
         WeatherWorker.schedule(context)
+        com.clockweather.app.data.CalendarChangeWorker.schedule(context)
         TickScheduler.scheduleNext(context)
     }
 
@@ -62,6 +63,8 @@ open class ClockWidgetProvider : AppWidgetProvider() {
     }
 
     private fun tick(context: Context) {
+        // Re-arm FIRST: if anything below throws or the process dies, the chain of minute ticks must survive.
+        TickScheduler.scheduleNext(context)
         val manager = AppWidgetManager.getInstance(context)
         if (allIds(context).isEmpty()) return
         val now = Instant.now()
@@ -79,7 +82,6 @@ open class ClockWidgetProvider : AppWidgetProvider() {
             }
         }
         playWeatherLoop(context, manager, settings, screenOn, now)
-        TickScheduler.scheduleNext(context, System.currentTimeMillis())
     }
 
     /** One 1.5 s loop of the animated weather illustration, only for kinds that show weather and skies that have a loop. */
@@ -102,6 +104,8 @@ open class ClockWidgetProvider : AppWidgetProvider() {
         private val RESCHEDULE_ACTIONS = setOf(
             Intent.ACTION_TIME_CHANGED, Intent.ACTION_TIMEZONE_CHANGED, Intent.ACTION_LOCALE_CHANGED,
             Intent.ACTION_BOOT_COMPLETED, Intent.ACTION_MY_PACKAGE_REPLACED,
+            android.app.AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED,
+            "android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED",
         )
 
         /** Every provider class and the kind it shows (keep in sync with AndroidManifest.xml). */
@@ -115,6 +119,8 @@ open class ClockWidgetProvider : AppWidgetProvider() {
 
         private fun idsByKind(context: Context, manager: AppWidgetManager): List<Pair<WidgetKind, IntArray>> =
             PROVIDERS.map { (cls, k) -> k to manager.getAppWidgetIds(ComponentName(context, cls)) }.filter { it.second.isNotEmpty() }
+
+        fun hasWidgets(context: Context): Boolean = allIds(context).isNotEmpty()
 
         private fun allIds(context: Context): List<Int> =
             idsByKind(context, AppWidgetManager.getInstance(context)).flatMap { it.second.toList() }

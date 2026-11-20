@@ -60,7 +60,7 @@ Known Kotlin gotchas: block comments nest (never write `/*` inside KDoc); unesca
 1. Same `applicationId`, same signing certificate (CI step compares with the published APK), higher `versionCode`.
 2. Settings -> "Check for updates" / "Share the app" (APK + install text via FileProvider, `AppSharer` refuses a stale versionCode) still work; What's New shows after an update; About shows the real version.
 3. **Permissions**: every permission is listed in Settings -> Permissions with state (granted / ask / blocked / unsupported) and an Allow / Open-settings button; start-up sheet asks for missing required ones once per session; a new permission => manifest comment + row + both languages + test.
-4. **Widget survives**: reboot, app update, launcher restart, time-zone/clock change, battery saver (shows last good data, never a blank card).
+4. **Every shown datum has a background trigger** (docs/ARCHITECTURE.md "Background updates" table): a new datum gets a row and a trigger in the same change. **Widget survives**: reboot, app update, launcher restart, time-zone/clock change, battery saver (shows last good data, never a blank card).
 5. After the push verify the real thing: CI run green (build + tests + lint), release asset exists with `app.apk` + `.sha256` and the new version, `latest-apk` comparison step passed.
 6. Say plainly what only a phone proves: widget look on the real launcher and wallpaper, resize behaviour, permission dialogs, exact-alarm timing, Google Calendar sync content, Health Connect steps, the installer/update-over-install.
 

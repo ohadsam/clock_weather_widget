@@ -77,6 +77,9 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/main/kotlin/com/clockweather/core/weather/WeatherAnim.kt` | Weather loop timing: which frame at which time (12 frames, 8 fps) |
 | `core/src/main/kotlin/com/clockweather/core/weather/WeatherAnimTable.kt` | GENERATED frame sequences per loop (scripts/make-art-assets.py anim) |
 | `core/src/test/kotlin/com/clockweather/core/weather/WeatherAnimTest.kt` | Loop table and timing tests |
+| `core/src/main/kotlin/com/clockweather/core/clock/TickMath.kt` | Next-minute tick math and weather freshness labels |
+| `core/src/test/kotlin/com/clockweather/core/clock/TickAndFreshnessTest.kt` | Tick and freshness tests |
+| `app/src/main/java/com/clockweather/app/data/CalendarChangeWorker.kt` | Background watcher: redraw on any calendar change |
 | `app/build.gradle.kts`, `settings.gradle.kts`, `gradle/libs.versions.toml` | build (versionName here is the single source) |
 | `app/src/main/AndroidManifest.xml` | permissions (each commented), widget receiver, activities |
 | `app/src/main/res/*` | strings he/en, widget layout + info, theme, placeholder icon |
