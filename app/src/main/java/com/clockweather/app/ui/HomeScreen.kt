@@ -50,7 +50,7 @@ import kotlinx.coroutines.delay
 
 /** Home: the live widget preview (same renderer as the home-screen widget), size/wallpaper switches, quick style and shortcuts. */
 @Composable
-fun HomeScreen(settings: WidgetSettings, onSettings: () -> Unit, onWeather: () -> Unit, onChange: (WidgetSettings) -> Unit) {
+fun HomeScreen(settings: WidgetSettings, onSettings: () -> Unit, onWeather: () -> Unit, onOpenPlace: (String) -> Unit, onChange: (WidgetSettings) -> Unit) {
     val ctx = LocalContext.current
     val density = LocalDensity.current.density
     var tick by remember { mutableLongStateOf(System.currentTimeMillis()) }
@@ -93,6 +93,7 @@ fun HomeScreen(settings: WidgetSettings, onSettings: () -> Unit, onWeather: () -
                 Image(painterResource(R.drawable.spot_add_widget), contentDescription = null, modifier = Modifier.height(120.dp))
                 Text(stringResource(R.string.add_widget_hint), style = MaterialTheme.typography.bodyMedium)
             }
+            PlacesOverview(settings, tick, onOpenPlace)
             OutlinedButton(onClick = onWeather, modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) { Text(stringResource(R.string.weather_details)) }
             OutlinedButton(onClick = onSettings, modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) { Text(stringResource(R.string.settings)) }
             Text(stringResource(R.string.widget_types_hint), style = MaterialTheme.typography.bodySmall)

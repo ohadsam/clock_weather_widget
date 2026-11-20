@@ -21,5 +21,11 @@ In the launcher's widget picker you will find: **Full dashboard**, **Clock**, **
 ## Weather details
 Tap the weather area of the widget (or "Weather details"): current conditions, max/min, rain outlook, sunrise/sunset and an hour-by-hour list (temperature, rain chance, humidity) for three days.
 
+## Several places, hourly charts
+With two or more places, Home lists them all; tap one to open its forecast. In the forecast, swipe between places, pick a day, and switch the chart between temperature, rain and humidity.
+
+## Updates and sharing
+Settings > Updates: check, download, install. Share the app as a link or as the installed APK.
+
 ## Privacy
 Only two requests leave the phone: weather and city search (Open-Meteo, rounded coordinates). Location, calendar and alarm are read only if you allow it and never sent anywhere. The Hebrew calendar and holidays are computed on the phone.

@@ -25,6 +25,9 @@ Painted art integrated: `pw_case`, `pw_open_cream|ivory|black`, `pw_hand_*` in d
 ## Holiday badges (2026-11-20)
 13 painted badges in `drawable-nodpi/hol_*.webp` (from `design/holidays/originals` via `make-art-assets.py holidays`); `HolidayBadge` (core) maps holiday ids to them; `drawDateLine` draws the badge before the text.
 
+## Updates, share, forecast charts (2026-11-20)
+Written, NOT yet verified by CI or a phone. The first APK with the updater must be installed by hand; the updater needs `version.json`, which exists only after the next `latest-apk` publish.
+
 ## Open items (next)
 1. Push, read CI, fix `:app` compile errors (first compile ever). Then run `api-probe.yml` and adjust `OpenMeteo` if the shape differs.
 2. Owner runs ChatGPT round 1 (weather art) then 4, 2, 3; integrate (validate, key out #FF00FF, drawables, tests).

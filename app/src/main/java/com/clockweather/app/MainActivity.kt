@@ -41,6 +41,7 @@ private fun AppRoot(start: String) {
     val ctx = LocalContext.current
     var settings by remember { mutableStateOf(SettingsStore.load(ctx)) }
     var screen by remember { mutableStateOf(if (start in setOf("settings", "weather")) start else "home") }
+    var weatherPlace by remember { mutableStateOf<String?>(null) }
 
     fun update(new: WidgetSettings) {
         val s = new.sanitized()
@@ -55,8 +56,8 @@ private fun AppRoot(start: String) {
     Box(Modifier.fillMaxSize().statusBarsPadding()) {
         when (screen) {
             "settings" -> SettingsScreen(settings, ::update) { screen = "home" }
-            "weather" -> WeatherScreen(settings) { screen = "home" }
-            else -> HomeScreen(settings, onSettings = { screen = "settings" }, onWeather = { screen = "weather" }, onChange = ::update)
+            "weather" -> WeatherScreen(settings, weatherPlace) { screen = "home" }
+            else -> HomeScreen(settings, onSettings = { screen = "settings" }, onWeather = { weatherPlace = null; screen = "weather" }, onOpenPlace = { weatherPlace = it; screen = "weather" }, onChange = ::update)
         }
     }
 }

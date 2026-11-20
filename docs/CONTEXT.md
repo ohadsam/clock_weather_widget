@@ -85,6 +85,17 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `app/src/main/java/com/clockweather/app/widget/ArtCache.kt` | Decodes drawable art once by name |
 | `core/src/main/kotlin/com/clockweather/core/hebrew/HolidayBadge.kt` | Maps holiday ids to the 13 approved badge drawables (or deliberately none) |
 | `core/src/test/kotlin/com/clockweather/core/hebrew/HolidayBadgeTest.kt` | Every holiday id has a badge or an explicit no-badge |
+| `core/src/main/kotlin/com/clockweather/core/update/UpdateMath.kt` | In-app updater rules (release manifest parsing, allowed URLs, version order) and share text |
+| `core/src/test/kotlin/com/clockweather/core/update/UpdateMathTest.kt` | Updater rules tests |
+| `core/src/main/kotlin/com/clockweather/core/weather/DayChart.kt` | Hourly chart series (temperature, rain, humidity) |
+| `core/src/test/kotlin/com/clockweather/core/weather/DayChartTest.kt` | Chart series tests |
+| `app/src/main/java/com/clockweather/app/data/Updater.kt` | In-app update: manifest, verified download, installer session |
+| `app/src/main/java/com/clockweather/app/data/InstallReceiver.kt` | PackageInstaller result receiver |
+| `app/src/main/java/com/clockweather/app/data/AppSharer.kt` | Share the app (link or APK via FileProvider) |
+| `app/src/main/java/com/clockweather/app/ui/UpdatesSection.kt` | Settings section: updates and sharing |
+| `app/src/main/java/com/clockweather/app/ui/SkyIcon.kt` | Weather illustration composable (optionally animated) |
+| `app/src/main/java/com/clockweather/app/ui/HourChart.kt` | Animated hourly chart (temperature, rain, humidity) |
+| `app/src/main/java/com/clockweather/app/ui/PlacesOverview.kt` | All saved places at a glance on Home |
 | `app/build.gradle.kts`, `settings.gradle.kts`, `gradle/libs.versions.toml` | build (versionName here is the single source) |
 | `app/src/main/AndroidManifest.xml` | permissions (each commented), widget receiver, activities |
 | `app/src/main/res/*` | strings he/en, widget layout + info, theme, placeholder icon |

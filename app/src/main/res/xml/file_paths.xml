@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Only the copy of the APK that "Share the app" makes is handed out. -->
+<paths>
+    <cache-path name="share" path="share/" />
+</paths>

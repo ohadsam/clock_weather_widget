@@ -41,16 +41,21 @@ jobs:
           else
             cd ..; echo "No previous 'latest' release: first publish."
           fi
-      - name: Publish release "latest"
+      - name: Publish release "latest" (stable file names so the in-app updater can find them)
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           VER=$(grep -m1 'val appVersionName' app/build.gradle.kts | sed -E 's/.*"([^"]+)".*/\1/')
           SHA=$(git rev-parse --short HEAD)
+          CODE=$((100 + $(git rev-list --count HEAD)))
           SRC=$(ls app/build/outputs/apk/release/*.apk | head -1)
-          APK="ClockWise-v${VER}-${SHA}.apk"
-          cp "$SRC" "$APK"; sha256sum "$APK" > "$APK.sha256"
+          cp "$SRC" ClockWise.apk
+          HASH=$(sha256sum ClockWise.apk | cut -d' ' -f1)
+          echo "$HASH  ClockWise.apk" > ClockWise.apk.sha256
+          NOTES=$(awk -v v="$VER" '$0 ~ "^## "v"$" {f=1; next} /^## / {f=0} f' docs/CHANGELOG.md | tr '\n' ' ' | sed 's/"/\\"/g' | cut -c1-380)
+          printf '{"versionName":"%s","versionCode":%s,"sha":"%s","sha256":"%s","apk":"https://github.com/%s/releases/download/latest/ClockWise.apk","notes":"%s"}\n' "$VER" "$CODE" "$SHA" "$HASH" "$GITHUB_REPOSITORY" "$NOTES" > version.json
+          python3 -c "import json;d=json.load(open('version.json'));print('version.json ok',d['versionName'],d['versionCode'])"
           gh release delete latest --yes --cleanup-tag || true
-          gh release create latest "$APK" "$APK.sha256" --prerelease --target "$GITHUB_SHA" \
+          gh release create latest ClockWise.apk ClockWise.apk.sha256 version.json --prerelease --target "$GITHUB_SHA" \
             --title "Latest build v${VER} (${SHA})" \
-            --notes "Automatic build of main @ ${SHA}. Sideload-signed: installs over any previous build of this app."
+            --notes "Automatic build of main @ ${SHA}. Sideload-signed: installs over any previous build of this app. Use Settings -> Updates in the app to update."

@@ -124,6 +124,8 @@ fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack
             SwitchRow(stringResource(R.string.in_israel), s.inIsrael) { onChange(s.copy(inIsrael = it)) }
         }
 
+        UpdatesSection(hebrew)
+
         val version = remember { runCatching { ctx.packageManager.getPackageInfo(ctx.packageName, 0).versionName }.getOrNull() ?: "" }
         SectionCard(stringResource(R.string.sec_privacy), stringResource(R.string.sec_privacy_sum, version)) {
             Text(stringResource(R.string.privacy_body), style = MaterialTheme.typography.bodyMedium)

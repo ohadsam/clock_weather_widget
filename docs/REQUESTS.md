@@ -48,3 +48,7 @@ Status: DONE (verified as noted) · CODE (written, needs CI/phone proof) · ART 
 | R38 | (owner, 2026-11-20) Pocket-watch dial numerals: round, decorative, antique-style Arabic numerals, NOT Roman | in prompt 6B; art waits |
 | R17b | (update 2026-11-20) Holiday shown prettily | DONE in code: badge + name in the date line (13 painted badges); needs a phone check |
 
+| R39 | (owner, 2026-11-20) Check for updates and install them from inside the app | Code written (Updater, InstallReceiver, `version.json` published by `latest-apk`); needs a phone; first updater APK is installed by hand once |
+| R40 | (owner, 2026-11-20) Share the app | Code written: link or the installed APK; needs a phone |
+| R41 | (owner, 2026-11-20) In-app daily forecast with hours, split into rain / temperature / humidity, animated | Code written (`WeatherScreen`, `HourChart`, `DayChart` tested in `:core`); needs a phone |
+| R42 | (owner, 2026-11-20) More than one place at once inside the app | Code written: swipe pager + chips in the forecast, `PlacesOverview` on Home; needs a phone |

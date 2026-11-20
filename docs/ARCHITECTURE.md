@@ -34,3 +34,8 @@ The widget must stay correct with the app closed. Every piece of shown data has 
 | Resize / add widget | launcher | `onAppWidgetOptionsChanged`, `onUpdate`, `onEnabled` | immediate |
 Self-repair: `WeatherWorker` (every 30 min) also re-arms the minute tick and the calendar watcher, and `updatePeriodMillis` (30 min) calls `onUpdate`, which re-arms the tick too, so a lost chain heals itself. The schedule math is in `:core` (`TickMath`, tested); what only a phone can prove is Doze/OEM battery-saver behaviour.
 
+
+## Updates, sharing and charts (2026-11-20)
+- `latest-apk` publishes `ClockWise.apk`, `ClockWise.apk.sha256` and `version.json` on release `latest`. `Updater` fetches `version.json` only when the user presses the button, downloads only from github.com / *.githubusercontent.com (`UpdateMath.validUrl`), checks SHA-256, package, version, signing certificate, then installs with `PackageInstaller` (result in `InstallReceiver`).
+- Share: link text, or the installed APK through a `FileProvider` (`cache/share`).
+- Forecast charts: `DayChart` (core, pure) builds the series; `HourChart` (Compose Canvas) animates it. The pager in `WeatherScreen` shows each saved place.
