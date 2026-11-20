@@ -93,7 +93,7 @@
     <string name="widget_desc_strip">שורה אחת צרה: שעה, תאריך וטמפרטורה</string>
     <string name="presets">מראות מוכנים (בלחיצה אחת)</string>
     <string name="show_clock">שעון</string>
-    <string name="show_steps">צעדים (בקרוב)</string>
+    <string name="show_steps">צעדים היום</string>
     <string name="show_hint">ההגדרות האלה חלות על כל הווידג׳טים. כל סוג ווידג׳ט מציג רק את החלקים שמתאימים לו.</string>
     <string name="widget_types_hint">סוגי ווידג׳טים בבורר: לוח מלא, שעון, מזג אוויר, יומן ושעון מעורר, ופס צר. אפשר להוסיף כמה שרוצים ולשנות את גודלם.</string>
     <string name="style_pocket">שעון כיס זהב</string>
@@ -148,4 +148,7 @@
 • כמה מקומות במקביל
 • צאת הכוכבים והדלקת נרות
 • מסך הרשאות</string>
+    <string name="steps_unsupported">אין במכשיר הזה חיישן צעדים.</string>
+    <string name="perm_steps">פעילות גופנית (צעדים)</string>
+    <string name="perm_steps_why">לספירת הצעדים היום, מחיישן הצעדים של הטלפון. לא נשלח לשום מקום.</string>
 </resources>

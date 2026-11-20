@@ -93,7 +93,7 @@
     <string name="widget_desc_strip">One slim row: time, date and temperature</string>
     <string name="presets">Ready-made looks (one tap)</string>
     <string name="show_clock">Clock</string>
-    <string name="show_steps">Steps (coming soon)</string>
+    <string name="show_steps">Steps today</string>
     <string name="show_hint">These settings apply to all widgets. Each widget type shows only the parts that suit it.</string>
     <string name="widget_types_hint">Widget types in the picker: full dashboard, clock, weather, agenda and alarm, slim strip. Add as many as you like and resize them.</string>
     <string name="style_pocket">Gold pocket watch</string>
@@ -148,4 +148,7 @@
 • Several places side by side
 • Nightfall and candle lighting
 • Permissions screen</string>
+    <string name="steps_unsupported">This device has no step counter.</string>
+    <string name="perm_steps">Physical activity (steps)</string>
+    <string name="perm_steps_why">To count today\'s steps from the phone\'s step counter. Never sent anywhere.</string>
 </resources>

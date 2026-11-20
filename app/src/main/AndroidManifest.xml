@@ -10,6 +10,8 @@
     <!-- The flip clock must change on the exact minute. USE_EXACT_ALARM is auto-granted (API 33+) and fine for a side-loaded app. -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <!-- Optional: today's steps from the phone's own step counter (Android 10+ asks at run time). Never sent anywhere. -->
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
     <!-- In-app update: lets this app hand its own newer APK (same signing key) to the system installer as an update. -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 

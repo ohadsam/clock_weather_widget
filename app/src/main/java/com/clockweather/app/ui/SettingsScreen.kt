@@ -41,6 +41,8 @@ import com.clockweather.app.R
 import com.clockweather.app.data.AlarmSource
 import com.clockweather.app.data.CalendarSource
 import com.clockweather.app.data.LocationSource
+import com.clockweather.app.data.StepSource
+import com.clockweather.app.data.StepWorker
 import com.clockweather.app.data.WeatherRepository
 import com.clockweather.core.clock.WorldClock
 import com.clockweather.core.weather.OpenMeteo
@@ -58,6 +60,9 @@ import kotlinx.coroutines.withContext
 @Composable
 fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack: () -> Unit) {
     val ctx = LocalContext.current
+    val stepPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { ok ->
+        if (ok) { StepWorker.schedule(ctx); Thread { StepSource.refresh(ctx); com.clockweather.app.widget.ClockWidgetProvider.updateAll(ctx) }.start() }
+    }
     val hebrew = androidx.compose.ui.platform.LocalConfiguration.current.locales[0].language.let { it == "he" || it == "iw" }
     Column(Modifier.verticalScroll(rememberScrollState()).padding(bottom = 32.dp)) {
         ScreenHeader(stringResource(R.string.settings), stringResource(R.string.back), onBack)
@@ -92,7 +97,14 @@ fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack
             SwitchRow(stringResource(R.string.show_world), s.showWorldClocks) { onChange(s.copy(showWorldClocks = it)) }
             SwitchRow(stringResource(R.string.show_sun), s.showSunTimes) { onChange(s.copy(showSunTimes = it)) }
             if (s.showSunTimes) SwitchRow(stringResource(R.string.show_nightfall), s.showNightfall) { onChange(s.copy(showNightfall = it)) }
-            SwitchRow(stringResource(R.string.show_steps), s.showSteps) { onChange(s.copy(showSteps = it)) }
+            SwitchRow(stringResource(R.string.show_steps), s.showSteps) { on ->
+                onChange(s.copy(showSteps = on))
+                if (!on) StepWorker.cancel(ctx)
+                else if (!StepSource.supported(ctx)) Unit
+                else if (!StepSource.granted(ctx)) stepPermission.launch(Manifest.permission.ACTIVITY_RECOGNITION)
+                else { StepWorker.schedule(ctx); Thread { StepSource.refresh(ctx); com.clockweather.app.widget.ClockWidgetProvider.updateAll(ctx) }.start() }
+            }
+            if (s.showSteps && !StepSource.supported(ctx)) Text(stringResource(R.string.steps_unsupported), style = MaterialTheme.typography.bodySmall)
             Text(stringResource(R.string.show_hint), style = MaterialTheme.typography.bodySmall)
         }
 

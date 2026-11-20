@@ -55,3 +55,4 @@ Status: DONE (verified as noted) · CODE (written, needs CI/phone proof) · ART 
 | R43 | (owner, 2026-11-20) Nightfall (tzeit) and candle lighting times | Code: `Zmanim` (core, tested) + footer of the widget + setting `showNightfall`; needs a phone check |
 | R44 | (owner, 2026-11-20) Permission check: what is missing | Code: Settings -> Permissions (location, calendar, exact alarms, install updates) with allow / open settings; needs a phone |
 | R45 | (owner, 2026-11-20) Step counter | NOT STARTED (Health Connect / step sensor; needs the owner to choose; cannot be verified here) |
+| R45b | (owner, 2026-11-20) Step counter: use the device sensor | Code: `StepMath` (core, tested), `StepSource`, `StepWorker` every 15 min, setting + permission; needs a phone (sensor, permission dialog, reboot behaviour) |

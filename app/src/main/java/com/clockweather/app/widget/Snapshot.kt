@@ -4,6 +4,7 @@ import android.content.Context
 import com.clockweather.app.data.AlarmSource
 import com.clockweather.app.data.CalendarSource
 import com.clockweather.app.data.SettingsStore
+import com.clockweather.app.data.StepSource
 import com.clockweather.app.data.WeatherRepository
 import com.clockweather.core.agenda.AgendaEvent
 import com.clockweather.core.widget.WidgetKind
@@ -31,6 +32,7 @@ object Snapshot {
         return RenderState(
             settings = s, kind = kind, now = now, zone = zone, hebrew = isHebrew(ctx, s.language), forecast = forecast,
             nextAlarm = if (shaped.showAlarm) AlarmSource.next(ctx) else null, agenda = agenda,
+            steps = if (shaped.showSteps) StepSource.today(ctx) else null,
             flipFrom = flipFrom, flipProgress = progress, animMs = animMs, lidOpen = lidOpen,
         )
     }

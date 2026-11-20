@@ -57,6 +57,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/main/kotlin/com/clockweather/core/hebrew/HebrewDate.kt` | Hebrew calendar arithmetic (fixed-day algorithm), HebrewDate |
 | `core/src/main/kotlin/com/clockweather/core/hebrew/HebrewDateFormat.kt` | Hebrew date text + roll at sunset |
 | `core/src/main/kotlin/com/clockweather/core/hebrew/Holidays.kt` | Jewish holidays/special days for a Gregorian day (Israel/diaspora) |
+| `core/src/main/kotlin/com/clockweather/core/steps/StepMath.kt` | Daily steps from a cumulative counter (reboot-safe) |
 | `core/src/main/kotlin/com/clockweather/core/sun/SunTimes.kt` | Offline sunrise/sunset (NOAA) |
 | `core/src/main/kotlin/com/clockweather/core/sun/Zmanim.kt` | Nightfall (tzeit), candle lighting, Shabbat/Yom Tov eve |
 | `core/src/main/kotlin/com/clockweather/core/text/Untrusted.kt` | Cleaning of untrusted text |
@@ -70,6 +71,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/test/kotlin/com/clockweather/core/clock/ClockTest.kt` | World clock + flip math tests |
 | `core/src/test/kotlin/com/clockweather/core/hebrew/HebrewCalendarTest.kt` | Hebrew calendar, gematria, holidays tests |
 | `core/src/test/kotlin/com/clockweather/core/hygiene/RepoHygieneTest.kt` | Docs file map, strings parity, :core purity, changelog |
+| `core/src/test/kotlin/com/clockweather/core/steps/StepMathTest.kt` | Step maths tests |
 | `core/src/test/kotlin/com/clockweather/core/sun/SunTimesTest.kt` | Sunrise/sunset tests |
 | `core/src/test/kotlin/com/clockweather/core/sun/ZmanimTest.kt` | Nightfall / candle lighting tests |
 | `core/src/test/kotlin/com/clockweather/core/weather/OpenMeteoTest.kt` | Forecast/geocoding parsing, WMO, outlook tests |
@@ -98,6 +100,8 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `app/src/main/java/com/clockweather/app/ui/SkyIcon.kt` | Weather illustration composable (optionally animated) |
 | `app/src/main/java/com/clockweather/app/ui/HourChart.kt` | Animated hourly chart (temperature, rain, humidity) |
 | `app/src/main/java/com/clockweather/app/ui/PermissionsSection.kt` | Settings: every permission, why, state, allow / open settings |
+| `app/src/main/java/com/clockweather/app/data/StepSource.kt` | Today's steps from the device step counter |
+| `app/src/main/java/com/clockweather/app/data/StepWorker.kt` | 15-minute step refresh |
 | `app/src/main/java/com/clockweather/app/ui/PlacesOverview.kt` | All saved places at a glance on Home |
 | `app/build.gradle.kts`, `settings.gradle.kts`, `gradle/libs.versions.toml` | build (versionName here is the single source) |
 | `app/src/main/AndroidManifest.xml` | permissions (each commented), widget receiver, activities |

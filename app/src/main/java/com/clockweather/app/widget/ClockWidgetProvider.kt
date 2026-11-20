@@ -12,6 +12,7 @@ import android.widget.RemoteViews
 import com.clockweather.app.MainActivity
 import com.clockweather.app.R
 import com.clockweather.app.data.SettingsStore
+import com.clockweather.app.data.StepWorker
 import com.clockweather.app.data.WeatherRepository
 import com.clockweather.app.data.WeatherWorker
 import com.clockweather.core.clock.FlipMath
@@ -32,6 +33,7 @@ open class ClockWidgetProvider : AppWidgetProvider() {
 
     override fun onEnabled(context: Context) {
         WeatherWorker.schedule(context)
+        if (SettingsStore.load(context).showSteps) StepWorker.schedule(context)
         com.clockweather.app.data.CalendarChangeWorker.schedule(context)
         TickScheduler.scheduleNext(context)
     }
