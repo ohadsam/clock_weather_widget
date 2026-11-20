@@ -23,11 +23,12 @@ object Snapshot {
         else -> Locale.getDefault().language.let { it == "he" || it == "iw" }
     }
 
-    fun build(ctx: Context, now: Instant = Instant.now(), flipFrom: IntArray? = null, progress: Float = 1f, kind: WidgetKind = WidgetKind.CLASSIC, animMs: Long = -1L, lidOpen: Float = 1f): RenderState {
+    fun build(ctx: Context, now: Instant = Instant.now(), flipFrom: IntArray? = null, progress: Float = 1f, kind: WidgetKind = WidgetKind.CLASSIC, animMs: Long = -1L, lidOpen: Float = 1f, forDashboard: Boolean = false): RenderState {
         val s = SettingsStore.load(ctx)
         val zone = ZoneId.systemDefault()
         val forecast = s.activePlaceId?.let { WeatherRepository.cached(ctx, it) }
-        val shaped = kind.shape(s)
+        // the in-app dashboard always has the data, whatever the widget is set to hide
+        val shaped = if (forDashboard) s.copy(showAgenda = true, showAlarm = true, showSteps = true) else kind.shape(s)
         val agenda = if (shaped.showAgenda) agenda(ctx, s.agendaCalendarIds, now, zone) else emptyList()
         return RenderState(
             settings = s, kind = kind, now = now, zone = zone, hebrew = isHebrew(ctx, s.language), forecast = forecast,

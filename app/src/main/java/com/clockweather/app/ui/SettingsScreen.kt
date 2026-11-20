@@ -142,6 +142,7 @@ fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack
             SwitchRow(stringResource(R.string.in_israel), s.inIsrael) { onChange(s.copy(inIsrael = it)) }
         }
 
+        DashboardEditor(s, hebrew, onChange)
         PermissionsSection()
         UpdatesSection(hebrew)
 

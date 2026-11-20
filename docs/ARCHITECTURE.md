@@ -37,6 +37,9 @@ The widget must stay correct with the app closed. Every piece of shown data has 
 Self-repair: `WeatherWorker` (every 30 min) also re-arms the minute tick and the calendar watcher, and `updatePeriodMillis` (30 min) calls `onUpdate`, which re-arms the tick too, so a lost chain heals itself. The schedule math is in `:core` (`TickMath`, tested); what only a phone can prove is Doze/OEM battery-saver behaviour.
 
 
+## Dashboard (2026-11-20)
+`HomeScreen` renders the cards from `Dashboard.visibleTiles(settings)` using `Snapshot.build(forDashboard = true)` (agenda, alarm and steps are loaded even when the widget hides them). Cards are plain composables in `DashboardTiles.kt`; drill-downs in `DashboardDetails.kt`; `SourceApps` opens the calendar / alarm app by system intents (no new permissions).
+
 ## Updates, sharing and charts (2026-11-20)
 - `latest-apk` publishes `ClockWise.apk`, `ClockWise.apk.sha256` and `version.json` on release `latest`. `Updater` fetches `version.json` only when the user presses the button, downloads only from github.com / *.githubusercontent.com (`UpdateMath.validUrl`), checks SHA-256, package, version, signing certificate, then installs with `PackageInstaller` (result in `InstallReceiver`).
 - Share: link text, or the installed APK through a `FileProvider` (`cache/share`).

@@ -6,3 +6,4 @@
 - App: live widget preview, settings (look, what to show, places, time zones, alarm app, calendar, units), weather details by hour.
 - Updates and sharing from inside the app; animated hourly forecast charts (temperature, rain, humidity); several places side by side.
 - Nightfall and candle lighting times; Settings -> Permissions overview.
+- Dashboard home screen with customisable animated cards, drill-downs and shortcuts to the calendar and alarm apps; steps counter; silver and rose-gold pocket watch.

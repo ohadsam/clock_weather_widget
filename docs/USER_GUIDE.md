@@ -27,6 +27,9 @@ With two or more places, Home lists them all; tap one to open its forecast. In t
 ## Nightfall and candle lighting
 The line under the weather shows sunrise, sunset and nightfall; on a Friday or the eve of a holiday it also shows candle lighting (18 minutes before sunset). Switch it off in Settings.
 
+## Dashboard
+The home screen is a dashboard of cards: the widget preview, date and holidays, weather, your places, the next alarm, today's events, sun times and (optional) steps and world clocks. Tap a card for details; the buttons open the Calendar or alarm app. Change which cards show and their order in Settings > Dashboard.
+
 ## Pocket watch metal
 With the pocket-watch clock style, choose gold, silver or rose gold under Look.
 

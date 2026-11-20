@@ -68,6 +68,9 @@ data class WidgetSettings(
     val alarmPackage: String = "",
     val alarmShowWithinHours: Int = 24,
     val agendaCalendarIds: List<Long> = emptyList(),
+    /** In-app dashboard: card order and hidden cards ([com.clockweather.core.dashboard.DashTile] ids); empty = defaults. */
+    val dashboardOrder: List<String> = emptyList(),
+    val dashboardHidden: List<String> = emptyList(),
     val agendaRotateSeconds: Int = 8,
     val agendaIncludeAllDay: Boolean = true,
 ) {
@@ -97,6 +100,8 @@ data class WidgetSettings(
             alarmPackage = alarmPackage.take(200).filter { it.isLetterOrDigit() || it == '.' || it == '_' },
             alarmShowWithinHours = alarmShowWithinHours.coerceIn(0, 168),
             agendaCalendarIds = agendaCalendarIds.take(40),
+            dashboardOrder = dashboardOrder.filter { com.clockweather.core.dashboard.DashTile.byId(it) != null }.distinct(),
+            dashboardHidden = dashboardHidden.filter { com.clockweather.core.dashboard.DashTile.byId(it) != null }.distinct(),
             agendaRotateSeconds = agendaRotateSeconds.coerceIn(3, 60),
         )
     }

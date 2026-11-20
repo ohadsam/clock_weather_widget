@@ -152,4 +152,19 @@
     <string name="perm_steps">פעילות גופנית (צעדים)</string>
     <string name="perm_steps_why">לספירת הצעדים היום, מחיישן הצעדים של הטלפון. לא נשלח לשום מקום.</string>
     <string name="pocket_metal">מתכת שעון הכיס</string>
+    <string name="open_alarm_app">פתח את אפליקציית השעון המעורר</string>
+    <string name="no_alarm_soon">אין שעון מעורר מוגדר</string>
+    <string name="open_calendar">פתח את היומן</string>
+    <string name="calendar_not_allowed">כדי לראות אירועים צריך לאשר גישה ליומן (הגדרות > הרשאות).</string>
+    <string name="no_events_today">אין עוד אירועים היום</string>
+    <string name="steps_enable_hint">להפעלה: הגדרות > מה להציג > צעדים היום, ואישור פעילות גופנית.</string>
+    <string name="no_world_clocks">לא נבחרו שעונים בעולם (הגדרות > שעונים).</string>
+    <string name="next_holidays">החגים הקרובים</string>
+    <string name="alarm_detail_hint">השעון המעורר נקרא מהמערכת, כך שהוא מופיע גם אם נקבע ב-SmartRing או באפליקציה אחרת. לבחירת אפליקציה מסוימת: הגדרות.</string>
+    <string name="sec_dashboard">לוח הבקרה</string>
+    <string name="sec_dashboard_sum">%1$d כרטיסים מוצגים</string>
+    <string name="dashboard_hint">בחר אילו כרטיסים יוצגו במסך הראשי ובאיזה סדר.</string>
+    <string name="move_up">הזז למעלה</string>
+    <string name="move_down">הזז למטה</string>
+    <string name="dashboard_reset">איפוס לברירת מחדל</string>
 </resources>

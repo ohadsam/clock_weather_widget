@@ -152,4 +152,19 @@
     <string name="perm_steps">Physical activity (steps)</string>
     <string name="perm_steps_why">To count today\'s steps from the phone\'s step counter. Never sent anywhere.</string>
     <string name="pocket_metal">Pocket watch metal</string>
+    <string name="open_alarm_app">Open the alarm app</string>
+    <string name="no_alarm_soon">No alarm set</string>
+    <string name="open_calendar">Open Calendar</string>
+    <string name="calendar_not_allowed">To see events, allow calendar access (Settings > Permissions).</string>
+    <string name="no_events_today">No more events today</string>
+    <string name="steps_enable_hint">To turn on: Settings > What to show > Steps today, and allow physical activity.</string>
+    <string name="no_world_clocks">No world clocks chosen (Settings > Clocks).</string>
+    <string name="next_holidays">Upcoming holidays</string>
+    <string name="alarm_detail_hint">The alarm is read from the system, so it shows even if set in SmartRing or another app. To pick one app: Settings.</string>
+    <string name="sec_dashboard">Dashboard</string>
+    <string name="sec_dashboard_sum">%1$d cards shown</string>
+    <string name="dashboard_hint">Choose which cards show on the home screen and in what order.</string>
+    <string name="move_up">Move up</string>
+    <string name="move_down">Move down</string>
+    <string name="dashboard_reset">Reset to default</string>
 </resources>
