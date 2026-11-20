@@ -1,100 +1,35 @@
-# Round 4 - Flip-card textures, spot illustrations and widget previews
+# Round 4 - Widget-picker previews and onboarding art (new chat; attach the files named in REFERENCE)
 
-**How to use (owner):** open a NEW ChatGPT chat (image generation on, best model available), paste the whole fenced block below as ONE message, and answer "continue" after each stage when you are happy. Download the final images/zips and send them back to Claude in the session; Claude validates and integrates them. If a stage looks off, reply with what is wrong - do not say continue.
+**How to use (owner):** paste the whole block as ONE message, answer "continue" only if the Stage 1 test is beautiful.
 
 ```text
-REFERENCE: attach the approved Round 0 images (logo + style bible sheet) to this chat first and match them exactly - same light, same hinge seam, same sparkle, same palette. If you have no reference images yet, STOP and ask me for them.
+REFERENCE: attach (1) style_bible.png, (2) the ClockWise logo mark, (3) two approved weather stills (wx_clear_day.png and wx_rain_day.png), (4) pw_open_cream.png (the approved golden pocket watch, open) and pw_hand_hour.png / pw_hand_minute.png. Everything you draw must look like it belongs to this family: same soft-3D finish, 3-stop gradients, top-left light, soft contact shadow, one 4-point sparkle upper-right of the hero object, hinge seam at about 52 % height on hero objects.
 
-ROLE: Art director for the clock face surfaces and onboarding illustrations of "ClockWise".
+ROLE: Art director for ClockWise, an Android home-screen clock + weather widget app (Hebrew first). Two sets: widget-picker previews (the images people see when choosing a widget) and onboarding / empty-state illustrations.
 
-PART A - Card textures (greyscale, tileable): tex_card_light.png, tex_card_dark.png, tex_card_warm.png, each 1024 x 1024 px, seamlessly tileable, GREYSCALE only (the app tints them per palette), very subtle surface (ceramic / soft paper / brushed matte plastic - choose one family and keep it for all three), luminance between 40 % and 60 % grey so tinting works, NO visible pattern repetition, NO magenta (these fill the whole square).
+LESSONS FROM EARLIER ROUNDS (apply from the start):
+- Generate every image with your image generation. Do NOT draw with code, SVG or vector shapes.
+- Soft-3D finish, NO outlines. Any glint/sparkle fades by opacity, never by darkening to grey.
+- Background exactly flat #FF00FF in every pixel; no pink/purple glow or fringe around objects; shadows dark navy #1B2A3A at 20 % close to the object only; 6 % margin; nothing cut off.
+- Deliver zips under 8 MB each (split if needed). Wait for "continue" between stages.
 
-PART B - Spot art, 640 x 480, flat magenta background: spot_add_widget (a phone home screen with an empty slot being filled by a flip-clock card - no text), spot_location (soft map pin over a gentle landscape), spot_calendar (a calendar page with two small coloured event dots), spot_alarm (a bell with a clock card), spot_steps (two stylised footprints with a path), spot_offline (a calm cloud with a small disconnected plug) - all in the design language, friendly, not childish.
+PART A - WIDGET PICKER PREVIEWS, 640 x 360 each, background flat #FF00FF. Each shows ONE widget as it appears on a phone home screen, floating with a soft shadow over a soft blurred wallpaper that you paint as a rounded rectangle inside the image (sunset-blue gradient). NO phone frame. Text and small details are placeholder bars (grey rounded bars) except where digits are specified. The widget background itself is transparent: the wallpaper shows through; only the cards, art and panels are solid.
+ By clock style:
+ 1. preview_flip: two big white flip cards showing "10" and "17" with the hinge seam, above a dark rounded info panel (small weather illustration at one end, a temperature, two placeholder bars).
+ 2. preview_digital: large thin white digits "10:17", no cards, a soft shadow so they read on the wallpaper, a date placeholder bar below.
+ 3. preview_pocket: the approved golden pocket watch (use the attached art), hands at 10:10, chain to the top-right, small date placeholder bar.
+ 4. preview_minimal: a small time "10:17" with one weather illustration and one placeholder bar.
+ By widget type:
+ 5. preview_kind_classic: flip cards on top, date line bar, dark weather panel with the approved clear-day sun, an alarm chip, an event banner pill, a small row of two world-clock bars, a footer line.
+ 6. preview_kind_clock: only the clock (flip cards) with a date line bar.
+ 7. preview_kind_weather: a big dark weather panel: large approved sun-and-cloud illustration, a big temperature "24", hi/lo bars, a sunrise/sunset line.
+ 8. preview_kind_agenda: three event rows as rounded pills (a colour dot + placeholder bars) and an alarm chip.
+ 9. preview_kind_strip: one slim wide row: "10:17" at one end, two small placeholder bars in the middle, a small weather icon with "24" at the other end.
 
-PART C - Widget picker previews, 640 x 360, flat magenta background around a phone-widget mock (no phone frame, just the widget floating with soft shadow over a blurred wallpaper that you paint as a rounded rectangle inside the image). Use only placeholder blocks for text lines (grey rounded bars), NO real text or digits. Two families:
- (a) by clock style: preview_flip (two big flip cards with a dark info panel below), preview_digital (large thin digits, no cards), preview_analog (analog dial with hands), preview_minimal (tiny clock and one line of weather).
- (b) by widget type: preview_kind_classic (full dashboard: clock, date line, weather panel, alarm chip, event banner, world clocks, footer), preview_kind_clock (clock only with a date line), preview_kind_weather (big weather panel with illustration, temperature, max/min bars, sunrise/sunset), preview_kind_agenda (3 event rows as rounded pills + an alarm chip), preview_kind_strip (one slim wide row: time on one side, two small text bars in the middle, weather icon and temperature on the other side).
+PART B - ONBOARDING / EMPTY-STATE ILLUSTRATIONS, 640 x 480, flat #FF00FF background, one friendly hero scene each (no text, no letters, no digits except where stated), warm and calm, not childish:
+ spot_add_widget (a phone home screen outline with an empty slot being filled by a flip-clock card, a hand placing it), spot_location (a soft map pin over a gentle landscape), spot_calendar (a calendar page with two small coloured event dots and the sparkle), spot_alarm (a golden bell next to a small flip card), spot_steps (two stylised footprints along a path), spot_offline (a calm cloud with a small unplugged cable).
 
-STAGE 1: texture family test: tex_card_light only + one spot art (spot_location) so I can approve the surface style and the illustration style. Wait for "continue".
-STAGE 2: all three textures + remaining spot art (3 per message).
-STAGE 3: the nine previews (4 by clock style, 5 by widget type), 3 per message.
-STAGE 4: packaging.
-
-=== DESIGN LANGUAGE (apply to everything) ===
-## Personality (3 words)
-**Tactile, calm, luminous.** A premium physical flip-clock reborn for a modern phone: real-feeling cards with a hinge and soft depth, big confident numerals, quiet colour, and weather art that feels warm and hand-finished - never clip-art, never emoji-like, never childish.
-
-## Audience and use
-People of all ages glancing at the home screen for one second, in sunlight, in Hebrew (RTL) or English. The widget sits over ANY wallpaper (light, dark, busy) and has a transparent background, so every asset must read on both a bright photo and a dark photo: soft contact shadow under shapes, no thin low-contrast outlines, no text baked into art.
-
-## Style system
-* Shapes: rounded, generous, slightly soft; corner radius ~22 % of the shorter side for cards/plates; consistent light from the top-left, soft shadow falling bottom-right.
-* Depth: gentle layered "paper / ceramic / frosted glass" feel - subtle gradient (top lighter, bottom darker, max 8 % luminance change), 1 soft highlight edge, NO heavy bevels, NO photorealistic textures, NO harsh black outlines.
-* Weather art: a single hero object per image (sun, cloud, rain...) built from 2-4 simple volumes with soft gradient shading and a tiny sparkle/rim light; flat colour accents allowed; same camera (front view, no perspective tilt), same light, same scale, same visual weight across the whole family.
-* Motion (when animation is requested): calm, 800 ms or longer loops, first frame is a complete still image, no flashing, nothing faster than 3 Hz; a "calm animations" switch exists in the app.
-* Hebrew/RTL safety: no text or letters in any art; no left/right-only symbolism that breaks when mirrored (mirroring must stay correct).
-
-
-## The name (owner, 2026-11-19): **ClockWise**
-One word, capital C and capital W, Latin letters in both Hebrew and English UI. The logo lockup contains the name as a wordmark; it is the ONLY artwork allowed to contain text. The "W" may subtly echo the hinge seam (two strokes meeting on a horizontal seam). The name pun: a clock that is wise - calm, smart, helpful.
-
-## Two clock worlds (owner, 2026-11-19)
-**Flip cards = a DIGITAL clock** (digits on cards; the logo's card carries digits, never hands). **Hands = an ANALOG clock** and it must look completely different: the **golden pocket watch** (hunter-case lid that opens on a top hinge, chain, crown, bow ring, cream/ivory dial, ornate hands), as on the antique watches carried on a chain in a waistcoat pocket. Never mix hands on a card or digits on the watch.
-
-## Quality bar (owner, 2026-11-19: "designed, beautiful, invested; one consistent design line")
-Every asset must look like it came from ONE professional studio, at the level of a premium weather/clock app (think award-winning iOS/Android weather apps, but original). Rich but calm: considered lighting, soft layered depth, crisp edges, careful colour harmony. Reject (and redo) anything that looks like clip-art, a generic emoji, stock icon-set, flat sticker, AI-glossy plastic, or that differs in style from its siblings. Detail is welcome only if it still reads at 40 px.
-
-## The signature (what makes the family unmistakable - every asset has BOTH)
-1. **The hinge seam**: a very thin, soft horizontal split line crossing the hero object at about 52 % height (echoing the flip-card hinge of the logo and the clock), subtle (8-12 % darker, 1 soft highlight beneath). Clouds, sun, moon, flakes, bolts, badges all carry it; in animation it is the line the object "flips" or breathes around.
-2. **The four-point sparkle**: one small crisp 4-point star highlight on the upper-right of the hero object, same shape and proportions everywhere (long thin cross, soft glow, 3 sizes).
-Plus: top-left light, soft shadow bottom-right, 3-stop gradients (light/base/shade of the SAME hue), rim light on the lit edge, no outlines.
-
-## The logo (Round 0 sets it; all later rounds reference it)
-A flip-card mark: a rounded card split by the hinge seam, with a luminous sun/moon rising from behind it, sparkle top-right. Works in one colour, on light and dark, at 24 px.
-
-## Motion language (animations)
-Calm and tactile. Easing: ease-in-out, nothing linear or bouncy. Weather loops: 12 frames, 1.2-2.4 s, seamless, the first frame is a complete still image (used for calm mode), registration between frames pixel-exact (same canvas, same object position/scale), only the elements that should move change. Clear sky: slow ray shimmer + sparkle twinkle; clouds: gentle horizontal drift (+/-4 % width) and soft breathing; rain/drizzle: drops fall on a seamless loop with tiny splashes; snow: flakes sway down; thunderstorm: calm loop with a soft double glow flash (never faster than 3 Hz, never full-screen white); fog: bands drift slowly; night: stars twinkle out of phase. Flip card (drawn by the app in code): fold 0.45 s with soft shade, hinge highlight.
-
-## Colour tokens (the app's palettes, ARGB hex shown as #RRGGBB)
-| Palette id | Card top | Card bottom | Digit ink | Panel | Panel text | Accent |
-|---|---|---|---|---|---|---|
-| classic_white | #FFFFFF | #E9E9EC | #111111 | #1B1B1D | #FFFFFF | #FFB300 |
-| graphite | #3A3D42 | #2B2E33 | #F5F5F5 | #16181B | #F5F5F5 | #4FC3F7 |
-| sand | #F6EBD7 | #E8D8BB | #3B2F1E | #3B2F1E | #FFF4E0 | #E07A1F |
-| ocean | #DFF3FA | #BFE3F2 | #0B2A3C | #0B2A3C | #EAF8FF | #00B0FF |
-| sunset | #FFE3D1 | #FFC9A8 | #4A1D12 | #4A1D12 | #FFEFE6 | #FF6D3A |
-| forest | #E3EFE0 | #C9DEC4 | #14301C | #14301C | #EAF6E7 | #66BB6A |
-| midnight | #1A2238 | #111829 | #F2F5FF | #0B0F1C | #F2F5FF | #8C9EFF |
-Weather accents (use consistently): sun #FFB300 / #FFD54F glow, cloud light #F4F7FA to #C9D3DD (shade), rain blue #4FA3E0, storm violet-grey #5B5F8D with #FFD54F bolt, snow #EAF4FF with #A8CBEA shade, fog #D5DCE3, night sky accents #8C9EFF moon #FFF3C4.
-
-## Hard rules
-1. 100 % original work, created for this app; no copyrighted characters, logos, stock or brand look-alikes; you may only use generic shapes. Treat the output as CC0 and say if you cannot.
-2. Output backgrounds are a FLAT solid magenta #FF00FF (exactly), no gradient, no shadow on the magenta, no magenta inside the art - the app keys it out. (ChatGPT transparency creates halos; flat magenta does not.) Drop shadows are drawn INSIDE the art as soft dark-blue-grey (#1B2A3A at <= 25 % opacity) only close to the object, never reaching the canvas edge.
-3. Every asset fits fully inside its canvas with >= 6 % empty margin; nothing is cut off.
-4. No text, numbers, letters, watermarks or signatures in any image - EXCEPT (a) the logo lockup/wordmark files, which contain exactly the word "ClockWise" (check the spelling letter by letter); (b) the two digits "10" on the logo's flip card; (c) the pocket-watch dial numerals (Roman or Arabic) in Round 6.
-5. Consistency beats novelty: when in doubt copy the previously approved image's style exactly.
-
-## Asset contract (what the app loads - names are exact, lowercase, underscores)
-| Pack | File name | Size | Notes |
-|---|---|---|---|
-| Weather | `wx_<sky>_<day|night>.png` | 512 x 512 | sky keys: clear, mostly_clear, partly_cloudy, overcast, fog, drizzle, rain, heavy_rain, freezing_rain, snow, thunderstorm, hail, unknown. Night variants only for clear, mostly_clear, partly_cloudy (others reuse day) |
-| Weather mini | generated by script from the above at 96 x 96 | - | not requested from ChatGPT |
-| Holiday badges | `hol_<id>.png` | 256 x 256 | ids: shabbat, rosh_chodesh, rosh_hashana, yom_kippur, sukkot, hanukkah, tu_bishvat, purim, pesach, yom_haatzmaut, lag_baomer, shavuot, fast_day |
-| Card textures | `tex_card_<light|dark|warm>.png` | 1024 x 1024 tileable greyscale | tinted by the app per palette |
-| App icon | `ic_launcher_fg.png`, `ic_launcher_bg.png`, `ic_launcher_mono.png` | 432 x 432 | adaptive icon layers, safe zone = centre 66 % |
-| Spot art | `spot_<name>.png` | 640 x 480 | onboarding / empty states: add_widget, location, calendar, alarm, steps, offline |
-| Logo | `logo_mark.png` (mark only, colour, 1024 x 1024 on magenta), `logo_mono.png` (single colour mark), `logo_lockup_dark.png`, `logo_lockup_light.png` (mark + wordmark "ClockWise", horizontal, 2048 x 768), `logo_wordmark_dark.png`, `logo_wordmark_light.png` (text only, 2048 x 512) | see left | Round 0; the app icon in Round 2 is mark-only and built from it |
-| Weather animation | `wxa_<sky>_<day|night>_<NN>.png`, NN = 01..12 | 512 x 512 each, magenta background | seamless loop frames, frame 01 = still; delivered also as a 4x3 sheet 2048 x 1536 |
-| Pocket watch (analog style) | `pw_case_closed.png`, `pw_bezel_<gold|silver|rose>.png`, `pw_dial_<cream|ivory|black>.png` (1024 x 1024); `pw_hand_hour.png`, `pw_hand_minute.png`, `pw_hand_second.png` (256 x 1024, pivot at x=128,y=768); `pw_lid_01..12.png` (1024 x 1024 opening sequence); `pw_chain.png` (1024 x 512) | see left | Round 6 |
-| Widget picker preview | `preview_<style>.png` and `preview_kind_<kind>.png` | 640 x 360 | styles: flip, digital, analog, minimal; kinds: classic, clock, weather, agenda, strip |
-=== END DESIGN LANGUAGE ===
-
-RULES YOU MUST FOLLOW: original work only (CC0), no text/letters/numbers in images, flat #FF00FF background, 6 % margin, same style family across all files. Work in STAGES and wait for me to say "continue" between stages.
-
-VALIDATION AND REPORT (final message of the last stage):
-1. List every file with its exact name, pixel size and whether the background is flat #FF00FF.
-2. Honestly list anything that is off-model, clipped, too close to the canvas edge, contains text, or deviates from the style (do not hide problems).
-3. Provide one contact-sheet image with all files on both a light (#F2F2F2) and a dark (#15171A) background so I can judge readability on any wallpaper.
-4. Package everything into ONE zip with the exact file names above, plus a README.txt listing the files.
-
+STAGE 1 - test: preview_flip, preview_kind_classic and spot_location only. Say honestly what is not yet perfect. Wait for "continue".
+STAGE 2 - the other 7 previews, 3 per message. Wait for "continue" between messages.
+STAGE 3 - the other 5 spot illustrations, then packaging: zips under 8 MB, README.txt, one contact sheet on #F2F2F2 and #15171A, and an honest list of anything still imperfect.
 ```
