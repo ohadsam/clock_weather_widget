@@ -58,7 +58,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_clock_info" />
+                android:resource="@xml/widget_classic_info" />
         </receiver>
 
         <receiver
