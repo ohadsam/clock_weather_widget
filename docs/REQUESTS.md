@@ -46,4 +46,5 @@ Status: DONE (verified as noted) · CODE (written, needs CI/phone proof) · ART 
 | R27b | (update 2026-11-20) Weather loops after rework | 14 of 15 loops integrated with 12 unique frames where reworked; thunderstorm keeps the older clean loop until round 5C |
 | R27c | (update 2026-11-20) All 15 weather loops integrated, including the reworked thunderstorm | DONE (needs a phone for smoothness/battery) |
 | R38 | (owner, 2026-11-20) Pocket-watch dial numerals: round, decorative, antique-style Arabic numerals, NOT Roman | in prompt 6B; art waits |
+| R17b | (update 2026-11-20) Holiday shown prettily | DONE in code: badge + name in the date line (13 painted badges); needs a phone check |
 

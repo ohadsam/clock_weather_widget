@@ -15,6 +15,7 @@ import com.clockweather.core.clock.FlipMath
 import com.clockweather.core.clock.Freshness
 import com.clockweather.core.clock.WorldClock
 import com.clockweather.core.hebrew.HebrewDateFormat
+import com.clockweather.core.hebrew.HolidayBadge
 import com.clockweather.core.hebrew.Holidays
 import com.clockweather.core.sun.SunTimes
 import com.clockweather.core.weather.TempFormat
@@ -297,7 +298,19 @@ object WidgetRenderer {
             val box = RectF(r.left, r.top, r.right, r.bottom)
             val holiday = if (s.showHolidays) Holidays.on(local.toLocalDate(), s.inIsrael).firstOrNull() else null
             val line = (parts + listOfNotNull(holiday?.name(st.hebrew))).joinToString("  ·  ")
-            fitText(line, box, ink, 12f, bold = false)
+            val badge = holiday?.let { h -> HolidayBadge.drawableKey(h.id)?.let { ArtCache.get(ctx, "hol_$it") } }
+            if (badge == null) { fitText(line, box, ink, 12f, bold = false); return }
+            // the holiday badge sits at the start of the line; the text fits in the remaining width
+            val side = minOf(box.height(), dp(22f)); val gap = dp(6f)
+            val textW = p.also { it.reset(); it.textSize = dp(12f) }.measureText(line).coerceAtMost(box.width() - side - gap)
+            val total = side + gap + textW
+            val left = box.centerX() - total / 2f
+            val badgeRect = if (rtl) RectF(left + total - side, box.centerY() - side / 2f, left + total, box.centerY() + side / 2f)
+            else RectF(left, box.centerY() - side / 2f, left + side, box.centerY() + side / 2f)
+            p.reset(); p.isAntiAlias = true; p.isFilterBitmap = true
+            c.drawBitmap(badge, null, badgeRect, p)
+            val textBox = if (rtl) RectF(left, box.top, left + total - side - gap, box.bottom) else RectF(left + side + gap, box.top, left + total, box.bottom)
+            fitText(line, textBox, ink, 12f, bold = false, align = startAlign())
         }
 
         fun drawWeatherPanel(r: RectF) {

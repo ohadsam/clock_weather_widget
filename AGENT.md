@@ -22,6 +22,9 @@ Painted art integrated: `pw_case`, `pw_open_cream|ivory|black`, `pw_hand_*` in d
 ## UI art (2026-11-20)
 `python3 -I scripts/make-art-assets.py ui` keys `design/ui/originals` into `drawable-nodpi/preview_*.webp` and `spot_*.webp`. previewImage set on the 5 widget infos; spots used in Home/Weather/Settings empty states.
 
+## Holiday badges (2026-11-20)
+13 painted badges in `drawable-nodpi/hol_*.webp` (from `design/holidays/originals` via `make-art-assets.py holidays`); `HolidayBadge` (core) maps holiday ids to them; `drawDateLine` draws the badge before the text.
+
 ## Open items (next)
 1. Push, read CI, fix `:app` compile errors (first compile ever). Then run `api-probe.yml` and adjust `OpenMeteo` if the shape differs.
 2. Owner runs ChatGPT round 1 (weather art) then 4, 2, 3; integrate (validate, key out #FF00FF, drawables, tests).

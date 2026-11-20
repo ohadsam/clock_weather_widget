@@ -83,6 +83,8 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/main/kotlin/com/clockweather/core/widget/PocketWatchGeometry.kt` | GENERATED fractions for the pocket-watch art (scripts/make-art-assets.py pocket) |
 | `core/src/test/kotlin/com/clockweather/core/widget/PocketWatchGeometryTest.kt` | Pocket-watch geometry sanity test |
 | `app/src/main/java/com/clockweather/app/widget/ArtCache.kt` | Decodes drawable art once by name |
+| `core/src/main/kotlin/com/clockweather/core/hebrew/HolidayBadge.kt` | Maps holiday ids to the 13 approved badge drawables (or deliberately none) |
+| `core/src/test/kotlin/com/clockweather/core/hebrew/HolidayBadgeTest.kt` | Every holiday id has a badge or an explicit no-badge |
 | `app/build.gradle.kts`, `settings.gradle.kts`, `gradle/libs.versions.toml` | build (versionName here is the single source) |
 | `app/src/main/AndroidManifest.xml` | permissions (each commented), widget receiver, activities |
 | `app/src/main/res/*` | strings he/en, widget layout + info, theme, placeholder icon |

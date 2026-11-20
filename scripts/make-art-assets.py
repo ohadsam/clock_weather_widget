@@ -1,6 +1,7 @@
 """Turns the ChatGPT art sheets (flat #FF00FF background) into transparent assets and Android drawables.
   python3 -I scripts/make-art-assets.py logo      # design/logo/originals -> design/logo + launcher/brand drawables
   python3 -I scripts/make-art-assets.py weather   # design/weather/originals -> res/drawable-nodpi/wx_*.webp
+  python3 -I scripts/make-art-assets.py holidays  # design/holidays/originals -> res/drawable-nodpi/hol_*.webp (256 px)
   python3 -I scripts/make-art-assets.py ui        # design/ui/originals (picker previews + onboarding spots) -> res/drawable-nodpi/preview_*.webp, spot_*.webp
   python3 -I scripts/make-art-assets.py pocket    # design/pocketwatch/originals -> aligned case/face/hands webp + core PocketWatchGeometry.kt
   python3 -I scripts/make-art-assets.py anim <dir> # <dir>/wxa_<name>_01..12.png (ChatGPT frames, kept outside git: ~40 MB)
@@ -259,7 +260,27 @@ def ui():
     print('ui assets ok')
 
 
+def holidays():
+    """13 holiday badges: keyed, debris removed, kept on the full 256 canvas (same scale and margin for all)."""
+    src = 'design/holidays/originals'
+    ims = []
+    for n in sorted(os.listdir(src)):
+        if not n.endswith('.png'): continue
+        im = drop_specks(key(f'{src}/{n}'))
+        im.save(f'{RES}/drawable-nodpi/{n[:-4]}.webp', format='WEBP', quality=92, alpha_quality=100, method=6)
+        ims.append(im)
+    sheet = Image.new('RGB', (256 * 7, 256 * 4), (242, 242, 242))
+    sheet.paste(Image.new('RGB', (256 * 7, 256 * 2), (21, 23, 26)), (0, 256 * 2))
+    for i, im in enumerate(ims):
+        for row in (0, 2):
+            sheet.paste(im, ((i % 7) * 256, (row + i // 7) * 256), im.getchannel('A'))
+    sheet.save('design/holidays/review_sheet.png')
+    print(len(ims), 'holiday badges')
+
+
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] == 'holidays':
+        return holidays()
     if len(sys.argv) > 1 and sys.argv[1] == 'ui':
         return ui()
     if len(sys.argv) > 1 and sys.argv[1] == 'pocket':
