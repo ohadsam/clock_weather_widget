@@ -146,6 +146,13 @@ class JewishDayTest {
         assertFalse(on(fri, 12, 0)); assertTrue(on(fri, 17, 30)); assertTrue(on(sat, 12, 0)); assertFalse(on(sat, 20, 30)); assertFalse(on(LocalDate.of(2026, 11, 18), 17, 30))
     }
 
+    @Test fun havdalahOnlyOnTheLastRestDay() {
+        val lat = 32.09; val lon = 34.88; val fri = LocalDate.of(2026, 11, 20)
+        fun h(d: LocalDate) = com.clockweather.core.sun.ShabbatMode.havdalahOn(d, lat, lon, zone, true)
+        assertNull(h(fri)); assertNull(h(fri.minusDays(1))); assertNotNull(h(fri.plusDays(1)))
+        assertTrue(h(fri.plusDays(1))!!.hour in 16..19)
+    }
+
     @Test fun comfortAndSpeechAndPresets() {
         assertEquals("נעים", com.clockweather.core.weather.Comfort.word(22.0, true)); assertEquals("Very cold", com.clockweather.core.weather.Comfort.word(0.0, false))
         assertEquals("Thursday 17:05, 25°, rain expected, alarm 06:30", com.clockweather.core.widget.WidgetSpeech.sentence(false, "17:05", "Thursday", "25°, rain expected", listOf("alarm 06:30")))

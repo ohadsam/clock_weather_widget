@@ -35,6 +35,7 @@ No analytics, no ads, no accounts, no crash reporting. The phone's own geocoder 
 | `tick` | when the minute tick last ran and how late the last 30 ticks were (shown in Settings -> Widget status) |
 | `steps` | today's baseline and last reading of the step counter |
 | `rain_alert` | when the last rain notification was shown |
+| `havdalah_alert` | the date of the last "Shabbat ended" notification |
 | `update` | last install status |
 | `guide` | whether the first-run guide was shown |
 Cache directories: `cache/updates` (a downloaded APK, replaced on the next download), `cache/share` (the APK copy made for sharing), `cache/osmdroid` (map tiles). Backup (`allowBackup=true`) lets Android's own backup restore these on a new phone.

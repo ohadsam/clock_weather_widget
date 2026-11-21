@@ -20,6 +20,7 @@ import com.clockweather.core.timers.TimerItem
 /** The only place that posts notifications (a timer ended, rain about to start). Needs the notification permission on Android 13+; silently does nothing without it. */
 object Notifier {
     const val CH_RAIN = "rain"
+    const val CH_HAVDALAH = "havdalah"
     private val VIBRATION = longArrayOf(0, 500, 300, 500, 300, 800)
 
     fun canPost(ctx: Context): Boolean =
@@ -31,10 +32,10 @@ object Notifier {
     )
 
     @SuppressLint("MissingPermission")
-    fun post(ctx: Context, channel: String, id: Int, title: String, text: String, screen: String = "home") {
+    fun post(ctx: Context, channel: String, id: Int, title: String, text: String, screen: String = "home", channelName: Int = R.string.channel_rain) {
         if (!canPost(ctx)) return
         val nm = ctx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        nm.createNotificationChannel(NotificationChannel(channel, ctx.getString(R.string.channel_rain), NotificationManager.IMPORTANCE_HIGH))
+        nm.createNotificationChannel(NotificationChannel(channel, ctx.getString(channelName), NotificationManager.IMPORTANCE_HIGH))
         nm.notify(id, Notification.Builder(ctx, channel).setSmallIcon(android.R.drawable.ic_dialog_info).setContentTitle(title).setContentText(text).setContentIntent(open(ctx, id, screen)).setAutoCancel(true).build())
     }
 

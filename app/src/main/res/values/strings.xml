@@ -296,4 +296,5 @@
     <string name="health_lateness">%1$d העדכונים האחרונים: חציוני %2$d שנ\' אחרי תחילת הדקה, מקסימום %3$d שנ\'.</string>
     <string name="perm_special">אירועים מיוחדים (קריאה ישירה)</string>
     <string name="perm_special_why">לקריאת האירועים הקרובים ישירות מהאפליקציה "אירועים מיוחדים", בלי ייצוא ליומן. השמות מוסתרים אם הפעלת שם הסתרת פרטים.</string>
+    <string name="channel_havdalah">התראת צאת שבת</string>
 </resources>
