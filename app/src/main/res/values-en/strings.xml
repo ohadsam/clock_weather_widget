@@ -82,7 +82,7 @@
     <string name="in_israel">Holidays as in Israel</string>
     <string name="sec_privacy">Privacy and about</string>
     <string name="sec_privacy_sum">Version %1$s</string>
-    <string name="privacy_body">Your data stays on the device. Network requests: weather and city search (Open-Meteo, rounded coordinates only), and, only when you press "Check for updates", GitHub. Location, calendar and steps are read only if you allow it and are never sent anywhere. The Hebrew calendar and holidays are computed on the device.</string>
+    <string name="privacy_body">Your data stays on the device. Network requests: weather and city search (Open-Meteo, rounded coordinates only), and, only when you press "Check for updates", GitHub, and, only when you press "Show map", map tiles from OpenStreetMap. Location, calendar and steps are read only if you allow it and are never sent anywhere. The Hebrew calendar and holidays are computed on the device.</string>
     <string name="widget_name_clock">ClockWise Clock</string>
     <string name="widget_name_weather">ClockWise Weather</string>
     <string name="widget_name_agenda">ClockWise Agenda</string>
@@ -180,4 +180,18 @@
     <string name="weather_tap_app">Tapping the weather opens</string>
     <string name="auto_content">Smart content (automatic)</string>
     <string name="auto_content_hint">The widget and dashboard show only what matters now: events when there are any, the alarm when it is near, sun times at useful hours. The layout adjusts by itself. Anything you switched off is never shown.</string>
+    <string name="map_title">Map and place picker</string>
+    <string name="show_map">Show map</string>
+    <string name="map_privacy_hint">The map is loaded from OpenStreetMap only after you press "Show map". You can also search for a place without the map.</string>
+    <string name="map_tap_hint">Tap the map to pick a place</string>
+    <string name="map_search_hint">Search for a city, or show the map and tap it</string>
+    <string name="add_as_my_place">Add as my place</string>
+    <string name="add_to_world">Add to world places</string>
+    <string name="place_saved">Place saved</string>
+    <string name="add_world_place">Add a place around the world</string>
+    <string name="open_map">Open map</string>
+    <string name="map_tile_hint">Pick a place by search or by tapping the map. Saved: %1$d my places, %2$d world places.</string>
+    <string name="world_places_hint">Add places around the world to see their weather and local time.</string>
+    <string name="local_time">Local time: %1$s</string>
+    <string name="loading">Loading...</string>
 </resources>

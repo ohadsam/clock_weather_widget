@@ -39,6 +39,9 @@ The widget must stay correct with the app closed. Every piece of shown data has 
 Self-repair: `WeatherWorker` (every 30 min) also re-arms the minute tick and the calendar watcher, and `updatePeriodMillis` (30 min) calls `onUpdate`, which re-arms the tick too, so a lost chain heals itself. The schedule math is in `:core` (`TickMath`, tested); what only a phone can prove is Doze/OEM battery-saver behaviour.
 
 
+## Map and world places (2026-11-21)
+`osmdroid` shows OpenStreetMap tiles (hosts: `tile.openstreetmap.org`), only after the user presses "Show map"; the user agent is the package name. Taps become `PlaceSetting`s with `PlaceIds.make`. World places are refreshed by `WeatherWorker` with the saved places and shown on the dashboard with their own zone's local time. Disclosed in Settings -> Privacy.
+
 ## Dashboard (2026-11-20)
 `HomeScreen` renders the cards from `Dashboard.visibleTiles(settings)` using `Snapshot.build(forDashboard = true)` (agenda, alarm and steps are loaded even when the widget hides them). Cards are plain composables in `DashboardTiles.kt`; drill-downs in `DashboardDetails.kt`; `SourceApps` opens the calendar / alarm app by system intents (no new permissions).
 

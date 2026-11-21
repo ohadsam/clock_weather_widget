@@ -4,3 +4,7 @@
 -keepclassmembers class com.clockweather.core.** { *** Companion; }
 -keepclasseswithmembers class com.clockweather.core.** { kotlinx.serialization.KSerializer serializer(...); }
 -dontwarn kotlinx.serialization.**
+
+# osmdroid (OpenStreetMap map view)
+-keep class org.osmdroid.** { *; }
+-dontwarn org.osmdroid.**

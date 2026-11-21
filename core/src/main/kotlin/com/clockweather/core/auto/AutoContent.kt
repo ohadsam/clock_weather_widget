@@ -21,6 +21,7 @@ data class Facts(
     val steps: Int?,
     val placeCount: Int,
     val worldClockCount: Int,
+    val worldPlaceCount: Int = 0,
 )
 
 /**
@@ -73,6 +74,7 @@ object AutoDashboard {
                 DashTile.PLACES -> f.placeCount >= 2
                 DashTile.STEPS -> f.steps != null
                 DashTile.WORLD -> f.worldClockCount > 0
+                DashTile.WORLD_PLACES -> f.worldPlaceCount > 0
                 DashTile.SUN -> f.placeCount > 0
                 DashTile.WEATHER -> f.forecast != null || f.placeCount == 0
                 else -> true

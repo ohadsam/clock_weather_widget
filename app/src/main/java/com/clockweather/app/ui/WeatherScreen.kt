@@ -68,7 +68,7 @@ import java.util.Locale
 fun WeatherScreen(s: WidgetSettings, startPlaceId: String?, onBack: () -> Unit) {
     val ctx = LocalContext.current
     val scope = rememberCoroutineScope()
-    val places = s.places
+    val places = s.places + s.worldPlaces
     Column(Modifier.fillMaxHeight()) {
         ScreenHeader(stringResource(R.string.weather_details), stringResource(R.string.back), onBack) {
             IconButton(onClick = { WeatherWorker.refreshNow(ctx) }) { Icon(Icons.Filled.Refresh, contentDescription = stringResource(R.string.refresh)) }

@@ -170,3 +170,37 @@ internal fun WorldTile(st: RenderState, index: Int, animate: Boolean) {
 internal object DashTitles {
     fun of(t: com.clockweather.core.dashboard.DashTile, hebrew: Boolean): String = if (hebrew) t.he else t.en
 }
+
+@Composable
+internal fun WorldPlacesTile(st: RenderState, index: Int, animate: Boolean, onOpenWeather: (String) -> Unit, onAdd: () -> Unit) {
+    val ctx = LocalContext.current
+    val s = st.settings
+    val tf = DateTimeFormatter.ofPattern(if (s.use24h) "HH:mm" else "h:mm a", Locale.ENGLISH)
+    DashCard(index, animate, DashTitles.of(com.clockweather.core.dashboard.DashTile.WORLD_PLACES, st.hebrew), null, stringResource(R.string.add_world_place), onAdd) {
+        if (s.worldPlaces.isEmpty()) Text(stringResource(R.string.world_places_hint), style = MaterialTheme.typography.bodyMedium)
+        s.worldPlaces.forEach { p ->
+            val f = remember(p.id, st.now.epochSecond / 60) { com.clockweather.app.data.WeatherRepository.cached(ctx, p.id) }
+            val day = f?.today(st.now)
+            Row(Modifier.fillMaxWidth().heightIn(min = 56.dp).clickable(role = Role.Button) { onOpenWeather(p.id) }, verticalAlignment = Alignment.CenterVertically) {
+                if (f != null && day != null) SkyIcon(f.current?.sky ?: day.sky, f.current?.isDay ?: true, sizeDp = 44, animate = false)
+                Column(Modifier.weight(1f).padding(start = 10.dp)) {
+                    Text(p.name, style = MaterialTheme.typography.titleSmall)
+                    if (day != null) Text("${TempFormat.short(day.maxC, s.fahrenheit)} / ${TempFormat.short(day.minC, s.fahrenheit)}" + (day.rainChancePct?.let { "   ☂ $it%" } ?: ""), style = MaterialTheme.typography.bodySmall)
+                    else Text(stringResource(R.string.no_weather_yet), style = MaterialTheme.typography.bodySmall)
+                }
+                if (f != null) Column(horizontalAlignment = Alignment.End) {
+                    Text(st.now.atZone(f.zone).format(tf), style = MaterialTheme.typography.titleMedium)
+                    f.current?.let { Text(TempFormat.short(it.tempC, s.fahrenheit), style = MaterialTheme.typography.bodyLarge) }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+internal fun MapTile(st: RenderState, index: Int, animate: Boolean, onOpen: () -> Unit) {
+    val s = st.settings
+    DashCard(index, animate, DashTitles.of(com.clockweather.core.dashboard.DashTile.MAP, st.hebrew), onOpen, stringResource(R.string.open_map), onOpen) {
+        Text(stringResource(R.string.map_tile_hint, s.places.size, s.worldPlaces.size), style = MaterialTheme.typography.bodyMedium)
+    }
+}

@@ -62,6 +62,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/main/kotlin/com/clockweather/core/widget/TapZones.kt` | Which section each tap row of the widget opens (from the layout plan) |
 | `core/src/main/kotlin/com/clockweather/core/clock/WidgetHealth.kt` | Verdict: is the minute tick alive? |
 | `core/src/main/kotlin/com/clockweather/core/auto/AutoContent.kt` | Smart content rules for the widget and the dashboard order |
+| `core/src/main/kotlin/com/clockweather/core/weather/PlaceIds.kt` | Place ids and fallback names for tapped map points |
 | `core/src/main/kotlin/com/clockweather/core/sun/SunTimes.kt` | Offline sunrise/sunset (NOAA) |
 | `core/src/main/kotlin/com/clockweather/core/sun/Zmanim.kt` | Nightfall (tzeit), candle lighting, Shabbat/Yom Tov eve |
 | `core/src/main/kotlin/com/clockweather/core/text/Untrusted.kt` | Cleaning of untrusted text |
@@ -79,6 +80,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/test/kotlin/com/clockweather/core/dashboard/DashboardTest.kt` | Dashboard order/visibility tests |
 | `core/src/test/kotlin/com/clockweather/core/widget/TapZonesAndHealthTest.kt` | Tap zones, widget health, daylight-saving clock tests |
 | `core/src/test/kotlin/com/clockweather/core/auto/AutoContentTest.kt` | Smart content tests |
+| `core/src/test/kotlin/com/clockweather/core/weather/PlaceIdsTest.kt` | Place id and world-places sanitising tests |
 | `core/src/test/kotlin/com/clockweather/core/sun/SunTimesTest.kt` | Sunrise/sunset tests |
 | `core/src/test/kotlin/com/clockweather/core/sun/ZmanimTest.kt` | Nightfall / candle lighting tests |
 | `core/src/test/kotlin/com/clockweather/core/weather/OpenMeteoTest.kt` | Forecast/geocoding parsing, WMO, outlook tests |
@@ -118,6 +120,8 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `app/src/main/java/com/clockweather/app/data/HeartbeatWorker.kt` | 15-minute safety net that re-arms the tick |
 | `app/src/main/java/com/clockweather/app/widget/WidgetTaps.kt` | What each widget tap zone opens (calendar, alarm, weather app, our screens) |
 | `app/src/main/java/com/clockweather/app/ui/WidgetStatusSection.kt` | Settings: is the clock tick alive, repair button |
+| `app/src/main/java/com/clockweather/app/ui/OsmMap.kt` | OpenStreetMap view (osmdroid) with pins and tap |
+| `app/src/main/java/com/clockweather/app/ui/PlacePickerScreen.kt` | Pick a place by search or map tap, preview weather and local time, save it |
 | `app/src/main/java/com/clockweather/app/ui/PlacesOverview.kt` | All saved places at a glance on Home |
 | `app/build.gradle.kts`, `settings.gradle.kts`, `gradle/libs.versions.toml` | build (versionName here is the single source) |
 | `app/src/main/AndroidManifest.xml` | permissions (each commented), widget receiver, activities |

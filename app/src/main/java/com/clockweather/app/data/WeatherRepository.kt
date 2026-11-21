@@ -16,9 +16,9 @@ object WeatherRepository {
         return OpenMeteo.parseForecast(placeId, body, p.getLong("at_$placeId", 0L))
     }
 
-    /** Blocking. Refreshes every saved place (max 4); a failed fetch keeps the previous cache. */
+    /** Blocking. Refreshes every saved place (max 4) and every world place (max 10); a failed fetch keeps the previous cache. */
     fun refreshAll(ctx: Context, settings: WidgetSettings, nowSec: Long = System.currentTimeMillis() / 1000) {
-        for (place in settings.places) refresh(ctx, resolve(ctx, place), nowSec)
+        for (place in settings.places + settings.worldPlaces) refresh(ctx, resolve(ctx, place), nowSec)
     }
 
     private fun resolve(ctx: Context, place: PlaceSetting): PlaceSetting {

@@ -20,6 +20,7 @@ import com.clockweather.app.data.WeatherWorker
 import com.clockweather.app.ui.ClockWeatherTheme
 import com.clockweather.app.ui.DashDetailScreen
 import com.clockweather.app.ui.HomeScreen
+import com.clockweather.app.ui.PlacePickerScreen
 import com.clockweather.app.ui.SettingsScreen
 import com.clockweather.app.ui.WeatherScreen
 import com.clockweather.app.widget.ClockWidgetProvider
@@ -49,22 +50,24 @@ private fun AppRoot(start: String) {
 
     fun update(new: WidgetSettings) {
         val s = new.sanitized()
+        val old = settings
         settings = s
         SettingsStore.save(ctx, s)
         Snapshot.invalidateAgenda()
         ClockWidgetProvider.updateAll(ctx)
-        if (s.places != settings.places || s.activePlaceId != settings.activePlaceId) WeatherWorker.refreshNow(ctx)
+        if (s.places != old.places || s.worldPlaces != old.worldPlaces || s.activePlaceId != old.activePlaceId) WeatherWorker.refreshNow(ctx)
     }
 
     BackHandler(enabled = screen != "home") { screen = "home" }
     Box(Modifier.fillMaxSize().statusBarsPadding()) {
         when (screen) {
             "settings" -> SettingsScreen(settings, ::update) { screen = "home" }
+            "map" -> PlacePickerScreen(settings, ::update) { screen = "home" }
             "weather" -> WeatherScreen(settings, weatherPlace) { screen = "home" }
             "detail" -> detail?.let { DashDetailScreen(it, settings) { screen = "home" } } ?: run { screen = "home" }
             else -> HomeScreen(
                 settings, onSettings = { screen = "settings" }, onOpenWeather = { weatherPlace = it; screen = "weather" },
-                onOpenDetail = { detail = it; screen = "detail" }, onChange = ::update,
+                onOpenDetail = { detail = it; screen = "detail" }, onOpenMap = { screen = "map" }, onChange = ::update,
             )
         }
     }

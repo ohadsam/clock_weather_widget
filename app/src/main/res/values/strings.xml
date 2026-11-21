@@ -82,7 +82,7 @@
     <string name="in_israel">חגים לפי ארץ ישראל</string>
     <string name="sec_privacy">פרטיות ואודות</string>
     <string name="sec_privacy_sum">גרסה %1$s</string>
-    <string name="privacy_body">הנתונים נשארים במכשיר. בקשות יוצאות לרשת: מזג אוויר וחיפוש עיר (Open-Meteo, עם קואורדינטות מעוגלות בלבד), וכשאתה לוחץ "בדוק עדכון" - פנייה ל-GitHub בלבד. מיקום, לוח שנה וצעדים נקראים רק אם אישרת, ואף פעם לא נשלחים החוצה. הלוח העברי והחגים מחושבים במכשיר.</string>
+    <string name="privacy_body">הנתונים נשארים במכשיר. בקשות יוצאות לרשת: מזג אוויר וחיפוש עיר (Open-Meteo, עם קואורדינטות מעוגלות בלבד), כשאתה לוחץ "בדוק עדכון" - פנייה ל-GitHub, וכשאתה לוחץ "הצג מפה" - אריחי מפה מ-OpenStreetMap. מיקום, לוח שנה וצעדים נקראים רק אם אישרת, ואף פעם לא נשלחים החוצה. הלוח העברי והחגים מחושבים במכשיר.</string>
     <string name="widget_name_clock">ClockWise · שעון</string>
     <string name="widget_name_weather">ClockWise · מזג אוויר</string>
     <string name="widget_name_agenda">ClockWise · יומן ושעון מעורר</string>
@@ -180,4 +180,18 @@
     <string name="weather_tap_app">לחיצה על מזג האוויר פותחת</string>
     <string name="auto_content">תוכן חכם (אוטומטי)</string>
     <string name="auto_content_hint">הווידג\'ט ולוח הבקרה מציגים רק מה שרלוונטי עכשיו: אירועים כשיש, שעון מעורר כשהוא קרוב, זמני שמש בשעות המתאימות. הסידור מתכוונן אוטומטית. מה שכיבית בהגדרות אף פעם לא יוצג.</string>
+    <string name="map_title">מפה ובחירת מקום</string>
+    <string name="show_map">הצג מפה</string>
+    <string name="map_privacy_hint">המפה נטענת מ-OpenStreetMap רק אחרי שתלחץ "הצג מפה". אפשר גם לחפש מקום בלי מפה.</string>
+    <string name="map_tap_hint">לחץ על המפה כדי לבחור מקום</string>
+    <string name="map_search_hint">חפש שם של עיר, או הצג את המפה ולחץ עליה</string>
+    <string name="add_as_my_place">הוסף כמקום שלי</string>
+    <string name="add_to_world">הוסף למקומות בעולם</string>
+    <string name="place_saved">המקום נשמר</string>
+    <string name="add_world_place">הוסף מקום בעולם</string>
+    <string name="open_map">פתח מפה</string>
+    <string name="map_tile_hint">בחירת מקום בחיפוש או בלחיצה על המפה. נשמרו %1$d מקומות שלי ו-%2$d מקומות בעולם.</string>
+    <string name="world_places_hint">הוסף מקומות בעולם כדי לראות את מזג האוויר והשעה שם.</string>
+    <string name="local_time">שעה שם: %1$s</string>
+    <string name="loading">טוען...</string>
 </resources>

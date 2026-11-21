@@ -45,7 +45,7 @@ import kotlinx.coroutines.delay
  */
 @Composable
 fun HomeScreen(
-    settings: WidgetSettings, onSettings: () -> Unit, onOpenWeather: (String?) -> Unit, onOpenDetail: (DashTile) -> Unit,
+    settings: WidgetSettings, onSettings: () -> Unit, onOpenWeather: (String?) -> Unit, onOpenDetail: (DashTile) -> Unit, onOpenMap: () -> Unit,
     onChange: (WidgetSettings) -> Unit,
 ) {
     val ctx = LocalContext.current
@@ -55,7 +55,7 @@ fun HomeScreen(
     val animate = !settings.calmAnimations
     val chosen = Dashboard.visibleTiles(settings.dashboardOrder, settings.dashboardHidden)
     val tiles = if (settings.autoContent) {
-        AutoDashboard.arrange(chosen, settings, Facts(st.now, st.zone, st.agenda, st.nextAlarm, st.forecast, st.steps?.takeIf { settings.showSteps && StepSource.granted(ctx) }, settings.places.size, settings.worldClocks.size))
+        AutoDashboard.arrange(chosen, settings, Facts(st.now, st.zone, st.agenda, st.nextAlarm, st.forecast, st.steps?.takeIf { settings.showSteps && StepSource.granted(ctx) }, settings.places.size, settings.worldClocks.size, settings.worldPlaces.size))
     } else chosen
     Column(Modifier.verticalScroll(rememberScrollState()).padding(bottom = 24.dp)) {
         ScreenHeader(stringResource(R.string.app_name), stringResource(R.string.back), null, brand = true) {
@@ -73,6 +73,8 @@ fun HomeScreen(
                     DashTile.SUN -> SunTile(st, i, animate) { onOpenDetail(DashTile.SUN) }
                     DashTile.STEPS -> StepsTile(st, i, animate, settings.showSteps && StepSource.granted(ctx))
                     DashTile.WORLD -> WorldTile(st, i, animate)
+                    DashTile.WORLD_PLACES -> WorldPlacesTile(st, i, animate, onOpenWeather = { onOpenWeather(it) }, onAdd = onOpenMap)
+                    DashTile.MAP -> MapTile(st, i, animate, onOpenMap)
                 }
             }
             if (settings.places.isEmpty()) {

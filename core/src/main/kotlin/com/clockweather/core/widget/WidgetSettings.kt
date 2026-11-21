@@ -3,6 +3,7 @@ package com.clockweather.core.widget
 import com.clockweather.core.clock.ClockZone
 import com.clockweather.core.text.Untrusted
 import com.clockweather.core.weather.Place
+import com.clockweather.core.weather.PlaceIds
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
@@ -62,6 +63,8 @@ data class WidgetSettings(
     /** Play the weather illustration loop (1.5 s) on every minute tick while the screen is on. */
     val animateWeather: Boolean = true,
     val places: List<PlaceSetting> = emptyList(),
+    /** Extra places around the world, shown with their weather and local time on the dashboard (not used by the widget). */
+    val worldPlaces: List<PlaceSetting> = emptyList(),
     val activePlaceId: String? = null,
     val worldClocks: List<ClockZoneSetting> = emptyList(),
     /** Package whose next alarm is shown; empty = any alarm app (the system's next alarm). */
@@ -101,6 +104,8 @@ data class WidgetSettings(
             rainLikelyFromPct = rainLikelyFromPct.coerceIn(10, 90),
             language = if (language in setOf("system", "he", "en")) language else "system",
             places = cleanPlaces,
+            worldPlaces = worldPlaces.asSequence().filter { it.lat in -90.0..90.0 && it.lon in -180.0..180.0 }.map { it.copy(name = Untrusted.clean(it.name, 60).ifEmpty { PlaceIds.coordLabel(it.lat, it.lon) }, isCurrent = false) }
+                .filter { w -> cleanPlaces.none { it.id == w.id } }.distinctBy { it.id }.take(MAX_WORLD_PLACES).toList(),
             activePlaceId = activePlaceId?.takeIf { id -> cleanPlaces.any { it.id == id } } ?: cleanPlaces.firstOrNull()?.id,
             worldClocks = zones,
             alarmPackage = alarmPackage.take(200).filter { it.isLetterOrDigit() || it == '.' || it == '_' },
@@ -119,6 +124,7 @@ data class WidgetSettings(
         const val VERSION = 1
         const val MAX_PLACES = 4
         const val MAX_WORLD_CLOCKS = 3
+        const val MAX_WORLD_PLACES = 10
         const val MAX_JSON_BYTES = 64 * 1024
 
         private val json = Json { ignoreUnknownKeys = true; encodeDefaults = true; coerceInputValues = true }
