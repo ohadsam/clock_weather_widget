@@ -33,9 +33,16 @@ object CalendarSource {
 
     /** Instances from now to the end of the local day; [calendarIds] empty = every visible calendar. */
     fun today(ctx: Context, calendarIds: List<Long>, now: Instant, zone: ZoneId): List<AgendaEvent> {
-        if (!granted(ctx)) return emptyList()
         val start = now.toEpochMilli()
         val end = now.atZone(zone).toLocalDate().plusDays(1).atStartOfDay(zone).toInstant().toEpochMilli()
+        return range(ctx, calendarIds, start, end, zone, 60)
+    }
+
+    /** Instances between two moments (all-day events are mapped to the local day); [calendarIds] empty = every visible calendar. */
+    fun range(ctx: Context, calendarIds: List<Long>, startMs: Long, endMs: Long, zone: ZoneId, limit: Int = 300): List<AgendaEvent> {
+        if (!granted(ctx)) return emptyList()
+        val start = startMs
+        val end = endMs
         val uri = CalendarContract.Instances.CONTENT_URI.buildUpon().also {
             ContentUris.appendId(it, start - 12 * 3_600_000L) // include all-day events that began earlier today
             ContentUris.appendId(it, end)
@@ -51,7 +58,7 @@ object CalendarSource {
                 ),
                 null, null, CalendarContract.Instances.BEGIN,
             )?.use { c ->
-                while (c.moveToNext() && out.size < 60) {
+                while (c.moveToNext() && out.size < limit) {
                     val calId = c.getLong(6)
                     if (calendarIds.isNotEmpty() && calId !in calendarIds) continue
                     val allDay = c.getInt(4) == 1

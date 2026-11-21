@@ -85,6 +85,16 @@ object WidgetRenderer {
                 y += hh
             }
             if (s.showSettingsButton && wDp >= 150f && hDp >= 90f) drawGear()
+            if (s.seasonalTheme && wDp >= 150f && hDp >= 90f) drawOrnament()
+        }
+
+        /** On a holiday (festive looks on) a small painted ornament sits in the top corner opposite the gear. */
+        fun drawOrnament() {
+            val season = com.clockweather.core.widget.Season.of(local.toLocalDate(), s.inIsrael) ?: return
+            val bmp = ArtCache.get(ctx, "orn_" + season.ornament) ?: return
+            val side = dp(30f)
+            val left = if (rtl) c.width - side - dp(6f) else dp(6f)
+            c.drawBitmap(bmp, null, RectF(left, dp(4f), left + side, dp(4f) + side), Paint(Paint.ANTI_ALIAS_FLAG).apply { isFilterBitmap = true })
         }
 
         /** A small, quiet gear in the top corner (the matching tap zone opens Settings). */

@@ -59,6 +59,9 @@ fun HomeScreen(
     } else chosen
     Column(Modifier.verticalScroll(rememberScrollState()).padding(bottom = 24.dp)) {
         ScreenHeader(stringResource(R.string.app_name), stringResource(R.string.back), null, brand = true) {
+            val season = if (settings.seasonalTheme) com.clockweather.core.widget.Season.of(st.now.atZone(st.zone).toLocalDate(), settings.inIsrael) else null
+            val orn = season?.let { ctx.resources.getIdentifier("orn_" + it.ornament, "drawable", ctx.packageName) } ?: 0
+            if (orn != 0) Image(painterResource(orn), contentDescription = if (st.hebrew) season!!.he else season!!.en, modifier = Modifier.height(40.dp))
             IconButton(onClick = onSettings) { Icon(Icons.Filled.Settings, contentDescription = stringResource(R.string.settings)) }
         }
         Column(Modifier.padding(horizontal = 12.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -75,6 +78,7 @@ fun HomeScreen(
                     DashTile.STOPWATCH -> StopwatchTile(st, i, animate)
                     DashTile.COUNTDOWN -> CountdownTile(st, i, animate)
                     DashTile.DATE_COUNTDOWN -> DateCountdownTile(st, i, animate)
+                    DashTile.SPECIAL_EVENTS -> SpecialEventsTile(st, i, animate)
                     DashTile.WORLD -> WorldTile(st, i, animate)
                     DashTile.WORLD_PLACES -> WorldPlacesTile(st, i, animate, onOpenWeather = { onOpenWeather(it) }, onAdd = onOpenMap)
                     DashTile.MAP -> MapTile(st, i, animate, onOpenMap)

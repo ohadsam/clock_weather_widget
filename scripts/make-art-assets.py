@@ -283,11 +283,31 @@ def holidays():
     print(len(ims), 'holiday badges')
 
 
+def ornaments():
+    """9 festive corner ornaments: keyed (magenta and purple shadow removed by despill), debris removed, 256 x 256 webp, plus a review sheet."""
+    src = 'design/ornaments/originals'
+    ims = []
+    for n in sorted(os.listdir(src)):
+        if not n.endswith('.png'): continue
+        im = drop_specks(key(f'{src}/{n}')).resize((256, 256), Image.LANCZOS)
+        im.save(f'{RES}/drawable-nodpi/{n[:-4]}.webp', format='WEBP', quality=92, alpha_quality=100, method=6)
+        ims.append(im)
+    sheet = Image.new('RGB', (256 * 5, 256 * 4), (242, 242, 242))
+    sheet.paste(Image.new('RGB', (256 * 5, 256 * 2), (21, 23, 26)), (0, 256 * 2))
+    for i, im in enumerate(ims):
+        for row in (0, 2):
+            sheet.paste(im, ((i % 5) * 256, (row + i // 5) * 256), im.getchannel('A'))
+    sheet.save('design/ornaments/review_sheet.png')
+    print(len(ims), 'ornaments')
+
+
 def main():
     if len(sys.argv) > 1 and sys.argv[1] == 'holidays':
         return holidays()
     if len(sys.argv) > 1 and sys.argv[1] == 'ui':
         return ui()
+    if len(sys.argv) > 1 and sys.argv[1] == 'ornaments':
+        return ornaments()
     if len(sys.argv) > 1 and sys.argv[1] == 'pocket':
         return pocket()
     if len(sys.argv) > 2 and sys.argv[1] == 'anim':

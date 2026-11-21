@@ -74,7 +74,7 @@ object AutoDashboard {
                 DashTile.PLACES -> f.placeCount >= 2
                 DashTile.STEPS -> f.steps != null
                 DashTile.WORLD -> f.worldClockCount > 0
-                DashTile.STOPWATCH, DashTile.COUNTDOWN, DashTile.DATE_COUNTDOWN -> true
+                DashTile.STOPWATCH, DashTile.COUNTDOWN, DashTile.DATE_COUNTDOWN, DashTile.SPECIAL_EVENTS -> true
                 DashTile.WORLD_PLACES -> f.worldPlaceCount > 0
                 DashTile.SUN -> f.placeCount > 0
                 DashTile.WEATHER -> f.forecast != null || f.placeCount == 0

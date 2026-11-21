@@ -23,6 +23,7 @@
     <queries>
         <package android:name="com.google.android.apps.weather" />
         <package android:name="com.sec.android.daemonapp" />
+        <package android:name="com.ohadsam.specialevents" />
     </queries>
 
     <application

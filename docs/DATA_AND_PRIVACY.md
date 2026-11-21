@@ -7,7 +7,7 @@ The promise: **everything stays on the device**; the network is used only for th
 |---|---|---|---|
 | `INTERNET` | weather, city search, update check, map tiles | weather, places, updates, map | widget shows clock/date and the last cached weather |
 | `ACCESS_COARSE_LOCATION` | optional "my location" place (approximate only) | the "my location" place | pick a city by search or map |
-| `READ_CALENDAR` | today's events (Google Calendar syncs into the device calendar), read only | events banner / card | no events |
+| `READ_CALENDAR` | today's events (Google Calendar syncs into the device calendar) and the calendar of the Special Events app (birthdays, memorials), read only | events banner / card | no events |
 | `SCHEDULE_EXACT_ALARM` (<= API 32) and `USE_EXACT_ALARM` | the minute tick and the countdown end on the exact moment | clock accuracy, countdown | alarms become inexact (the clock may be late); Settings -> Permissions and Widget status say so |
 | `RECEIVE_BOOT_COMPLETED` | re-arm the minute tick after a reboot | clock after reboot | the heartbeat worker repairs it within 15 min |
 | `POST_NOTIFICATIONS` (Android 13+) | countdown finished, rain alert | those two notifications | no notifications |

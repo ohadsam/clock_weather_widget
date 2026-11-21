@@ -9,6 +9,7 @@ A big, beautiful, resizable, transparent Android home-screen widget plus a dashb
 | `docs/ARCHITECTURE.md` | how it is built: modules, data flows, rendering, background processes, security |
 | `docs/FEATURES.md` | every feature with its code, settings and tests |
 | `docs/SETTINGS_REFERENCE.md` | every setting, default and meaning |
+| `docs/SPECIAL_EVENTS_INTEGRATION.md` | how birthdays and special events come from the Special Events app |
 | `docs/DATA_AND_PRIVACY.md` | permissions, network hosts, stored data |
 | `docs/OPERATIONS.md` | build, CI, release, signing, in-place updates, runbook |
 | `docs/MAINTENANCE.md` | how to change things safely, "when you change X update Y", recipes |

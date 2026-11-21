@@ -7,6 +7,7 @@ import com.clockweather.core.widget.Palettes
 import com.clockweather.core.widget.Season
 import com.clockweather.core.widget.WidgetSettings
 import java.time.LocalDate
+import java.time.ZoneId
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -91,5 +92,23 @@ class TimerItemsTest {
             assertTrue(Palettes.contrast(p.digit, p.cardTop) >= 4.5, "${p.id} digit/card")
             assertTrue(Palettes.contrast(p.panelText, p.panel) >= 4.5, "${p.id} text/panel")
         }
+    }
+}
+
+class SpecialEventsTest {
+    private val zone = ZoneId.of("Asia/Jerusalem")
+    private val today = LocalDate.of(2026, 11, 21)
+    private fun ev(id: Long, title: String, day: LocalDate) = com.clockweather.core.agenda.AgendaEvent(id, title, day.atStartOfDay(zone).toInstant().toEpochMilli(), day.plusDays(1).atStartOfDay(zone).toInstant().toEpochMilli(), true)
+
+    @Test fun nearestFirstWithinWindowAndLabelled() {
+        val list = com.clockweather.core.agenda.SpecialEvents.upcoming(
+            listOf(ev(1, "יום הולדת דני", today.plusDays(3)), ev(2, "אזכרה לסבא", today), ev(3, "Far", today.plusDays(40)), ev(4, "Past", today.minusDays(2)), ev(5, "  ", today.plusDays(1))),
+            today, zone, withinDays = 14,
+        )
+        assertEquals(listOf("אזכרה לסבא", "יום הולדת דני"), list.map { it.title })
+        assertEquals("🕯 אזכרה לסבא · היום", com.clockweather.core.agenda.SpecialEvents.text(list[0], true))
+        assertEquals("🎂 יום הולדת דני · בעוד 3 ימים", com.clockweather.core.agenda.SpecialEvents.widgetLine(list.drop(1), true))
+        assertEquals("🎂 Dan's birthday · tomorrow", com.clockweather.core.agenda.SpecialEvents.text(com.clockweather.core.agenda.SpecialEvents.Item("Dan's birthday", today.plusDays(1), 1, "🎂"), false))
+        assertNull(com.clockweather.core.agenda.SpecialEvents.widgetLine(emptyList(), true))
     }
 }

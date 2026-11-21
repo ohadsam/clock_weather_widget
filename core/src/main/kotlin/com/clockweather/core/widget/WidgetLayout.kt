@@ -39,7 +39,7 @@ object WidgetLayout {
             if (s.showWeather) add(Section.WEATHER_PANEL)
             if (s.showGregorianDate || s.showHebrewDate || s.showHolidays) add(Section.DATE_LINE)
             if (s.showAlarm) add(Section.ALARM_CHIP)
-            if (s.showTimers && s.timerRowActive) add(Section.TIMERS)
+            if (s.timerRowActive) add(Section.TIMERS)
             if (s.showAgenda) add(Section.AGENDA_BANNER)
             if (s.showWorldClocks && s.worldClocks.isNotEmpty()) add(Section.WORLD_CLOCKS)
             if (s.showSteps || s.showSunTimes) add(Section.FOOTER)

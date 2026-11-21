@@ -9,7 +9,9 @@ import com.clockweather.core.widget.Appearance
 import com.clockweather.core.auto.Facts
 import com.clockweather.app.data.CalendarSource
 import com.clockweather.app.data.SettingsStore
+import com.clockweather.app.data.SpecialEventsSource
 import com.clockweather.app.data.StepSource
+import com.clockweather.core.agenda.SpecialEvents
 import com.clockweather.app.data.TimerStore
 import com.clockweather.app.data.WeatherRepository
 import com.clockweather.core.agenda.AgendaEvent
@@ -42,7 +44,9 @@ object Snapshot {
         val effective = if (s.autoContent && !forDashboard) AutoContent.apply(s, Facts(now, zone, agenda, alarm, forecast, steps, s.places.size, s.worldClocks.size)) else s
         val hebrewNow = isHebrew(ctx, s.language)
         val today = now.atZone(zone).toLocalDate()
-        val lines = if (effective.showTimers) listOfNotNull(DateCountdowns.widgetLine(TimerStore.dates(ctx), today, hebrewNow)) + TimerList.widgetLines(TimerStore.items(ctx), now.toEpochMilli(), hebrewNow, 3) else emptyList()
+        val specialText = if (effective.showSpecialEvents) SpecialEvents.widgetLine(special(ctx, now, zone, effective.specialEventsDays), hebrewNow) else null
+        val lines = (listOfNotNull(specialText) +
+            (if (effective.showTimers) listOfNotNull(DateCountdowns.widgetLine(TimerStore.dates(ctx), today, hebrewNow)) + TimerList.widgetLines(TimerStore.items(ctx), now.toEpochMilli(), hebrewNow, 3) else emptyList())).take(3)
         // night palette / holiday look, chosen from the clock (the widget and the in-app preview use the same result)
         val local = now.atZone(zone)
         val fday = forecast?.today(now)
@@ -65,6 +69,20 @@ object Snapshot {
         return agendaCache
     }
 
+    private var specialCache: List<SpecialEvents.Item> = emptyList()
+    private var specialAt = 0L
+    private var specialDays = -1
+
+    /** Special events within [days] days; the calendar query is cached for 3 minutes (the widget redraws every minute). */
     @Synchronized
-    fun invalidateAgenda() { agendaAt = 0L }
+    fun special(ctx: Context, now: Instant, zone: ZoneId, days: Int): List<SpecialEvents.Item> {
+        if (now.toEpochMilli() - specialAt > 3 * 60_000L || days != specialDays) {
+            specialCache = SpecialEventsSource.upcoming(ctx, now, zone, days)
+            specialAt = now.toEpochMilli(); specialDays = days
+        }
+        return specialCache
+    }
+
+    @Synchronized
+    fun invalidateAgenda() { agendaAt = 0L; specialAt = 0L }
 }

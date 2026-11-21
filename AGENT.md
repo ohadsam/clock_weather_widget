@@ -3,6 +3,11 @@
 ## Recently done (2026-11-20/21, sessions 2-3)
 Everything in `docs/CHANGELOG.md` 0.2.0, ledger rows R39-R64. Release checklist run on 2026-11-21 by reading the code (see "Review 2026-11-21" below). Honest gaps: no emulator UI tests with screenshots, no per-widget settings, no `/simplify` or `/code-review` tool run, nothing verified on a phone.
 
+## Review 2026-11-21 evening (release checklist for 0.3.0, by reading)
+- New: special events through the other app's local calendar (no new permission; `queries` entry for its package), ornaments (keyed from ChatGPT round 7; Purim needs 7B), per-widget overrides (`WidgetOverride`), emulator workflow (default branch is not `main`, so `ui-tests.yml` starts on a push touching `androidTest`).
+- Architecture: pure logic in core with tests (`SpecialEvents`, `WidgetOverride`); `Snapshot.special` caches the calendar query for 3 minutes. Security: the calendar rows are untrusted (cleaned); the other app is only read through the system calendar provider. QA: the UI test caught a real wrong assertion (brand is an image). Performance: one extra calendar query per 3 minutes.
+- Open: Purim fix (prompt 7B), phone verification of everything, direct provider in Special Events (optional, needs the owner's go-ahead).
+
 ## Review 2026-11-21 (release checklist, by reading)
 - Architecture: new logic is in `:core` with tests (timers, date countdowns, look codes, seasons, tap zones, health, rain alert, quiet hours, auto content); `:app` only reads sources and draws. One known wart: `WidgetSettings.timerRowActive` is a derived field (documented, reset by `sanitized()`).
 - QA: fixed by review - timer card changes now apply to the latest stored timer (no stale overwrite), `MainActivity.update` compared new settings with themselves (weather not refreshed on place change), `RECEIVE_BOOT_COMPLETED` was missing.

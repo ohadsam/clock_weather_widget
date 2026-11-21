@@ -4,10 +4,10 @@ import com.clockweather.core.hebrew.Holidays
 import java.time.LocalDate
 
 /** Festive looks that switch on by themselves on the holiday itself (opt-in: [WidgetSettings.seasonalTheme]). */
-enum class Season(val paletteId: String, val he: String, val en: String) {
-    HANUKKAH("s_hanukkah", "חנוכה", "Hanukkah"), PESACH("s_pesach", "פסח", "Passover"), ROSH_HASHANA("s_rosh_hashana", "ראש השנה", "Rosh Hashana"),
-    SUKKOT("s_sukkot", "סוכות", "Sukkot"), PURIM("s_purim", "פורים", "Purim"), TU_BISHVAT("s_tu_bishvat", "ט״ו בשבט", "Tu BiShvat"),
-    SHAVUOT("s_shavuot", "שבועות", "Shavuot"), INDEPENDENCE("s_independence", "יום העצמאות", "Independence Day"), LAG_BAOMER("s_lag_baomer", "ל״ג בעומר", "Lag BaOmer");
+enum class Season(val paletteId: String, val he: String, val en: String, val ornament: String) {
+    HANUKKAH("s_hanukkah", "חנוכה", "Hanukkah", "hanukkah"), PESACH("s_pesach", "פסח", "Passover", "pesach"), ROSH_HASHANA("s_rosh_hashana", "ראש השנה", "Rosh Hashana", "rosh_hashana"),
+    SUKKOT("s_sukkot", "סוכות", "Sukkot", "sukkot"), PURIM("s_purim", "פורים", "Purim", "purim"), TU_BISHVAT("s_tu_bishvat", "ט״ו בשבט", "Tu BiShvat", "tu_bishvat"),
+    SHAVUOT("s_shavuot", "שבועות", "Shavuot", "shavuot"), INDEPENDENCE("s_independence", "יום העצמאות", "Independence Day", "independence"), LAG_BAOMER("s_lag_baomer", "ל״ג בעומר", "Lag BaOmer", "lag_baomer");
 
     companion object {
         fun of(day: LocalDate, inIsrael: Boolean): Season? = Holidays.on(day, inIsrael).firstNotNullOfOrNull { h ->

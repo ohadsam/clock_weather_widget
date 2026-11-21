@@ -106,6 +106,9 @@ fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack
             SwitchRow(stringResource(R.string.auto_content), s.autoContent) { onChange(s.copy(autoContent = it)) }
             Text(stringResource(R.string.auto_content_hint), style = MaterialTheme.typography.bodySmall)
             SwitchRow(stringResource(R.string.show_timers), s.showTimers) { onChange(s.copy(showTimers = it)) }
+            SwitchRow(stringResource(R.string.show_special_events), s.showSpecialEvents) { onChange(s.copy(showSpecialEvents = it)) }
+            if (s.showSpecialEvents) SliderRow(stringResource(R.string.special_events_days), s.specialEventsDays, 1..30, "${s.specialEventsDays}") { onChange(s.copy(specialEventsDays = it)) }
+            Text(stringResource(R.string.special_events_hint), style = MaterialTheme.typography.bodySmall)
             SwitchRow(stringResource(R.string.rain_alert), s.rainAlert) { on ->
                 onChange(s.copy(rainAlert = on))
                 if (on && !com.clockweather.app.data.Notifier.canPost(ctx)) rainPermission.launch(Manifest.permission.POST_NOTIFICATIONS)

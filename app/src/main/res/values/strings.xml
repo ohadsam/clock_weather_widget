@@ -269,4 +269,12 @@
     <string name="no_widgets_placed">עוד אין ווידג\'טים על מסך הבית. הוסף אחד מהמסך הראשי.</string>
     <string name="customised">מותאם</string>
     <string name="use_global">חזור להגדרות הכלליות</string>
+    <string name="show_special_events">אירועים מיוחדים (ימי הולדת, אזכרות...)</string>
+    <string name="special_events_days">בווידג\'ט: עד כמה ימים קדימה</string>
+    <string name="special_events_hint">הנתונים באים מהאפליקציה "אירועים מיוחדים" דרך היומן שהיא יוצרת בטלפון (בהגדרות שלה: ייצוא ליומן). נדרשת הרשאת יומן.</string>
+    <string name="open_special_events">פתח את אירועים מיוחדים</string>
+    <string name="special_events_off">מוצגים רק אחרי הפעלה בהגדרות (מה להציג).</string>
+    <string name="no_special_events_soon">אין אירועים מיוחדים ב-60 הימים הקרובים</string>
+    <string name="special_events_enable_hint">באפליקציה "אירועים מיוחדים" הפעל ייצוא ליומן (הגדרות > ייצוא ליומן) ואשר גישה ליומן כאן.</string>
+    <string name="special_events_missing">התקן את האפליקציה "אירועים מיוחדים" כדי לראות כאן ימי הולדת, אזכרות ואירועים אחרים.</string>
 </resources>

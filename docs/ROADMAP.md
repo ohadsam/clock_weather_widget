@@ -44,7 +44,7 @@ Still open from the list: living weather layers beyond the loops, font choices, 
 6. **Interval timer** (work/rest rounds) and **timer presets by name** ("Eggs 8 min") one tap from the widget.
 7. **Haptic/ring preview picker** with the phone's own ringtone chooser per timer (system ringtone picker).
 8. **Shabbat mode**: no timers/alerts from candle lighting to nightfall, and a calm look; Havdalah reminder notification.
-9. **Birthdays and anniversaries** from contacts as date countdowns (read-only, opt-in) and Hebrew birthdays.
+9. ~~Birthdays and anniversaries~~ DONE 2026-11-21 through the Special Events app's calendar (R67); direct contacts birthdays and a direct provider remain optional (see `docs/SPECIAL_EVENTS_INTEGRATION.md`).
 10. **Widget themes from art**: the optional round 7 ornaments (`docs/prompts/ROUND7_SEASONAL_PROMPT.md`) plus painted backgrounds that follow the weather.
 11. **Reliability telemetry kept local**: a small on-device log of tick lateness and last errors shown in Widget status (no network), to debug launcher/OEM battery killers.
 12. **Accessibility**: TalkBack reads the whole widget as one sentence; high-contrast and big-text presets; reduce-motion follows the system setting automatically.

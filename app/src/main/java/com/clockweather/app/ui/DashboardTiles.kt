@@ -204,3 +204,25 @@ internal fun MapTile(st: RenderState, index: Int, animate: Boolean, onOpen: () -
         Text(stringResource(R.string.map_tile_hint, s.places.size, s.worldPlaces.size), style = MaterialTheme.typography.bodyMedium)
     }
 }
+
+@Composable
+internal fun SpecialEventsTile(st: RenderState, index: Int, animate: Boolean) {
+    val ctx = LocalContext.current
+    val items = remember(st.now.epochSecond / 60) { com.clockweather.app.data.SpecialEventsSource.upcoming(ctx, st.now, st.zone, 60).take(6) }
+    val installed = com.clockweather.app.data.SpecialEventsSource.installed(ctx)
+    val hasCalendar = com.clockweather.app.data.SpecialEventsSource.calendarId(ctx) != null
+    val open = com.clockweather.app.data.SpecialEventsSource.launchIntent(ctx)
+    DashCard(
+        index, animate, DashTitles.of(com.clockweather.core.dashboard.DashTile.SPECIAL_EVENTS, st.hebrew), null,
+        if (installed && open != null) stringResource(R.string.open_special_events) else null,
+        if (installed && open != null) { { runCatching { ctx.startActivity(open.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)) } } } else null,
+    ) {
+        when {
+            !st.settings.showSpecialEvents -> Text(stringResource(R.string.special_events_off), style = MaterialTheme.typography.bodyMedium)
+            items.isNotEmpty() -> items.forEach { Text(com.clockweather.core.agenda.SpecialEvents.text(it, st.hebrew), style = MaterialTheme.typography.bodyLarge) }
+            hasCalendar -> Text(stringResource(R.string.no_special_events_soon), style = MaterialTheme.typography.bodyMedium)
+            installed -> Text(stringResource(R.string.special_events_enable_hint), style = MaterialTheme.typography.bodyMedium)
+            else -> Text(stringResource(R.string.special_events_missing), style = MaterialTheme.typography.bodyMedium)
+        }
+    }
+}

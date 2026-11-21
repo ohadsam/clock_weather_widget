@@ -16,6 +16,8 @@ Five widget types (picker entries): classic (everything), clock only, weather, a
 | World clocks row | `WorldClock` | `showWorldClocks`, `worldClocks` | `ClockTest` |
 | Footer: sunrise/sunset, nightfall, candle lighting, steps | `SunTimes`, `Zmanim`, `StepSource`, `StepMath` | `showSunTimes`, `showNightfall`, `showSteps` | `SunTimesTest`, `ZmanimTest`, `StepMathTest` |
 | Timers row (up to 3 labelled timers + nearest date countdown) | `TimerList.widgetLines`, `DateCountdowns.widgetLine`, `drawTimers` | `showTimers` | `TimersTest`, `TimerItemsTest` |
+| Special events row: the nearest birthday/memorial within N days (from the Special Events app's calendar), e.g. "🎂 דני · בעוד 3 ימים" | `SpecialEvents` (core), `SpecialEventsSource`, `Snapshot.special` | `showSpecialEvents`, `specialEventsDays` | `SpecialEventsTest` |
+| Holiday ornament (painted) in the top corner on the holiday, with festive looks on | `drawOrnament`, `Season.ornament`, `orn_*.webp` | `seasonalTheme` | `TimerItemsTest` (seasons) |
 | Tap zones: clock -> app, date/events -> calendar, weather -> weather app or our weather screen, alarm -> alarm app, footer -> sun screen, gear -> Settings | `TapZones`, `WidgetTaps`, `widget_clock.xml` | `showSettingsButton`, `weatherAppPackage` | `TapZonesAndHealthTest` |
 | Smart content (show only what matters now) | `AutoContent.apply` in `Snapshot` | `autoContent` | `AutoContentTest` |
 | Festive holiday looks, automatic night look | `Season`, `Appearance` | `seasonalTheme`, `autoDayNight`, `nightPaletteId` | `TimerItemsTest` (seasons) |
@@ -40,6 +42,7 @@ Five widget types (picker entries): classic (everything), clock only, weather, a
 | `sun` | sunrise, sunset, nightfall, candle lighting | `SunTile` | `DashDetailScreen(SUN)`: 7 days |
 | `steps` | today's steps (animated count) | `StepsTile` | - |
 | `world` | world clocks | `WorldTile` | - |
+| `special_events` | birthdays, anniversaries, memorials and other events from the Special Events app (next 60 days) | `SpecialEventsTile`, `SpecialEventsSource` | open the Special Events app |
 | `world_places` | weather + local time for up to 10 places around the world | `WorldPlacesTile` | `WeatherScreen` |
 | `map` | summary + "open map" | `MapTile` | `PlacePickerScreen` |
 

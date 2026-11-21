@@ -82,6 +82,10 @@ data class WidgetSettings(
     val autoContent: Boolean = false,
     /** Show an active stopwatch / countdown as a row in the widget. */
     val showTimers: Boolean = true,
+    /** Birthdays / anniversaries / special events from the Special Events app's device calendar: nearest one in the widget row, a card on the dashboard. */
+    val showSpecialEvents: Boolean = true,
+    /** The widget row shows a special event only when it is at most this many days away. */
+    val specialEventsDays: Int = 7,
     /** DERIVED, never stored by the user: the app sets it from the timer state so the layout plan reserves the row. */
     val timerRowActive: Boolean = false,
     /** Notify when rain is about to start at the active place (opt-in; needs the notification permission). */
@@ -129,6 +133,7 @@ data class WidgetSettings(
             alarmShowWithinHours = alarmShowWithinHours.coerceIn(0, 168),
             agendaCalendarIds = agendaCalendarIds.take(40),
             timerRowActive = false,
+            specialEventsDays = specialEventsDays.coerceIn(1, 30),
             perWidget = perWidget.filter { (k, v) -> k.toIntOrNull() != null && !v.isEmpty }.entries.take(MAX_WIDGETS).associate { it.key to it.value },
             nightPaletteId = if (Palettes.byId(nightPaletteId) != null) nightPaletteId else "midnight",
             quietFromHour = quietFromHour.coerceIn(0, 23),

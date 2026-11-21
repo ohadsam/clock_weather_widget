@@ -3,7 +3,7 @@
 ## Product
 Widget-first native Android app. The home-screen widget is the product: a big, beautiful, resizable, **transparent** widget (reference: an HTC-Sense-style flip clock over the wallpaper with a dark weather panel below; direction only, not a copy). Shows: flip / digital / analog / minimal clock, weather (current, max/min, "rain expected / sunny"), Gregorian + Hebrew date with holidays, next alarm (from a chosen alarm app, e.g. SmartRing), a rotating banner of today's Google Calendar events, up to 3 extra time zones, sunrise/sunset, optional steps. The app = live preview + settings + weather drill-down (hourly temp / rain / humidity, up to 4 places). Tapping widget regions opens the matching screen.
 
-## Status (2026-11-21, version 0.2.0)
+## Status (2026-11-21, version 0.3.0)
 - `:core` green (`gradle :core:test`, ~120 tests). `:app` compiles and passes CI on `main`; every push publishes the signed APK as pre-release `latest`. Art integrated: logo, 16 weather loops, pocket watch (gold, silver, rose), UI spots, 13 holiday badges. Optional pending: round 7 seasonal ornaments (`docs/prompts/ROUND7_SEASONAL_PROMPT.md`).
 - Built: widget (5 types, tap zones per section, smart content, quiet hours, festive/night looks), dashboard of customisable cards with drill-downs, forecast charts, places + map + world places, several labelled timers and date countdowns, updater + share, backup/look codes, permissions and widget-status screens, first-run guide. Nothing here is verified on a phone yet (see AGENT.md "Not verifiable").
 - Next: `docs/PLAN.md` (per-widget settings, emulator UI tests with screenshots, in-app guide screenshots, `/simplify` + `/code-review` passes).
@@ -73,6 +73,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/main/kotlin/com/clockweather/core/look/LookCode.kt` | Share-my-look code and full backup text |
 | `core/src/main/kotlin/com/clockweather/core/widget/Seasons.kt` | Holiday looks and the effective palette (night / season / chosen) |
 | `core/src/main/kotlin/com/clockweather/core/widget/WidgetOverride.kt` | What one placed widget changes vs the global settings |
+| `core/src/main/kotlin/com/clockweather/core/agenda/SpecialEvents.kt` | Birthdays / special events as "N days until" lines |
 | `core/src/main/kotlin/com/clockweather/core/sun/SunTimes.kt` | Offline sunrise/sunset (NOAA) |
 | `core/src/main/kotlin/com/clockweather/core/sun/Zmanim.kt` | Nightfall (tzeit), candle lighting, Shabbat/Yom Tov eve |
 | `core/src/main/kotlin/com/clockweather/core/text/Untrusted.kt` | Cleaning of untrusted text |
@@ -143,6 +144,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `app/src/main/java/com/clockweather/app/ui/BackupSection.kt` | Settings: share my look, backup, restore by pasted code |
 | `app/src/main/java/com/clockweather/app/ui/GuideDialog.kt` | First-run guide (4 pages) and its seen flag |
 | `app/src/main/java/com/clockweather/app/ui/WidgetsSection.kt` | Settings: each placed widget with its own look and items |
+| `app/src/main/java/com/clockweather/app/data/SpecialEventsSource.kt` | Reads the Special Events app's calendar (birthdays, memorials) |
 | `app/src/main/java/com/clockweather/app/ui/PlacesOverview.kt` | All saved places at a glance on Home |
 | `app/build.gradle.kts`, `settings.gradle.kts`, `gradle/libs.versions.toml` | build (versionName here is the single source) |
 | `app/src/main/AndroidManifest.xml` | permissions (each commented), widget receiver, activities |

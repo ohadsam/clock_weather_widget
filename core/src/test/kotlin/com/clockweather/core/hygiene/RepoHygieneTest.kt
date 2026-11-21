@@ -115,4 +115,11 @@ class RepoHygieneTest {
         val missing = File(root, "docs").listFiles()!!.filter { it.extension == "md" }.map { it.name }.filterNot { readme.contains(it) }
         assertTrue(missing.isEmpty(), "link from README.md documentation map: $missing")
     }
+
+    @Test fun everySeasonHasItsOrnamentArt() {
+        val src = read("core/src/main/kotlin/com/clockweather/core/widget/Seasons.kt")
+        val names = Regex(""""s_[a-z_]+", "[^"]*", "[^"]*", "([a-z_]+)"""").findAll(src).map { it.groupValues[1] }.toList()
+        val missing = names.filterNot { File(root, "design/ornaments/originals/orn_$it.png").isFile && File(root, "app/src/main/res/drawable-nodpi/orn_$it.webp").isFile }
+        assertTrue(names.size == 9 && missing.isEmpty(), "ornament art missing for: $missing")
+    }
 }

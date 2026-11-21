@@ -269,4 +269,12 @@
     <string name="no_widgets_placed">No widgets on the home screen yet. Add one from the main screen.</string>
     <string name="customised">customised</string>
     <string name="use_global">Use global settings</string>
+    <string name="show_special_events">Special events (birthdays, memorials...)</string>
+    <string name="special_events_days">In the widget: how many days ahead</string>
+    <string name="special_events_hint">The data comes from the Special Events app through the calendar it creates on the phone (in its settings: export to calendar). Needs calendar permission.</string>
+    <string name="open_special_events">Open Special Events</string>
+    <string name="special_events_off">Shown only after you turn it on in Settings (What to show).</string>
+    <string name="no_special_events_soon">No special events in the next 60 days</string>
+    <string name="special_events_enable_hint">In the Special Events app turn on export to calendar (Settings > Export to calendar) and allow calendar access here.</string>
+    <string name="special_events_missing">Install the Special Events app to see birthdays, memorials and other events here.</string>
 </resources>

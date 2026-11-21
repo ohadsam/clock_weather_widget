@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+- Birthdays, anniversaries and memorials from the Special Events app (through its calendar) in the widget row and a dashboard card.
+- Painted holiday ornaments in the widget corner and the dashboard header on the holiday (festive looks).
+- Per-widget settings: each placed widget can have its own look and items.
+- Emulator UI tests with screenshots; complete documentation set kept honest by repo tests.
+
 ## 0.2.0
 - Dashboard home screen with animated, customisable cards (widget preview, date and holidays, weather, places, alarm, events, sun and nightfall, steps, world clocks, map) and drill-downs; shortcuts to the calendar and alarm apps.
 - Hourly forecast with animated charts (temperature, rain, humidity); several places side by side; map place picker (OpenStreetMap) and places around the world with local time.
