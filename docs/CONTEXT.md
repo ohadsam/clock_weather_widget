@@ -28,6 +28,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 ## File map (every .kt file must be listed - enforced by RepoHygieneTest)
 | File | Purpose |
 |---|---|
+| `app/src/androidTest/java/com/clockweather/app/ScreenshotJourneyTest.kt` | Emulator test: walks the main screens and saves screenshots |
 | `app/src/androidTest/java/com/clockweather/app/HomeScreenTest.kt` | Emulator smoke test |
 | `app/src/main/java/com/clockweather/app/MainActivity.kt` | App entry + state navigation |
 | `app/src/main/java/com/clockweather/app/WidgetConfigActivity.kt` | Launcher configure hook for the widget |
