@@ -1,7 +1,14 @@
 name: UI tests (emulator + screenshots)
-# Manual: runs the Compose UI tests on an Android emulator and uploads the screenshots taken by ScreenshotJourneyTest as an artifact.
-# Not on every push (an emulator run takes ~10 minutes); run it before a phone test or a release: Actions -> UI tests -> Run workflow.
+# Runs the Compose UI tests on an Android emulator and uploads the screenshots taken by ScreenshotJourneyTest as an artifact.
+# An emulator run takes ~10 minutes, so it runs only when the UI tests or this file change (push to main), or by hand.
+# NOTE: the repository's default branch is not main, and GitHub lists "Run workflow" only for workflows on the default branch;
+# so the push trigger below is the reliable way to start it (touch a file under app/src/androidTest/ or this workflow).
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'app/src/androidTest/**'
+      - '.github/workflows/ui-tests.yml'
   workflow_dispatch:
 jobs:
   emulator:

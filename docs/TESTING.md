@@ -6,7 +6,7 @@
 | Repo hygiene (also in `:core:test`) | `core/.../hygiene/RepoHygieneTest.kt` | sandbox + CI | docs file map, he/en string parity, `:core` purity (no Android imports, no clock reads), changelog section for the version, prompts registered, and the doc-completeness checks listed in `docs/MAINTENANCE.md` section 4 |
 | `:app` JVM tests (Robolectric, native graphics) | `app/src/test` | CI only | every clock style x 5 sizes x he/en renders non-blank, flip frames differ, size cap, transparency |
 | Lint | `:app:lintDebug` | CI only | Android lint (errors abort the build) |
-| Emulator UI tests (Compose) | `app/src/androidTest` | manual: `ui-tests.yml` (Run workflow) | app opens, first-run guide skipped, Settings opens; `ScreenshotJourneyTest` saves screenshots of the main screens as an artifact (he + en, light + dark, font 2.0 variants still to add) |
+| Emulator UI tests (Compose) | `app/src/androidTest` | `ui-tests.yml` (push touching `androidTest`, or manual) | app opens, first-run guide skipped, Settings opens; `ScreenshotJourneyTest` saves screenshots of the main screens as an artifact (he + en, light + dark, font 2.0 variants still to add) |
 | API probe | `.github/workflows/api-probe.yml` | manual in CI | real Open-Meteo / Hebcal response shapes |
 
 ## How to add tests
