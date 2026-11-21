@@ -1,5 +1,15 @@
 # AGENT.md - memory for the next session
 
+## Recently done (2026-11-20/21, sessions 2-3)
+Everything in `docs/CHANGELOG.md` 0.2.0, ledger rows R39-R64. Release checklist run on 2026-11-21 by reading the code (see "Review 2026-11-21" below). Honest gaps: no emulator UI tests with screenshots, no per-widget settings, no `/simplify` or `/code-review` tool run, nothing verified on a phone.
+
+## Review 2026-11-21 (release checklist, by reading)
+- Architecture: new logic is in `:core` with tests (timers, date countdowns, look codes, seasons, tap zones, health, rain alert, quiet hours, auto content); `:app` only reads sources and draws. One known wart: `WidgetSettings.timerRowActive` is a derived field (documented, reset by `sanitized()`).
+- QA: fixed by review - timer card changes now apply to the latest stored timer (no stale overwrite), `MainActivity.update` compared new settings with themselves (weather not refreshed on place change), `RECEIVE_BOOT_COMPLETED` was missing.
+- UI/UX: touch targets >= 48 dp on the new controls; cards respect calm animations; every new string exists in he and en (hygiene test). Not checked: font scale 2.0, RTL mirroring of the new screens, contrast over real wallpapers (needs a phone/emulator).
+- Security: notifications and alarms use immutable PendingIntents and non-exported receivers; backup/look codes are decoded defensively (size caps, sanitised); the backup text contains places (warned in the UI); map tiles load only after the user presses "Show map" (disclosed in Privacy).
+- Performance: timer cards decode the stored list 4x per second only while visible; widget redraw is still once per minute; no new wake locks (one `RTC_WAKEUP` alarm per running countdown).
+
 ## Recently done (2026-11-19, session 1)
 - Copied + adapted skills from `ohadsam/distance_analyzer` (`app-development`, release checklist) and `ohadsam/special_events` (`android-native-dev`) into `.claude/skills/`.
 - `:core` pure logic with 50+ JVM tests (green locally): Hebrew calendar + holidays + gematria, Open-Meteo parser/URLs + WMO mapping + outlook text, offline sunrise/sunset, world clocks, flip math, widget settings (sanitised JSON), palettes (contrast-tested), layout tiers, agenda rotation, next-alarm indicator, untrusted-text cleaner, repo hygiene tests.

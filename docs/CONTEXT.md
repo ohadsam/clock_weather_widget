@@ -3,9 +3,10 @@
 ## Product
 Widget-first native Android app. The home-screen widget is the product: a big, beautiful, resizable, **transparent** widget (reference: an HTC-Sense-style flip clock over the wallpaper with a dark weather panel below; direction only, not a copy). Shows: flip / digital / analog / minimal clock, weather (current, max/min, "rain expected / sunny"), Gregorian + Hebrew date with holidays, next alarm (from a chosen alarm app, e.g. SmartRing), a rotating banner of today's Google Calendar events, up to 3 extra time zones, sunrise/sunset, optional steps. The app = live preview + settings + weather drill-down (hourly temp / rain / humidity, up to 4 places). Tapping widget regions opens the matching screen.
 
-## Status (2026-11-19, version 0.1.0 - foundation)
-- `:core` complete for batch 1-2 and green (`gradle :core:test`). `:app` written but never compiled (needs CI). Widget art is placeholder until ChatGPT rounds arrive (`docs/PENDING_CHATGPT_PROMPTS.md`).
-- Next: `docs/PLAN.md`.
+## Status (2026-11-21, version 0.2.0)
+- `:core` green (`gradle :core:test`, ~120 tests). `:app` compiles and passes CI on `main`; every push publishes the signed APK as pre-release `latest`. Art integrated: logo, 16 weather loops, pocket watch (gold, silver, rose), UI spots, 13 holiday badges. Optional pending: round 7 seasonal ornaments (`docs/prompts/ROUND7_SEASONAL_PROMPT.md`).
+- Built: widget (5 types, tap zones per section, smart content, quiet hours, festive/night looks), dashboard of customisable cards with drill-downs, forecast charts, places + map + world places, several labelled timers and date countdowns, updater + share, backup/look codes, permissions and widget-status screens, first-run guide. Nothing here is verified on a phone yet (see AGENT.md "Not verifiable").
+- Next: `docs/PLAN.md` (per-widget settings, emulator UI tests with screenshots, in-app guide screenshots, `/simplify` + `/code-review` passes).
 
 ## Decisions (do not re-litigate)
 - 2026-11-19 (owner) Two clock worlds: flip cards = digital (digits); analog = a golden pocket watch with an opening lid and chain (NOT hands on a card). Clock styles: FLIP, DIGITAL, MINIMAL (digital) and ANALOG (plain dial), POCKET (gold pocket watch, placeholder art until Round 6).

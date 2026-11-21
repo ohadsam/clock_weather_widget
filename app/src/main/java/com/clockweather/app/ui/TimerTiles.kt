@@ -76,7 +76,7 @@ private fun TimersCard(st: RenderState, index: Int, animate: Boolean, countdown:
     val permission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
     /** Every change is a function applied to the LATEST stored timer (never to the copy on screen), then the alarm and the widget follow. */
-    fun apply(id: String, change: (TimerItem) -> TimerItem) {
+    fun applyChange(id: String, change: (TimerItem) -> TimerItem) {
         val r = TimerStore.update(ctx, id, change) ?: return
         if (r.countdown) {
             if (r.countdownState.running) {
@@ -92,7 +92,7 @@ private fun TimersCard(st: RenderState, index: Int, animate: Boolean, countdown:
         items.forEach { item ->
             TimerItemCard(
                 item, now, st.hebrew, animate,
-                onChange = { f -> apply(item.id, f) },
+                onChange = { f -> applyChange(item.id, f) },
                 onDelete = { CountdownAlarm.cancel(ctx, item.id); TimerStore.save(ctx, TimerList.remove(TimerStore.items(ctx), item.id)); ClockWidgetProvider.updateAll(ctx) },
                 onTest = { Notifier.postTimerDone(ctx, item) },
             )
