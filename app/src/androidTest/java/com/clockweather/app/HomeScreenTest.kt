@@ -15,7 +15,7 @@ class HomeScreenTest {
     @Test fun homeShowsAppNameAndOpensSettings() {
         val a = rule.activity
         runCatching { rule.onNodeWithText(a.getString(R.string.guide_skip)).performClick() } // the guide shows on a fresh install
-        rule.onNodeWithText(a.getString(R.string.app_name)).assertIsDisplayed()
+        rule.onNodeWithContentDescription(a.getString(R.string.app_name)).assertIsDisplayed() // the brand lock-up is an image labelled with the app name
         rule.onNodeWithContentDescription(a.getString(R.string.settings)).performClick()
         rule.onNodeWithText(a.getString(R.string.sec_look)).assertIsDisplayed()
     }

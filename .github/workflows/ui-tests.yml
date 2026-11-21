@@ -30,10 +30,7 @@ jobs:
           api-level: 34
           arch: x86_64
           profile: pixel_6
-          script: |
-            chmod +x gradlew
-            ./gradlew :app:connectedDebugAndroidTest -PversionCodeOverride=1 --stacktrace
-            mkdir -p shots && adb pull /sdcard/Android/data/com.clockweather.app/files/screenshots shots/ || true
+          script: sh scripts/ui-tests.sh
       - uses: actions/upload-artifact@v4
         if: always()
         with:
