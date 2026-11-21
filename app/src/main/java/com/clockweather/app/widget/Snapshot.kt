@@ -7,6 +7,7 @@ import com.clockweather.core.auto.Facts
 import com.clockweather.app.data.CalendarSource
 import com.clockweather.app.data.SettingsStore
 import com.clockweather.app.data.StepSource
+import com.clockweather.app.data.TimerStore
 import com.clockweather.app.data.WeatherRepository
 import com.clockweather.core.agenda.AgendaEvent
 import com.clockweather.core.widget.WidgetKind
@@ -36,8 +37,12 @@ object Snapshot {
         val steps = if (shaped.showSteps) StepSource.today(ctx) else null
         // Smart content: drop what is empty or irrelevant right now (the layout then gives the space to the rest)
         val effective = if (s.autoContent && !forDashboard) AutoContent.apply(s, Facts(now, zone, agenda, alarm, forecast, steps, s.places.size, s.worldClocks.size)) else s
+        val sw = TimerStore.stopwatch(ctx).takeIf { it.active }
+        val cd = TimerStore.countdown(ctx).takeIf { it.active }
+        val withTimers = effective.copy(timerRowActive = effective.showTimers && (sw != null || cd != null))
         return RenderState(
-            settings = effective, kind = kind, now = now, zone = zone, hebrew = isHebrew(ctx, s.language), forecast = forecast,
+            stopwatch = sw, countdown = cd,
+            settings = withTimers, kind = kind, now = now, zone = zone, hebrew = isHebrew(ctx, s.language), forecast = forecast,
             nextAlarm = alarm, agenda = agenda, steps = steps,
             flipFrom = flipFrom, flipProgress = progress, animMs = animMs, lidOpen = lidOpen,
         )

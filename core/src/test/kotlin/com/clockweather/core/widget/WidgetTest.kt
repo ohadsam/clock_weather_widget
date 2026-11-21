@@ -16,8 +16,9 @@ class WidgetTest {
     @Test fun largerWidgetsAddSectionsByPriority() {
         val medium = WidgetLayout.plan(260, 150, full)
         assertTrue(Section.WEATHER_PANEL in medium)
-        val large = WidgetLayout.plan(320, 360, full)
+        val large = WidgetLayout.plan(320, 360, full.copy(timerRowActive = true))
         assertTrue(large.sections.containsAll(Section.values().filter { it != Section.STRIP }))
+        assertFalse(Section.TIMERS in WidgetLayout.plan(320, 360, full)) // no row unless a timer is active
         assertTrue(large.clockHeightDp >= 360 * 0.42f)
         assertEquals(Section.CLOCK, large.sections.first())
     }

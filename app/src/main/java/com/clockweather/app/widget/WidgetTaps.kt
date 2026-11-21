@@ -19,7 +19,7 @@ object WidgetTaps {
                 ?.let { pkg -> ctx.packageManager.getLaunchIntentForPackage(pkg)?.let { activity(ctx, it, code) } }
                 ?: ClockWidgetProvider.open(ctx, "weather", code)
             TapTarget.ALARM -> SourceApps.alarmPending(ctx) ?: ClockWidgetProvider.open(ctx, "detail:alarm", code)
-            TapTarget.WORLD -> ClockWidgetProvider.open(ctx, "home", code)
+            TapTarget.WORLD, TapTarget.TIMERS -> ClockWidgetProvider.open(ctx, "home", code)
             TapTarget.SUN_STEPS -> ClockWidgetProvider.open(ctx, "detail:sun", code)
         }
     }

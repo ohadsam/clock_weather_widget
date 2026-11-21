@@ -194,4 +194,24 @@
     <string name="world_places_hint">Add places around the world to see their weather and local time.</string>
     <string name="local_time">Local time: %1$s</string>
     <string name="loading">Loading...</string>
+    <string name="start">Start</string>
+    <string name="pause">Pause</string>
+    <string name="reset">Reset</string>
+    <string name="clear">Clear</string>
+    <string name="countdown_finished">Done!</string>
+    <string name="countdown_done_title">Countdown finished</string>
+    <string name="countdown_done_text">The time you set is up.</string>
+    <string name="timer_in_widget_hint">While running, the timer also shows in the widget (updated every minute).</string>
+    <string name="timer_widget_off_hint">Showing in the widget is off (Settings > What to show).</string>
+    <string name="channel_timer">Countdown</string>
+    <string name="channel_rain">Rain alert</string>
+    <string name="show_timers">Stopwatch and countdown in the widget</string>
+    <string name="rain_alert">Alert when rain is about to start</string>
+    <string name="rain_alert_hint">One notification, up to 3 hours before rain at the active place, at most once every 6 hours. Needs notification permission.</string>
+    <string name="quiet_hours">Quiet hours (no animations or alerts)</string>
+    <string name="quiet_from">From</string>
+    <string name="quiet_to">Until</string>
+    <string name="quiet_hint">During these hours the widget only updates: no card flip, no weather animation, no rain alerts.</string>
+    <string name="perm_notifications">Notifications</string>
+    <string name="perm_notifications_why">For the countdown end and the rain alert. Nothing else is notified.</string>
 </resources>

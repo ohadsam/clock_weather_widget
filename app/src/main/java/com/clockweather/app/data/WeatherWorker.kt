@@ -20,6 +20,7 @@ class WeatherWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, params
         val settings = SettingsStore.load(applicationContext)
         if (settings.places.isNotEmpty()) WeatherRepository.refreshAll(applicationContext, settings)
         ClockWidgetProvider.updateAll(applicationContext)
+        RainAlerts.check(applicationContext, settings)
         // Heartbeat: every refresh also repairs the minute-tick chain and the calendar watcher if either was lost.
         if (ClockWidgetProvider.hasWidgets(applicationContext)) {
             TickScheduler.scheduleNext(applicationContext)

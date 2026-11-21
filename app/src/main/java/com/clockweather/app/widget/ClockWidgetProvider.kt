@@ -66,6 +66,7 @@ open class ClockWidgetProvider : AppWidgetProvider() {
         super.onReceive(context, intent)
         if (intent.action in RESCHEDULE_ACTIONS) {
             TickScheduler.scheduleNext(context)
+            com.clockweather.app.data.CountdownAlarm.restore(context)
             updateAll(context)
         }
     }
@@ -80,9 +81,11 @@ open class ClockWidgetProvider : AppWidgetProvider() {
         val settings = SettingsStore.load(context)
         val zone = java.time.ZoneId.systemDefault()
         val screenOn = (context.getSystemService(Context.POWER_SERVICE) as? PowerManager)?.isInteractive != false
+        // quiet hours (night mode) and "calm animations" both mean: only the plain minute update, no flip / lid / weather loop
+        val calm = settings.calmAnimations || com.clockweather.core.widget.QuietHours.isQuiet(settings.quietHoursEnabled, settings.quietFromHour, settings.quietToHour, now.atZone(zone).toLocalTime())
         val before = now.minusSeconds(60).atZone(zone)
         val from = WorldClock.digits(before.hour, before.minute, settings.use24h)
-        val flipKinds = if (screenOn && !settings.calmAnimations && settings.clockStyle == ClockStyle.FLIP) setOf(WidgetKind.CLASSIC, WidgetKind.CLOCK) else emptySet()
+        val flipKinds = if (screenOn && !calm && settings.clockStyle == ClockStyle.FLIP) setOf(WidgetKind.CLASSIC, WidgetKind.CLOCK) else emptySet()
         for ((k, ids) in idsByKind(context, manager)) if (k !in flipKinds) pushAll(context, manager, ids, k, now)
         if (flipKinds.isNotEmpty()) {
             for (p in FlipMath.burst()) {
@@ -90,8 +93,8 @@ open class ClockWidgetProvider : AppWidgetProvider() {
                 if (p < 1f) Thread.sleep(FlipMath.DURATION_MS / FlipMath.FRAMES.toLong())
             }
         }
-        playLidOpening(context, manager, settings, screenOn, now)
-        playWeatherLoop(context, manager, settings, screenOn, now)
+        playLidOpening(context, manager, settings, screenOn && !calm, now)
+        playWeatherLoop(context, manager, settings, screenOn && !calm, now)
     }
 
     /** On the hour the pocket watch lid opens (1 s). Only for clock kinds with the pocket style, screen on, animations not calmed. */

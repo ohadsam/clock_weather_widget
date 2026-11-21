@@ -194,4 +194,24 @@
     <string name="world_places_hint">הוסף מקומות בעולם כדי לראות את מזג האוויר והשעה שם.</string>
     <string name="local_time">שעה שם: %1$s</string>
     <string name="loading">טוען...</string>
+    <string name="start">התחל</string>
+    <string name="pause">השהה</string>
+    <string name="reset">אפס</string>
+    <string name="clear">נקה</string>
+    <string name="countdown_finished">הסתיים!</string>
+    <string name="countdown_done_title">הספירה לאחור הסתיימה</string>
+    <string name="countdown_done_text">הזמן שקבעת נגמר.</string>
+    <string name="timer_in_widget_hint">כשהטיימר פעיל הוא מופיע גם בווידג\'ט (מתעדכן בכל דקה).</string>
+    <string name="timer_widget_off_hint">הצגה בווידג\'ט כבויה (הגדרות > מה להציג).</string>
+    <string name="channel_timer">ספירה לאחור</string>
+    <string name="channel_rain">התראת גשם</string>
+    <string name="show_timers">טיימר וספירה לאחור בווידג\'ט</string>
+    <string name="rain_alert">התראה כשעומד לרדת גשם</string>
+    <string name="rain_alert_hint">התראה אחת בלבד, עד 3 שעות לפני גשם במקום הפעיל, ולא יותר מפעם ב-6 שעות. דורשת אישור התראות.</string>
+    <string name="quiet_hours">שעות שקט (בלי אנימציות והתראות)</string>
+    <string name="quiet_from">משעה</string>
+    <string name="quiet_to">עד שעה</string>
+    <string name="quiet_hint">בשעות האלה הווידג\'ט רק מתעדכן, בלי היפוך כרטיסים ואנימציות מזג אוויר, ואין התראות גשם.</string>
+    <string name="perm_notifications">התראות</string>
+    <string name="perm_notifications_why">לסיום ספירה לאחור ולהתראת גשם. אין שום התראה אחרת.</string>
 </resources>

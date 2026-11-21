@@ -59,7 +59,8 @@ fun PermissionsSection() {
         if (ok) com.clockweather.app.data.StepWorker.schedule(ctx)
         refresh++
     }
-    val granted = refresh.let { listOf(has(ctx, Manifest.permission.ACCESS_COARSE_LOCATION), has(ctx, Manifest.permission.READ_CALENDAR), exactAlarms(ctx), canInstall(ctx), com.clockweather.app.data.StepSource.granted(ctx)) }
+    val notif = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { refresh++ }
+    val granted = refresh.let { listOf(has(ctx, Manifest.permission.ACCESS_COARSE_LOCATION), has(ctx, Manifest.permission.READ_CALENDAR), exactAlarms(ctx), canInstall(ctx), com.clockweather.app.data.StepSource.granted(ctx), com.clockweather.app.data.Notifier.canPost(ctx)) }
     SectionCard(stringResource(R.string.sec_permissions), stringResource(R.string.sec_permissions_sum, granted.count { it }, granted.size)) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(stringResource(R.string.permissions_hint), style = MaterialTheme.typography.bodySmall)
@@ -67,6 +68,7 @@ fun PermissionsSection() {
             PermRow(stringResource(R.string.perm_calendar), stringResource(R.string.perm_calendar_why), granted[1], { calendar.launch(Manifest.permission.READ_CALENDAR) }) { appSettings(ctx) }
             PermRow(stringResource(R.string.perm_exact), stringResource(R.string.perm_exact_why), granted[2], null) { exactSettings(ctx) }
             PermRow(stringResource(R.string.perm_steps), stringResource(R.string.perm_steps_why), granted[4], { steps.launch(Manifest.permission.ACTIVITY_RECOGNITION) }) { appSettings(ctx) }
+            PermRow(stringResource(R.string.perm_notifications), stringResource(R.string.perm_notifications_why), granted[5], { notif.launch(Manifest.permission.POST_NOTIFICATIONS) }) { appSettings(ctx) }
             PermRow(stringResource(R.string.perm_install), stringResource(R.string.perm_install_why), granted[3], null) { installSettings(ctx) }
         }
     }

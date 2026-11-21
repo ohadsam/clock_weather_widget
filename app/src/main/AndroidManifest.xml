@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     <!-- Optional: today's steps from the phone's own step counter (Android 10+ asks at run time). Never sent anywhere. -->
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    <!-- Optional (Android 13+): the countdown-finished and rain-is-coming notifications. Nothing else is notified. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- Re-arms the minute tick after a reboot (exact alarms do not survive a restart). -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- In-app update: lets this app hand its own newer APK (same signing key) to the system installer as an update. -->
@@ -40,6 +42,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Fires when the countdown ends; not exported. -->
+        <receiver android:name=".data.CountdownReceiver" android:exported="false" />
 
         <!-- Receives the installer result of an in-app update; not exported. -->
         <receiver android:name=".data.InstallReceiver" android:exported="false" />

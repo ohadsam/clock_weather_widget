@@ -61,6 +61,7 @@ import kotlinx.coroutines.withContext
 @Composable
 fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack: () -> Unit) {
     val ctx = LocalContext.current
+    val rainPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { }
     val stepPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { ok ->
         if (ok) { StepWorker.schedule(ctx); Thread { StepSource.refresh(ctx); com.clockweather.app.widget.ClockWidgetProvider.updateAll(ctx) }.start() }
     }
@@ -104,6 +105,18 @@ fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack
             if (s.showSunTimes) SwitchRow(stringResource(R.string.show_nightfall), s.showNightfall) { onChange(s.copy(showNightfall = it)) }
             SwitchRow(stringResource(R.string.auto_content), s.autoContent) { onChange(s.copy(autoContent = it)) }
             Text(stringResource(R.string.auto_content_hint), style = MaterialTheme.typography.bodySmall)
+            SwitchRow(stringResource(R.string.show_timers), s.showTimers) { onChange(s.copy(showTimers = it)) }
+            SwitchRow(stringResource(R.string.rain_alert), s.rainAlert) { on ->
+                onChange(s.copy(rainAlert = on))
+                if (on && !com.clockweather.app.data.Notifier.canPost(ctx)) rainPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+            Text(stringResource(R.string.rain_alert_hint), style = MaterialTheme.typography.bodySmall)
+            SwitchRow(stringResource(R.string.quiet_hours), s.quietHoursEnabled) { onChange(s.copy(quietHoursEnabled = it)) }
+            if (s.quietHoursEnabled) {
+                SliderRow(stringResource(R.string.quiet_from), s.quietFromHour, 0..23, "%02d:00".format(s.quietFromHour)) { onChange(s.copy(quietFromHour = it)) }
+                SliderRow(stringResource(R.string.quiet_to), s.quietToHour, 0..23, "%02d:00".format(s.quietToHour)) { onChange(s.copy(quietToHour = it)) }
+                Text(stringResource(R.string.quiet_hint), style = MaterialTheme.typography.bodySmall)
+            }
             SwitchRow(stringResource(R.string.show_settings_button), s.showSettingsButton) { onChange(s.copy(showSettingsButton = it)) }
             val weatherApps = remember { listOf("com.google.android.apps.weather" to "Pixel Weather", "com.sec.android.daemonapp" to "Samsung Weather").filter { ctx.packageManager.getLaunchIntentForPackage(it.first) != null } }
             if (weatherApps.isNotEmpty()) {

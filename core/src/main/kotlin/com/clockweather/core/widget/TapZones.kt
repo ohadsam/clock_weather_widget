@@ -1,7 +1,7 @@
 package com.clockweather.core.widget
 
 /** What a tap on a part of the widget should open. The app maps each to a screen or to the matching other app. */
-enum class TapTarget { CLOCK, DATE, WEATHER, ALARM, AGENDA, WORLD, SUN_STEPS }
+enum class TapTarget { CLOCK, DATE, WEATHER, ALARM, TIMERS, AGENDA, WORLD, SUN_STEPS }
 
 /**
  * Splits the widget height into [ROWS] equal invisible tap rows and says which section each row belongs to, from the same
@@ -16,6 +16,7 @@ object TapZones {
         Section.DATE_LINE -> TapTarget.DATE
         Section.WEATHER_PANEL -> TapTarget.WEATHER
         Section.ALARM_CHIP -> TapTarget.ALARM
+        Section.TIMERS -> TapTarget.TIMERS
         Section.AGENDA_BANNER -> TapTarget.AGENDA
         Section.WORLD_CLOCKS -> TapTarget.WORLD
         Section.FOOTER -> TapTarget.SUN_STEPS

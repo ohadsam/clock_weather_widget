@@ -72,6 +72,8 @@ fun HomeScreen(
                     DashTile.AGENDA -> AgendaTile(st, i, animate, CalendarSource.granted(ctx)) { onOpenDetail(DashTile.AGENDA) }
                     DashTile.SUN -> SunTile(st, i, animate) { onOpenDetail(DashTile.SUN) }
                     DashTile.STEPS -> StepsTile(st, i, animate, settings.showSteps && StepSource.granted(ctx))
+                    DashTile.STOPWATCH -> StopwatchTile(st, i, animate)
+                    DashTile.COUNTDOWN -> CountdownTile(st, i, animate)
                     DashTile.WORLD -> WorldTile(st, i, animate)
                     DashTile.WORLD_PLACES -> WorldPlacesTile(st, i, animate, onOpenWeather = { onOpenWeather(it) }, onAdd = onOpenMap)
                     DashTile.MAP -> MapTile(st, i, animate, onOpenMap)

@@ -19,6 +19,9 @@ data class RenderState(
     val nextAlarm: NextAlarm?,
     val agenda: List<AgendaEvent>,
     val steps: Int? = null,
+    /** Active timers (null = none); shown as one row in the widget when [WidgetSettings.showTimers]. */
+    val stopwatch: com.clockweather.core.timers.Stopwatch? = null,
+    val countdown: com.clockweather.core.timers.Countdown? = null,
     /** Flip animation: digits shown before the change and progress 0..1 (null = static). */
     val flipFrom: IntArray? = null,
     val flipProgress: Float = 1f,

@@ -30,6 +30,12 @@ The line under the weather shows sunrise, sunset and nightfall; on a Friday or t
 ## Map and places around the world
 Open the map card (or "Add a place around the world"): search a city or press "Show map" and tap it. You see the weather and local time there, then save it as "my place" (used by the widget) or as a world place (shown on the dashboard).
 
+## Stopwatch and countdown
+Two dashboard cards. Start either one and it also appears as a row in the widget (minutes, updated every minute); the dashboard shows live seconds. The countdown rings a notification when it ends (allow notifications when asked).
+
+## Rain alert and quiet hours
+Settings > What to show: turn on the rain alert to get one notification shortly before rain starts at your active place. Quiet hours switch off animations and alerts at night.
+
 ## Smart content
 Turn on "Smart content" in Settings > What to show: the widget and the dashboard then show only what matters now (events when there are any, the alarm when it is near, sun times at useful hours) and the layout adjusts by itself.
 

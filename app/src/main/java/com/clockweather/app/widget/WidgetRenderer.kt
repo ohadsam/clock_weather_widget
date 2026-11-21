@@ -18,6 +18,7 @@ import com.clockweather.core.hebrew.HebrewDateFormat
 import com.clockweather.core.hebrew.HolidayBadge
 import com.clockweather.core.hebrew.Holidays
 import com.clockweather.core.sun.SunTimes
+import com.clockweather.core.timers.TimerFormat
 import com.clockweather.core.widget.PocketMetal
 import com.clockweather.core.sun.Zmanim
 import com.clockweather.core.weather.TempFormat
@@ -76,6 +77,7 @@ object WidgetRenderer {
                     Section.DATE_LINE -> drawDateLine(r)
                     Section.WEATHER_PANEL -> drawWeatherPanel(r)
                     Section.ALARM_CHIP -> drawAlarm(r)
+                    Section.TIMERS -> drawTimers(r)
                     Section.AGENDA_BANNER -> drawAgenda(r)
                     Section.WORLD_CLOCKS -> drawWorld(r)
                     Section.FOOTER -> drawFooter(r)
@@ -368,6 +370,16 @@ object WidgetRenderer {
             if (!AlarmIndicator.visible(a, st.now, s.alarmShowWithinHours, s.alarmPackage) || a == null) return
             val label = "⏰ " + AlarmIndicator.label(a, st.now, st.zone, use24, st.hebrew)
             fitText(label, RectF(r.left, r.top, r.right, r.bottom), ink, 12f, bold = true)
+        }
+
+        /** One quiet row: stopwatch and/or countdown. The widget redraws once a minute, so only minutes are shown. */
+        fun drawTimers(r: RectF) {
+            val nowMs = st.now.toEpochMilli()
+            val parts = listOfNotNull(
+                st.stopwatch?.let { TimerFormat.widgetStopwatch(it.elapsed(nowMs), st.hebrew) },
+                st.countdown?.let { TimerFormat.widgetCountdown(it, nowMs, st.hebrew) },
+            )
+            if (parts.isNotEmpty()) fitText(parts.joinToString("    "), RectF(r.left, r.top, r.right, r.bottom), ink, 12f, bold = true)
         }
 
         fun drawAgenda(r: RectF) {

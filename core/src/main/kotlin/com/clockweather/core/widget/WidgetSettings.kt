@@ -76,6 +76,16 @@ data class WidgetSettings(
     val showSettingsButton: Boolean = true,
     /** Smart content: the widget and the dashboard show what matters now and drop what is empty ([com.clockweather.core.auto.AutoContent]). */
     val autoContent: Boolean = false,
+    /** Show an active stopwatch / countdown as a row in the widget. */
+    val showTimers: Boolean = true,
+    /** DERIVED, never stored by the user: the app sets it from the timer state so the layout plan reserves the row. */
+    val timerRowActive: Boolean = false,
+    /** Notify when rain is about to start at the active place (opt-in; needs the notification permission). */
+    val rainAlert: Boolean = false,
+    /** Quiet hours: no animations and no alerts between these hours. */
+    val quietHoursEnabled: Boolean = false,
+    val quietFromHour: Int = 23,
+    val quietToHour: Int = 7,
     /** Weather app opened by a tap on the weather; empty = the weather screen of this app. */
     val weatherAppPackage: String = "",
     val dashboardOrder: List<String> = emptyList(),
@@ -111,6 +121,9 @@ data class WidgetSettings(
             alarmPackage = alarmPackage.take(200).filter { it.isLetterOrDigit() || it == '.' || it == '_' },
             alarmShowWithinHours = alarmShowWithinHours.coerceIn(0, 168),
             agendaCalendarIds = agendaCalendarIds.take(40),
+            timerRowActive = false,
+            quietFromHour = quietFromHour.coerceIn(0, 23),
+            quietToHour = quietToHour.coerceIn(0, 23),
             weatherAppPackage = weatherAppPackage.take(200).filter { it.isLetterOrDigit() || it == '.' || it == '_' },
             dashboardOrder = dashboardOrder.filter { com.clockweather.core.dashboard.DashTile.byId(it) != null }.distinct(),
             dashboardHidden = dashboardHidden.filter { com.clockweather.core.dashboard.DashTile.byId(it) != null }.distinct(),
