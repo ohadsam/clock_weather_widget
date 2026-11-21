@@ -85,7 +85,7 @@ open class ClockWidgetProvider : AppWidgetProvider() {
         val calm = settings.calmAnimations || com.clockweather.core.widget.QuietHours.isQuiet(settings.quietHoursEnabled, settings.quietFromHour, settings.quietToHour, now.atZone(zone).toLocalTime())
         val before = now.minusSeconds(60).atZone(zone)
         val from = WorldClock.digits(before.hour, before.minute, settings.use24h)
-        val flipKinds = if (screenOn && !calm && settings.clockStyle == ClockStyle.FLIP) setOf(WidgetKind.CLASSIC, WidgetKind.CLOCK) else emptySet()
+        val flipKinds = if (screenOn && !calm) kindsWithStyle(context, manager, settings, ClockStyle.FLIP) else emptySet()
         for ((k, ids) in idsByKind(context, manager)) if (k !in flipKinds) pushAll(context, manager, ids, k, now)
         if (flipKinds.isNotEmpty()) {
             for (p in FlipMath.burst()) {
@@ -97,11 +97,16 @@ open class ClockWidgetProvider : AppWidgetProvider() {
         playWeatherLoop(context, manager, settings, screenOn && !calm, now)
     }
 
+    /** Clock kinds that have at least one placed widget whose effective clock style (global + its own override) is [style]. */
+    private fun kindsWithStyle(context: Context, manager: AppWidgetManager, settings: com.clockweather.core.widget.WidgetSettings, style: ClockStyle): Set<WidgetKind> =
+        idsByKind(context, manager).filter { (k, ids) -> (k == WidgetKind.CLASSIC || k == WidgetKind.CLOCK) && ids.any { settings.forWidget(it).clockStyle == style } }.map { it.first }.toSet()
+
     /** On the hour the pocket watch lid opens (1 s). Only for clock kinds with the pocket style, screen on, animations not calmed. */
     private fun playLidOpening(context: Context, manager: AppWidgetManager, settings: com.clockweather.core.widget.WidgetSettings, screenOn: Boolean, now: Instant) {
-        if (!screenOn || settings.calmAnimations || settings.clockStyle != ClockStyle.POCKET) return
+        if (!screenOn || settings.calmAnimations) return
         if (now.atZone(java.time.ZoneId.systemDefault()).minute != 0) return
-        val targets = idsByKind(context, manager).filter { it.first == WidgetKind.CLASSIC || it.first == WidgetKind.CLOCK }
+        val pocketKinds = kindsWithStyle(context, manager, settings, ClockStyle.POCKET)
+        val targets = idsByKind(context, manager).filter { it.first in pocketKinds }
         if (targets.isEmpty()) return
         val steps = 12
         for (i in 0..steps) {
@@ -149,6 +154,10 @@ open class ClockWidgetProvider : AppWidgetProvider() {
 
         fun hasWidgets(context: Context): Boolean = allIds(context).isNotEmpty()
 
+        /** Every placed widget as (appWidgetId, kind), for the "Widgets on my home screen" settings. */
+        fun placed(context: Context): List<Pair<Int, WidgetKind>> =
+            idsByKind(context, AppWidgetManager.getInstance(context)).flatMap { (k, ids) -> ids.map { it to k } }.sortedBy { it.first }
+
         private fun allIds(context: Context): List<Int> =
             idsByKind(context, AppWidgetManager.getInstance(context)).flatMap { it.second.toList() }
 
@@ -168,8 +177,11 @@ open class ClockWidgetProvider : AppWidgetProvider() {
 
         private fun pushAll(context: Context, manager: AppWidgetManager, ids: IntArray, kind: WidgetKind, now: Instant = Instant.now(), flipFrom: IntArray? = null, progress: Float = 1f, animMs: Long = -1L, lidOpen: Float = 1f) {
             val density = context.resources.displayMetrics.density
-            val st = Snapshot.build(context, now, flipFrom, progress, kind, animMs, lidOpen)
+            val global = SettingsStore.load(context)
+            val shared by lazy { Snapshot.build(context, now, flipFrom, progress, kind, animMs, lidOpen) }
             for (id in ids) {
+                // a widget the owner customised gets its own snapshot; all others share one
+                val st = if (global.perWidget.containsKey(id.toString())) Snapshot.build(context, now, flipFrom, progress, kind, animMs, lidOpen, widgetId = id) else shared
                 val (wDp, hDp) = sizeDp(manager.getAppWidgetOptions(id), context)
                 val bmp = WidgetRenderer.render(context, (wDp * density).toInt(), (hDp * density).toInt(), density, st)
                 val rv = RemoteViews(context.packageName, R.layout.widget_clock)

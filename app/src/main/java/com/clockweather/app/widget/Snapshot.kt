@@ -29,8 +29,8 @@ object Snapshot {
         else -> Locale.getDefault().language.let { it == "he" || it == "iw" }
     }
 
-    fun build(ctx: Context, now: Instant = Instant.now(), flipFrom: IntArray? = null, progress: Float = 1f, kind: WidgetKind = WidgetKind.CLASSIC, animMs: Long = -1L, lidOpen: Float = 1f, forDashboard: Boolean = false): RenderState {
-        val s = SettingsStore.load(ctx)
+    fun build(ctx: Context, now: Instant = Instant.now(), flipFrom: IntArray? = null, progress: Float = 1f, kind: WidgetKind = WidgetKind.CLASSIC, animMs: Long = -1L, lidOpen: Float = 1f, forDashboard: Boolean = false, widgetId: Int? = null): RenderState {
+        val s = SettingsStore.load(ctx).forWidget(widgetId)
         val zone = ZoneId.systemDefault()
         val forecast = s.activePlaceId?.let { WeatherRepository.cached(ctx, it) }
         // the in-app dashboard always has the data, whatever the widget is set to hide

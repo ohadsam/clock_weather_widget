@@ -263,4 +263,10 @@
     <string name="guide_body_3">בהגדרות בוחרים מה להציג, צבעים, מקומות, התראות ושעות שקט. "תוכן חכם" מציג רק מה שרלוונטי עכשיו.</string>
     <string name="guide_title_4">פרטיות</string>
     <string name="guide_body_4">הכול נשאר במכשיר. הרשאות הן אופציונליות, ואפשר לראות ולשנות אותן בהגדרות. רשת משמשת רק למזג אוויר, חיפוש מקום, מפה ועדכון, ורק כשאתה מבקש.</string>
+    <string name="sec_widgets">הווידג\'טים שלי על מסך הבית</string>
+    <string name="sec_widgets_sum">%1$d ווידג\'טים. לכל אחד אפשר מראה משלו</string>
+    <string name="widgets_hint">כל ווידג\'ט יכול לקבל סגנון, צבעים ופריטים משלו. מה שלא שינית ממשיך לעקוב אחרי ההגדרות הכלליות.</string>
+    <string name="no_widgets_placed">עוד אין ווידג\'טים על מסך הבית. הוסף אחד מהמסך הראשי.</string>
+    <string name="customised">מותאם</string>
+    <string name="use_global">חזור להגדרות הכלליות</string>
 </resources>

@@ -36,7 +36,7 @@ Done since the list above: presets, shabbat times (candle lighting, nightfall), 
 Still open from the list: living weather layers beyond the loops, font choices, wallpaper-aware text colour, Parashat HaShavua / Omer / Daf Yomi, air quality / UV / wind / pollen, radar link, SmartRing alarm list, steps goal ring, lock-screen variant, TalkBack sentence for the whole widget, per-widget settings (item 8).
 
 ## New suggestions (not yet built - tell me which to build)
-1. **Per-widget settings**: each placed widget with its own style/palette/what to show (item 8 above; biggest remaining item).
+1. ~~Per-widget settings~~ DONE 2026-11-21 (R65).
 2. **Emulator UI tests with screenshots** (`ui-tests.yml`) and an in-app guide whose pictures come from those tests.
 3. **Omer count + Parashat HaShavua** in the date line and on the dashboard (all computed offline from `HebrewCalendar`).
 4. **Weather extras**: UV, air quality, wind and pollen as chart tabs (Open-Meteo has them); "feels like" comfort word; radar link.

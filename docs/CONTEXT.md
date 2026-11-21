@@ -71,6 +71,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/main/kotlin/com/clockweather/core/timers/DateCountdown.kt` | Days until an event |
 | `core/src/main/kotlin/com/clockweather/core/look/LookCode.kt` | Share-my-look code and full backup text |
 | `core/src/main/kotlin/com/clockweather/core/widget/Seasons.kt` | Holiday looks and the effective palette (night / season / chosen) |
+| `core/src/main/kotlin/com/clockweather/core/widget/WidgetOverride.kt` | What one placed widget changes vs the global settings |
 | `core/src/main/kotlin/com/clockweather/core/sun/SunTimes.kt` | Offline sunrise/sunset (NOAA) |
 | `core/src/main/kotlin/com/clockweather/core/sun/Zmanim.kt` | Nightfall (tzeit), candle lighting, Shabbat/Yom Tov eve |
 | `core/src/main/kotlin/com/clockweather/core/text/Untrusted.kt` | Cleaning of untrusted text |
@@ -140,6 +141,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `app/src/main/java/com/clockweather/app/ui/DateCountdownTile.kt` | Dashboard card: days until a holiday or a chosen date |
 | `app/src/main/java/com/clockweather/app/ui/BackupSection.kt` | Settings: share my look, backup, restore by pasted code |
 | `app/src/main/java/com/clockweather/app/ui/GuideDialog.kt` | First-run guide (4 pages) and its seen flag |
+| `app/src/main/java/com/clockweather/app/ui/WidgetsSection.kt` | Settings: each placed widget with its own look and items |
 | `app/src/main/java/com/clockweather/app/ui/PlacesOverview.kt` | All saved places at a glance on Home |
 | `app/build.gradle.kts`, `settings.gradle.kts`, `gradle/libs.versions.toml` | build (versionName here is the single source) |
 | `app/src/main/AndroidManifest.xml` | permissions (each commented), widget receiver, activities |

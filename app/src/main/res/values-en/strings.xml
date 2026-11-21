@@ -263,4 +263,10 @@
     <string name="guide_body_3">Choose what to show, colours, places, alerts and quiet hours. "Smart content" shows only what matters now.</string>
     <string name="guide_title_4">Privacy</string>
     <string name="guide_body_4">Everything stays on the device. Permissions are optional and can be seen and changed in Settings. The network is used only for weather, place search, the map and updates, and only when you ask.</string>
+    <string name="sec_widgets">My home-screen widgets</string>
+    <string name="sec_widgets_sum">%1$d widgets. Each can have its own look</string>
+    <string name="widgets_hint">Each widget can have its own style, colours and items. Anything you do not change keeps following the global settings.</string>
+    <string name="no_widgets_placed">No widgets on the home screen yet. Add one from the main screen.</string>
+    <string name="customised">customised</string>
+    <string name="use_global">Use global settings</string>
 </resources>

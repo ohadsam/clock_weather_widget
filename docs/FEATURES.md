@@ -20,6 +20,7 @@ Five widget types (picker entries): classic (everything), clock only, weather, a
 | Smart content (show only what matters now) | `AutoContent.apply` in `Snapshot` | `autoContent` | `AutoContentTest` |
 | Festive holiday looks, automatic night look | `Season`, `Appearance` | `seasonalTheme`, `autoDayNight`, `nightPaletteId` | `TimerItemsTest` (seasons) |
 | Quiet hours (no animation, no alerts) | `QuietHours`, tick in `ClockWidgetProvider` | `quietHoursEnabled`, `quietFromHour`, `quietToHour` | `TimersTest` |
+| Per-widget settings: each placed widget can have its own style, palette, transparency and shown sections; the rest follows the global settings | `WidgetOverride`, `WidgetSettings.forWidget`, `Snapshot.build(widgetId)`, `WidgetsSection` | `perWidget` | `PerWidgetTest` |
 | Calm animations | checks in tick | `calmAnimations` | - |
 
 ## 2. The in-app dashboard (home screen)

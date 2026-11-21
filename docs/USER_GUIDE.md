@@ -48,6 +48,9 @@ Two dashboard cards. Start either one and it also appears as a row in the widget
 ## Rain alert and quiet hours
 Settings > What to show: turn on the rain alert to get one notification shortly before rain starts at your active place. Quiet hours switch off animations and alerts at night.
 
+## Different look per widget
+Settings > My home-screen widgets lists every widget you placed. Open one to give it its own style, colours and shown items; "Use global settings" removes its own choices.
+
 ## Smart content
 Turn on "Smart content" in Settings > What to show: the widget and the dashboard then show only what matters now (events when there are any, the alarm when it is near, sun times at useful hours) and the layout adjusts by itself.
 

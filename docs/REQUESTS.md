@@ -75,3 +75,5 @@ Status: DONE (verified as noted) · CODE (written, needs CI/phone proof) · ART 
 | R62 | (agreed suggestion) First-run guide | Code: `GuideDialog` (4 pages), re-show from Settings |
 | R63 | (agreed suggestion) Backup, restore and share-my-look | Code: `LookCode` (core, tested): `CW1:` look codes without personal data, `CWB1:` full backup, via share sheet and paste |
 | R64 | (agreed suggestion) Named timers (saved presets) | Covered by labelled timers: each timer keeps its label, duration and alert; a separate preset list is NOT built (say if you want it) |
+| R65 | (open item, ROADMAP 8) Per-widget settings | Code: `WidgetOverride` (core, tested) + per-widget snapshot + Settings -> My home-screen widgets; unchanged fields follow the global settings; needs a phone |
+| R66 | (owner, 2026-11-21) Detailed, maintained docs for operation, maintenance and future improvement | DONE: `README.md` map, ARCHITECTURE, FEATURES, SETTINGS_REFERENCE, DATA_AND_PRIVACY, OPERATIONS, MAINTENANCE, TESTING; `RepoHygieneTest` enforces settings, cards, permissions, hosts, workflows and README links |

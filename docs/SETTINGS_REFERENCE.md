@@ -55,6 +55,7 @@ Scope: **W** = affects the home-screen widget, **D** = the in-app dashboard, **S
 | `quietFromHour` | `Int` | `23` |Quiet hours start (hour of day). |
 | `quietToHour` | `Int` | `7` |Quiet hours end (hour of day); wraps past midnight when smaller than the start. |
 | `weatherAppPackage` | `String` | `""` | Weather app opened by a tap on the weather; empty = the weather screen of this app. |
+| `perWidget` | `Map<String, WidgetOverride>` | `emptyMap()` | Per placed widget (key = appWidgetId): own clock style, palette, transparency, scale, 24h, and which sections show; null fields follow the global value (`forWidget(id)`). Edited in Settings -> Widgets on my home screen. |
 | `dashboardOrder` | `List<String>` | `emptyList()` | In-app dashboard: card order and hidden cards ([com.clockweather.core.dashboard.DashTile] ids); empty = defaults. |
 | `dashboardHidden` | `List<String>` | `emptyList()` | Dashboard cards the owner hid. |
 | `agendaRotateSeconds` | `Int` | `8` | Seconds each event stays in the rotating banner. |

@@ -92,6 +92,8 @@ data class WidgetSettings(
     val quietToHour: Int = 7,
     /** Weather app opened by a tap on the weather; empty = the weather screen of this app. */
     val weatherAppPackage: String = "",
+    /** Per placed widget (key = appWidgetId as text): what that widget changes compared with these global settings. */
+    val perWidget: Map<String, WidgetOverride> = emptyMap(),
     /** In-app dashboard: card order and hidden cards ([com.clockweather.core.dashboard.DashTile] ids); empty = defaults. */
     val dashboardOrder: List<String> = emptyList(),
     val dashboardHidden: List<String> = emptyList(),
@@ -127,6 +129,7 @@ data class WidgetSettings(
             alarmShowWithinHours = alarmShowWithinHours.coerceIn(0, 168),
             agendaCalendarIds = agendaCalendarIds.take(40),
             timerRowActive = false,
+            perWidget = perWidget.filter { (k, v) -> k.toIntOrNull() != null && !v.isEmpty }.entries.take(MAX_WIDGETS).associate { it.key to it.value },
             nightPaletteId = if (Palettes.byId(nightPaletteId) != null) nightPaletteId else "midnight",
             quietFromHour = quietFromHour.coerceIn(0, 23),
             quietToHour = quietToHour.coerceIn(0, 23),
@@ -137,6 +140,9 @@ data class WidgetSettings(
         )
     }
 
+    /** The settings one placed widget really uses: the global ones with that widget's own overrides on top. */
+    fun forWidget(appWidgetId: Int?): WidgetSettings = appWidgetId?.let { perWidget[it.toString()] }?.applyTo(this) ?: this
+
     fun clockZones(): List<ClockZone> = worldClocks.map { ClockZone(it.zoneId, it.label) }
 
     companion object {
@@ -144,6 +150,7 @@ data class WidgetSettings(
         const val MAX_PLACES = 4
         const val MAX_WORLD_CLOCKS = 3
         const val MAX_WORLD_PLACES = 10
+        const val MAX_WIDGETS = 30
         const val MAX_JSON_BYTES = 64 * 1024
 
         private val json = Json { ignoreUnknownKeys = true; encodeDefaults = true; coerceInputValues = true }

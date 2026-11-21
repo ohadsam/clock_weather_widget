@@ -170,6 +170,7 @@ fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack
             SwitchRow(stringResource(R.string.in_israel), s.inIsrael) { onChange(s.copy(inIsrael = it)) }
         }
 
+        WidgetsSection(s, hebrew, onChange)
         DashboardEditor(s, hebrew, onChange)
         WidgetStatusSection()
         BackupSection(s, onChange)
@@ -189,7 +190,7 @@ fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack
     }
 }
 
-private fun styleName(c: ClockStyle): Int = when (c) {
+internal fun styleName(c: ClockStyle): Int = when (c) {
     ClockStyle.FLIP -> R.string.style_flip
     ClockStyle.DIGITAL -> R.string.style_digital
     ClockStyle.ANALOG -> R.string.style_analog

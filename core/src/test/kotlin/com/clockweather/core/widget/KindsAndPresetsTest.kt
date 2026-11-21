@@ -68,3 +68,24 @@ class PocketMetalTest {
         kotlin.test.assertEquals("_rose", PocketMetal.byId("rose").suffix)
     }
 }
+
+class PerWidgetTest {
+    @org.junit.Test fun overridesLayerOnTopOfGlobalAndFollowLaterGlobalChanges() {
+        val global = WidgetSettings(paletteId = "sand", showAgenda = true, clockStyle = ClockStyle.FLIP)
+        val s = global.copy(perWidget = mapOf("12" to WidgetOverride(clockStyle = ClockStyle.POCKET, showAgenda = false))).sanitized()
+        val mine = s.forWidget(12)
+        kotlin.test.assertEquals(ClockStyle.POCKET, mine.clockStyle); kotlin.test.assertFalse(mine.showAgenda)
+        kotlin.test.assertEquals("sand", mine.paletteId) // not overridden: follows global
+        kotlin.test.assertEquals("ocean", s.copy(paletteId = "ocean").forWidget(12).paletteId) // global change reaches it
+        kotlin.test.assertEquals(ClockStyle.FLIP, s.forWidget(99).clockStyle) // other widgets untouched
+        kotlin.test.assertEquals(s, s.forWidget(null))
+    }
+
+    @org.junit.Test fun badOverridesAreDropped() {
+        val s = WidgetSettings(perWidget = mapOf("x" to WidgetOverride(showClock = false), "7" to WidgetOverride(), "8" to WidgetOverride(paletteId = "nope", scalePct = 900))).sanitized()
+        kotlin.test.assertEquals(setOf("8"), s.perWidget.keys)
+        kotlin.test.assertEquals("classic_white", s.forWidget(8).paletteId)
+        kotlin.test.assertEquals(150, s.forWidget(8).scalePct)
+        kotlin.test.assertEquals(s, WidgetSettings.decode(WidgetSettings.encode(s)))
+    }
+}
