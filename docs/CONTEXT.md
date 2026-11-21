@@ -38,6 +38,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `app/src/main/java/com/clockweather/app/data/Net.kt` | The only network entry (HTTPS allow-list, size cap) |
 | `app/src/main/java/com/clockweather/app/data/SettingsStore.kt` | Settings persistence |
 | `app/src/main/java/com/clockweather/app/data/WeatherRepository.kt` | Forecast fetch + cache + place search |
+| `app/src/main/java/com/clockweather/app/data/AirQualityRepository.kt` | Air quality / UV / pollen fetch + cache for the active place (only when switched on) |
 | `app/src/main/java/com/clockweather/app/data/WeatherWorker.kt` | 30-minute weather refresh (WorkManager) |
 | `app/src/main/java/com/clockweather/app/ui/Components.kt` | Shared Compose components |
 | `app/src/main/java/com/clockweather/app/ui/HomeScreen.kt` | Home: live preview + shortcuts |
@@ -67,6 +68,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/main/kotlin/com/clockweather/core/weather/PlaceIds.kt` | Place ids and fallback names for tapped map points |
 | `core/src/main/kotlin/com/clockweather/core/timers/Timers.kt` | Stopwatch and countdown state machines + text for app and widget |
 | `core/src/main/kotlin/com/clockweather/core/weather/RainAlert.kt` | Rain about to start: when to alert |
+| `core/src/main/kotlin/com/clockweather/core/weather/AirQuality.kt` | Air quality / UV / pollen: URL, parsing, wording (pure) |
 | `core/src/main/kotlin/com/clockweather/core/widget/QuietHours.kt` | Night mode hours (wrap past midnight) |
 | `core/src/main/kotlin/com/clockweather/core/timers/TimerItems.kt` | Many labelled timers, each with its own end-of-time sound/vibration |
 | `core/src/main/kotlin/com/clockweather/core/timers/DateCountdown.kt` | Days until an event |

@@ -145,6 +145,8 @@ fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack
                 else { StepWorker.schedule(ctx); Thread { StepSource.refresh(ctx); com.clockweather.app.widget.ClockWidgetProvider.updateAll(ctx) }.start() }
             }
             if (s.showSteps && !StepSource.supported(ctx)) Text(stringResource(R.string.steps_unsupported), style = MaterialTheme.typography.bodySmall)
+            SwitchRow(stringResource(R.string.show_air_quality), s.showAirQuality) { on -> onChange(s.copy(showAirQuality = on)); if (on) com.clockweather.app.data.WeatherWorker.refreshNow(ctx) }
+            Text(stringResource(R.string.show_air_quality_hint), style = MaterialTheme.typography.bodySmall)
             Text(stringResource(R.string.show_hint), style = MaterialTheme.typography.bodySmall)
         }
 

@@ -1,6 +1,7 @@
 # Changelog
 
 ## 0.3.0
+- Optional air quality / UV / pollen line on the dashboard weather card (off by default; one extra Open-Meteo host).
 - "Shabbat ended" notification at nightfall (with Shabbat mode on).
 - Ornaments: Purim mask no longer keyed out, Star of David on the flag, Hanukkah picture per day (1-8 candles).
 - Direct read of upcoming events from the Special Events app (its new read-only provider), with the calendar as fallback.

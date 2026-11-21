@@ -153,6 +153,17 @@ class JewishDayTest {
         assertTrue(h(fri.plusDays(1))!!.hour in 16..19)
     }
 
+    @Test fun airQualityParsesTheProbedShapeAndWords() {
+        val body = """{"current":{"time":"2026-11-21T23:00","interval":3600,"european_aqi":59,"uv_index":0.0},"hourly":{"time":["2026-11-21T22:00","2026-11-21T23:00"],"birch_pollen":[0.0,3.0],"grass_pollen":[0.0,12.0],"olive_pollen":[null,0.0]}}"""
+        val r = com.clockweather.core.weather.AirQuality.parse(body)!!
+        assertEquals(59, r.aqi); assertEquals(12, r.pollen)
+        assertEquals("Air: Moderate (59) · Pollen 12", com.clockweather.core.weather.AirQuality.line(r, false))
+        assertEquals("אוויר: בינונית (59) · אבקנים 12", com.clockweather.core.weather.AirQuality.line(r, true))
+        assertNull(com.clockweather.core.weather.AirQuality.parse("{}")); assertNull(com.clockweather.core.weather.AirQuality.parse("["))
+        assertNull(com.clockweather.core.weather.AirQuality.parse("""{"current":{"european_aqi":9999}}"""))
+        assertTrue(com.clockweather.core.weather.AirQuality.url(32.0888, 34.88666).startsWith("https://air-quality-api.open-meteo.com/"))
+    }
+
     @Test fun comfortAndSpeechAndPresets() {
         assertEquals("נעים", com.clockweather.core.weather.Comfort.word(22.0, true)); assertEquals("Very cold", com.clockweather.core.weather.Comfort.word(0.0, false))
         assertEquals("Thursday 17:05, 25°, rain expected, alarm 06:30", com.clockweather.core.widget.WidgetSpeech.sentence(false, "17:05", "Thursday", "25°, rain expected", listOf("alarm 06:30")))

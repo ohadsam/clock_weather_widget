@@ -5,7 +5,7 @@ import java.net.URL
 
 /** The only place that opens a network connection: HTTPS to an allow-listed host, short timeouts, size-capped body. */
 object Net {
-    private val ALLOWED_HOSTS = setOf("api.open-meteo.com", "geocoding-api.open-meteo.com")
+    private val ALLOWED_HOSTS = setOf("api.open-meteo.com", "geocoding-api.open-meteo.com", "air-quality-api.open-meteo.com")
     private const val MAX_BYTES = 512 * 1024
 
     /** Blocking; call from a background thread. Returns null on any failure. */

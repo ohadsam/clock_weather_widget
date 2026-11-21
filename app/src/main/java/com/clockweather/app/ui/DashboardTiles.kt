@@ -93,6 +93,7 @@ internal fun WeatherTile(st: RenderState, index: Int, animate: Boolean, onOpen: 
                 Text(s.places.firstOrNull { it.id == s.activePlaceId }?.name ?: "", style = MaterialTheme.typography.bodyMedium)
                 f.current?.let { Text(TempFormat.short(it.tempC, s.fahrenheit), style = MaterialTheme.typography.displaySmall) }
                 Text("${TempFormat.short(day.maxC, s.fahrenheit)} / ${TempFormat.short(day.minC, s.fahrenheit)}" + (day.rainChancePct?.let { "   ☂ $it%" } ?: ""), style = MaterialTheme.typography.bodyMedium)
+                if (s.showAirQuality) com.clockweather.app.data.AirQualityRepository.cached(LocalContext.current)?.let { r -> com.clockweather.core.weather.AirQuality.line(r, st.hebrew)?.let { Text(it, style = MaterialTheme.typography.bodySmall) } }
             }
         }
     }

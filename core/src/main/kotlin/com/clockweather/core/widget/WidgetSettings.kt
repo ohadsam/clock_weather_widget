@@ -50,6 +50,7 @@ data class WidgetSettings(
     val showAgenda: Boolean = true,
     val showWorldClocks: Boolean = true,
     val showSteps: Boolean = false,
+    val showAirQuality: Boolean = false,
     val showSunTimes: Boolean = true,
     /** Nightfall (tzeit) and, on a Shabbat / Yom Tov eve, candle lighting, next to the sun times. Needs [showSunTimes]. */
     val showNightfall: Boolean = true,

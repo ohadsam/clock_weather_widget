@@ -20,6 +20,7 @@ The Settings -> Permissions screen lists each one with its state and an Allow / 
 | Host | What is sent | When |
 |---|---|---|
 | `api.open-meteo.com` | rounded latitude/longitude of saved places | every 30 min by `WeatherWorker`, on refresh, when a place is added |
+| `air-quality-api.open-meteo.com` | rounded latitude/longitude of the active place, only when "Air quality" is on | with each weather refresh |
 | `geocoding-api.open-meteo.com` | the text you typed in place search | when you press Search |
 | `github.com` and `githubusercontent.com` | nothing personal (a plain GET of `version.json` and the APK) | only when you press "Check for updates" / download |
 | `www.windy.com` | opened in the browser (not by the app) only when you tap "Rain radar"; the place coordinates are in the link | only on that tap |
@@ -34,6 +35,7 @@ No analytics, no ads, no accounts, no crash reporting. The phone's own geocoder 
 | `timers` | stopwatches, countdowns (labels, sound / ringtone choices), saved presets, date countdowns |
 | `tick` | when the minute tick last ran and how late the last 30 ticks were (shown in Settings -> Widget status) |
 | `steps` | today's baseline and last reading of the step counter |
+| `airq` | last air-quality JSON of the active place (only when switched on) |
 | `rain_alert` | when the last rain notification was shown |
 | `havdalah_alert` | the date of the last "Shabbat ended" notification |
 | `update` | last install status |
