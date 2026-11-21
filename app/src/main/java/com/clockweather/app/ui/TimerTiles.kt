@@ -69,33 +69,39 @@ internal fun CountdownTile(st: RenderState, index: Int, animate: Boolean) = Time
 private fun TimersCard(st: RenderState, index: Int, animate: Boolean, countdown: Boolean) {
     val ctx = LocalContext.current
     val now = rememberNow()
-    val items = remember(now / 250) { TimerStore.items(ctx).filter { it.countdown == countdown } }
     val all = remember(now / 250) { TimerStore.items(ctx) }
-    fun refreshWidget() = ClockWidgetProvider.updateAll(ctx)
+    val items = all.filter { it.countdown == countdown }
     var askedNotifications by remember { mutableStateOf(false) }
     val tile = if (countdown) DashTile.COUNTDOWN else DashTile.STOPWATCH
     val permission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { }
+
+    /** Every change is a function applied to the LATEST stored timer (never to the copy on screen), then the alarm and the widget follow. */
+    fun apply(id: String, change: (TimerItem) -> TimerItem) {
+        val r = TimerStore.update(ctx, id, change) ?: return
+        if (r.countdown) {
+            if (r.countdownState.running) {
+                CountdownAlarm.schedule(ctx, r)
+                if (!Notifier.canPost(ctx) && !askedNotifications) { askedNotifications = true; permission.launch(Manifest.permission.POST_NOTIFICATIONS) }
+            } else CountdownAlarm.cancel(ctx, r.id)
+        }
+        ClockWidgetProvider.updateAll(ctx)
+    }
     DashCard(index, animate, DashTitles.of(tile, st.hebrew), null) {
         if (items.isEmpty()) Text(stringResource(if (countdown) R.string.no_countdowns else R.string.no_stopwatches), style = MaterialTheme.typography.bodyMedium)
         Text(stringResource(if (st.settings.showTimers) R.string.timer_in_widget_hint else R.string.timer_widget_off_hint), style = MaterialTheme.typography.bodySmall)
         items.forEach { item ->
             TimerItemCard(
                 item, now, st.hebrew, animate,
-                onChange = { new -> TimerStore.update(ctx, item.id) { new }; refreshWidget() },
-                onStarted = { started ->
-                    TimerStore.update(ctx, item.id) { started }; CountdownAlarm.schedule(ctx, started); refreshWidget()
-                    if (!Notifier.canPost(ctx) && !askedNotifications) { askedNotifications = true; permission.launch(Manifest.permission.POST_NOTIFICATIONS) }
-                },
-                onCancelAlarm = { CountdownAlarm.cancel(ctx, item.id) },
-                onDelete = { CountdownAlarm.cancel(ctx, item.id); TimerStore.save(ctx, TimerList.remove(all, item.id)); refreshWidget() },
+                onChange = { f -> apply(item.id, f) },
+                onDelete = { CountdownAlarm.cancel(ctx, item.id); TimerStore.save(ctx, TimerList.remove(TimerStore.items(ctx), item.id)); ClockWidgetProvider.updateAll(ctx) },
                 onTest = { Notifier.postTimerDone(ctx, item) },
             )
         }
         OutlinedButton(
             onClick = {
-                val id = TimerList.nextId(all, System.currentTimeMillis())
-                val base = TimerItem(id, countdown)
-                TimerStore.save(ctx, TimerList.add(all, if (countdown) base.with(Countdown().withDuration(5 * 60_000L)) else base)); refreshWidget()
+                val list = TimerStore.items(ctx)
+                val base = TimerItem(TimerList.nextId(list, System.currentTimeMillis()), countdown)
+                TimerStore.save(ctx, TimerList.add(list, if (countdown) base.with(Countdown().withDuration(5 * 60_000L)) else base)); ClockWidgetProvider.updateAll(ctx)
             },
             enabled = all.size < TimerList.MAX_ITEMS, modifier = Modifier.heightIn(min = 48.dp),
         ) { Text(stringResource(if (countdown) R.string.add_countdown else R.string.add_stopwatch)) }
@@ -103,46 +109,38 @@ private fun TimersCard(st: RenderState, index: Int, animate: Boolean, countdown:
 }
 
 @Composable
-private fun TimerItemCard(
-    item: TimerItem, now: Long, hebrew: Boolean, animate: Boolean,
-    onChange: (TimerItem) -> Unit, onStarted: (TimerItem) -> Unit, onCancelAlarm: () -> Unit, onDelete: () -> Unit, onTest: () -> Unit,
-) {
+private fun TimerItemCard(item: TimerItem, now: Long, hebrew: Boolean, animate: Boolean, onChange: ((TimerItem) -> TimerItem) -> Unit, onDelete: () -> Unit, onTest: () -> Unit) {
     var label by remember(item.id) { mutableStateOf(item.label) }
     Column(Modifier.fillMaxWidth().padding(vertical = 6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
         OutlinedTextField(
-            label, { label = it.take(TimerList.MAX_LABEL); onChange(item.copy(label = label)) },
+            label, { label = it.take(TimerList.MAX_LABEL); onChange { cur -> cur.copy(label = label) } },
             label = { Text(stringResource(R.string.timer_label)) }, singleLine = true, modifier = Modifier.fillMaxWidth(),
         )
-        if (item.countdown) CountdownBody(item, now, animate, hebrew, onChange, onStarted, onCancelAlarm, onTest)
-        else StopwatchBody(item, now, onChange)
+        if (item.countdown) CountdownBody(item, now, animate, hebrew, onChange, onTest)
+        else StopwatchBody(item, now)
         TimerButtons(
             running = if (item.countdown) item.countdownState.running else item.stopwatch.running,
             canStart = !item.countdown || item.countdownState.totalMs > 0L,
             onStartPause = {
-                if (item.countdown) {
-                    val c = item.countdownState
-                    if (c.running) { onCancelAlarm(); onChange(item.with(c.pause(now))) } else onStarted(item.with(c.start(now)))
-                } else {
-                    val s = item.stopwatch
-                    onChange(item.with(if (s.running) s.pause(now) else s.start(now)))
+                onChange { cur ->
+                    if (cur.countdown) cur.countdownState.let { c -> cur.with(if (c.running) c.pause(now) else c.start(now)) }
+                    else cur.stopwatch.let { sw -> cur.with(if (sw.running) sw.pause(now) else sw.start(now)) }
                 }
             },
-            onRestart = {
-                if (item.countdown) { onStarted(item.with(item.countdownState.reset().start(now))) } else onChange(item.with(Stopwatch().start(now)))
-            },
+            onRestart = { onChange { cur -> if (cur.countdown) cur.with(cur.countdownState.reset().start(now)) else cur.with(Stopwatch().start(now)) } },
             onDelete = onDelete,
         )
     }
 }
 
 @Composable
-private fun StopwatchBody(item: TimerItem, now: Long, onChange: (TimerItem) -> Unit) {
+private fun StopwatchBody(item: TimerItem, now: Long) {
     Text(TimerFormat.clock(item.stopwatch.elapsed(now)), style = MaterialTheme.typography.displaySmall)
     if (item.stopwatch.active && !item.stopwatch.running) Text(stringResource(R.string.paused), style = MaterialTheme.typography.bodySmall)
 }
 
 @Composable
-private fun CountdownBody(item: TimerItem, now: Long, animate: Boolean, hebrew: Boolean, onChange: (TimerItem) -> Unit, onStarted: (TimerItem) -> Unit, onCancelAlarm: () -> Unit, onTest: () -> Unit) {
+private fun CountdownBody(item: TimerItem, now: Long, animate: Boolean, hebrew: Boolean, onChange: ((TimerItem) -> TimerItem) -> Unit, onTest: () -> Unit) {
     val cd = item.countdownState
     val fraction by animateFloatAsState(cd.fraction(now), tween(if (animate) 300 else 0), label = "ring")
     val color = if (cd.finished) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
@@ -158,16 +156,17 @@ private fun CountdownBody(item: TimerItem, now: Long, animate: Boolean, hebrew: 
         Text(if (cd.finished) stringResource(R.string.countdown_finished) else TimerFormat.clock(cd.remaining(now)), style = MaterialTheme.typography.headlineMedium)
     }
     if (!cd.running) {
-        ChipRow(listOf(1, 5, 10, 15, 30, 60).map { it to "$it ${if (hebrew) "דק׳" else "min"}" }, { cd.totalMs == it * 60_000L }, { onChange(item.with(Countdown().withDuration(it * 60_000L))) })
+        ChipRow(listOf(1, 5, 10, 15, 30, 60).map { it to "$it ${if (hebrew) "דק׳" else "min"}" }, { cd.totalMs == it * 60_000L }, { m -> onChange { cur -> cur.with(Countdown().withDuration(m * 60_000L)) } })
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             for (delta in listOf(-5, -1, 1, 5)) OutlinedButton(
-                onClick = { onChange(item.with(Countdown().withDuration((cd.totalMs + delta * 60_000L).coerceAtLeast(60_000L)))) }, modifier = Modifier.heightIn(min = 48.dp),
+                onClick = { onChange { cur -> cur.countdownState.let { c -> if (c.running) cur else cur.with(Countdown().withDuration((c.totalMs + delta * 60_000L).coerceAtLeast(60_000L))) } } },
+                modifier = Modifier.heightIn(min = 48.dp),
             ) { Text(if (delta > 0) "+$delta" else "$delta") }
         }
     }
     Text(stringResource(R.string.alert_when_done), style = MaterialTheme.typography.titleSmall)
-    ChipRow(SoundKind.values().map { it to stringResource(Notifier.soundLabel(it)) }, { it == item.soundKind }, { onChange(item.copy(sound = it.name)) })
-    SwitchRow(stringResource(R.string.vibrate), item.vibrate) { onChange(item.copy(vibrate = it)) }
+    ChipRow(SoundKind.values().map { it to stringResource(Notifier.soundLabel(it)) }, { it == item.soundKind }, { k -> onChange { cur -> cur.copy(sound = k.name) } })
+    SwitchRow(stringResource(R.string.vibrate), item.vibrate) { v -> onChange { cur -> cur.copy(vibrate = v) } }
     OutlinedButton(onClick = onTest, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.test_alert)) }
 }
 
