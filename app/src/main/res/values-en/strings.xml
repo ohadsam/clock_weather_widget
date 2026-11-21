@@ -178,4 +178,6 @@
     <string name="health_repair">Repair now</string>
     <string name="show_settings_button">Settings button on the widget</string>
     <string name="weather_tap_app">Tapping the weather opens</string>
+    <string name="auto_content">Smart content (automatic)</string>
+    <string name="auto_content_hint">The widget and dashboard show only what matters now: events when there are any, the alarm when it is near, sun times at useful hours. The layout adjusts by itself. Anything you switched off is never shown.</string>
 </resources>

@@ -102,6 +102,8 @@ fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack
             SwitchRow(stringResource(R.string.show_world), s.showWorldClocks) { onChange(s.copy(showWorldClocks = it)) }
             SwitchRow(stringResource(R.string.show_sun), s.showSunTimes) { onChange(s.copy(showSunTimes = it)) }
             if (s.showSunTimes) SwitchRow(stringResource(R.string.show_nightfall), s.showNightfall) { onChange(s.copy(showNightfall = it)) }
+            SwitchRow(stringResource(R.string.auto_content), s.autoContent) { onChange(s.copy(autoContent = it)) }
+            Text(stringResource(R.string.auto_content_hint), style = MaterialTheme.typography.bodySmall)
             SwitchRow(stringResource(R.string.show_settings_button), s.showSettingsButton) { onChange(s.copy(showSettingsButton = it)) }
             val weatherApps = remember { listOf("com.google.android.apps.weather" to "Pixel Weather", "com.sec.android.daemonapp" to "Samsung Weather").filter { ctx.packageManager.getLaunchIntentForPackage(it.first) != null } }
             if (weatherApps.isNotEmpty()) {

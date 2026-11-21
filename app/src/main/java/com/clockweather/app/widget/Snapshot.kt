@@ -2,6 +2,8 @@ package com.clockweather.app.widget
 
 import android.content.Context
 import com.clockweather.app.data.AlarmSource
+import com.clockweather.core.auto.AutoContent
+import com.clockweather.core.auto.Facts
 import com.clockweather.app.data.CalendarSource
 import com.clockweather.app.data.SettingsStore
 import com.clockweather.app.data.StepSource
@@ -30,10 +32,13 @@ object Snapshot {
         // the in-app dashboard always has the data, whatever the widget is set to hide
         val shaped = if (forDashboard) s.copy(showAgenda = true, showAlarm = true, showSteps = true) else kind.shape(s)
         val agenda = if (shaped.showAgenda) agenda(ctx, s.agendaCalendarIds, now, zone) else emptyList()
+        val alarm = if (shaped.showAlarm) AlarmSource.next(ctx) else null
+        val steps = if (shaped.showSteps) StepSource.today(ctx) else null
+        // Smart content: drop what is empty or irrelevant right now (the layout then gives the space to the rest)
+        val effective = if (s.autoContent && !forDashboard) AutoContent.apply(s, Facts(now, zone, agenda, alarm, forecast, steps, s.places.size, s.worldClocks.size)) else s
         return RenderState(
-            settings = s, kind = kind, now = now, zone = zone, hebrew = isHebrew(ctx, s.language), forecast = forecast,
-            nextAlarm = if (shaped.showAlarm) AlarmSource.next(ctx) else null, agenda = agenda,
-            steps = if (shaped.showSteps) StepSource.today(ctx) else null,
+            settings = effective, kind = kind, now = now, zone = zone, hebrew = isHebrew(ctx, s.language), forecast = forecast,
+            nextAlarm = alarm, agenda = agenda, steps = steps,
             flipFrom = flipFrom, flipProgress = progress, animMs = animMs, lidOpen = lidOpen,
         )
     }

@@ -32,6 +32,8 @@ import com.clockweather.app.R
 import com.clockweather.app.data.CalendarSource
 import com.clockweather.app.data.StepSource
 import com.clockweather.app.widget.Snapshot
+import com.clockweather.core.auto.AutoDashboard
+import com.clockweather.core.auto.Facts
 import com.clockweather.core.dashboard.DashTile
 import com.clockweather.core.dashboard.Dashboard
 import com.clockweather.core.widget.WidgetSettings
@@ -51,7 +53,10 @@ fun HomeScreen(
     LaunchedEffect(Unit) { while (true) { delay(15_000); tick = System.currentTimeMillis() } }
     val st = remember(settings, tick) { Snapshot.build(ctx, forDashboard = true) }
     val animate = !settings.calmAnimations
-    val tiles = Dashboard.visibleTiles(settings.dashboardOrder, settings.dashboardHidden)
+    val chosen = Dashboard.visibleTiles(settings.dashboardOrder, settings.dashboardHidden)
+    val tiles = if (settings.autoContent) {
+        AutoDashboard.arrange(chosen, settings, Facts(st.now, st.zone, st.agenda, st.nextAlarm, st.forecast, st.steps?.takeIf { settings.showSteps && StepSource.granted(ctx) }, settings.places.size, settings.worldClocks.size))
+    } else chosen
     Column(Modifier.verticalScroll(rememberScrollState()).padding(bottom = 24.dp)) {
         ScreenHeader(stringResource(R.string.app_name), stringResource(R.string.back), null, brand = true) {
             IconButton(onClick = onSettings) { Icon(Icons.Filled.Settings, contentDescription = stringResource(R.string.settings)) }

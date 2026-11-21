@@ -61,6 +61,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/main/kotlin/com/clockweather/core/dashboard/Dashboard.kt` | Dashboard cards: ids, order and visibility maths |
 | `core/src/main/kotlin/com/clockweather/core/widget/TapZones.kt` | Which section each tap row of the widget opens (from the layout plan) |
 | `core/src/main/kotlin/com/clockweather/core/clock/WidgetHealth.kt` | Verdict: is the minute tick alive? |
+| `core/src/main/kotlin/com/clockweather/core/auto/AutoContent.kt` | Smart content rules for the widget and the dashboard order |
 | `core/src/main/kotlin/com/clockweather/core/sun/SunTimes.kt` | Offline sunrise/sunset (NOAA) |
 | `core/src/main/kotlin/com/clockweather/core/sun/Zmanim.kt` | Nightfall (tzeit), candle lighting, Shabbat/Yom Tov eve |
 | `core/src/main/kotlin/com/clockweather/core/text/Untrusted.kt` | Cleaning of untrusted text |
@@ -77,6 +78,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/test/kotlin/com/clockweather/core/steps/StepMathTest.kt` | Step maths tests |
 | `core/src/test/kotlin/com/clockweather/core/dashboard/DashboardTest.kt` | Dashboard order/visibility tests |
 | `core/src/test/kotlin/com/clockweather/core/widget/TapZonesAndHealthTest.kt` | Tap zones, widget health, daylight-saving clock tests |
+| `core/src/test/kotlin/com/clockweather/core/auto/AutoContentTest.kt` | Smart content tests |
 | `core/src/test/kotlin/com/clockweather/core/sun/SunTimesTest.kt` | Sunrise/sunset tests |
 | `core/src/test/kotlin/com/clockweather/core/sun/ZmanimTest.kt` | Nightfall / candle lighting tests |
 | `core/src/test/kotlin/com/clockweather/core/weather/OpenMeteoTest.kt` | Forecast/geocoding parsing, WMO, outlook tests |

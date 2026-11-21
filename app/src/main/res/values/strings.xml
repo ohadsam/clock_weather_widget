@@ -178,4 +178,6 @@
     <string name="health_repair">תקן עכשיו</string>
     <string name="show_settings_button">כפתור הגדרות בווידג\'ט</string>
     <string name="weather_tap_app">לחיצה על מזג האוויר פותחת</string>
+    <string name="auto_content">תוכן חכם (אוטומטי)</string>
+    <string name="auto_content_hint">הווידג\'ט ולוח הבקרה מציגים רק מה שרלוונטי עכשיו: אירועים כשיש, שעון מעורר כשהוא קרוב, זמני שמש בשעות המתאימות. הסידור מתכוונן אוטומטית. מה שכיבית בהגדרות אף פעם לא יוצג.</string>
 </resources>

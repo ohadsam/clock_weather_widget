@@ -71,6 +71,8 @@ data class WidgetSettings(
     /** In-app dashboard: card order and hidden cards ([com.clockweather.core.dashboard.DashTile] ids); empty = defaults. */
     /** Small gear in the widget corner that opens the app settings. */
     val showSettingsButton: Boolean = true,
+    /** Smart content: the widget and the dashboard show what matters now and drop what is empty ([com.clockweather.core.auto.AutoContent]). */
+    val autoContent: Boolean = false,
     /** Weather app opened by a tap on the weather; empty = the weather screen of this app. */
     val weatherAppPackage: String = "",
     val dashboardOrder: List<String> = emptyList(),
