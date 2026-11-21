@@ -43,6 +43,7 @@ Also run `/simplify` and `/code-review` on the diff. Fix findings **before** mov
 Every user-visible change updates `docs/USER_GUIDE.md` **and** the in-app guide (he + en; a test checks both languages have every title and every screenshot file exists). Screenshots come from the emulator UI tests (`ui-tests.yml`), never by hand. New setting/screen/feature => guide text, even one sentence.
 
 ## 4. Docs
+The doc set is indexed in `README.md`; `docs/MAINTENANCE.md` says which file each kind of change touches and `RepoHygieneTest` enforces the mechanical parts (settings, dashboard cards, permissions, network hosts, workflows, file map, README links). Update `docs/FEATURES.md`, `docs/SETTINGS_REFERENCE.md`, `docs/DATA_AND_PRIVACY.md`, `docs/OPERATIONS.md` and `docs/ARCHITECTURE.md` whenever their subject changes.
 `README.md` (features, screenshots if UI changed), `docs/ARCHITECTURE.md`, `docs/RELEASING.md` if the pipeline changed. New strings in **both** `values/` and `values-en/` (a unit test checks key parity and `%s`/`%d` placeholders).
 
 ## 5. Skills

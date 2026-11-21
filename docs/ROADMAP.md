@@ -29,3 +29,23 @@
 18. **Backup/restore** of all settings to a file; **share my widget look** as a code/QR to family phones.
 19. **Share the app** (WhatsApp/e-mail/share sheet) + **in-app update check** exactly like SmartRing.
 20. **Accessibility**: high-contrast preset, big-text preset, TalkBack reads the whole widget as one sentence ("Thursday 17:05, 25 degrees, rain expected").
+
+
+# Status and new suggestions (2026-11-21)
+Done since the list above: presets, shabbat times (candle lighting, nightfall), countdown chips (days until an event), rain alert, quiet hours, seasonal skins (colours), day/night look, backup/restore + share-my-look, share the app + in-app update, steps (device sensor), compare places (dashboard + pager), several widgets types, accessibility basics (48 dp, contrast).
+Still open from the list: living weather layers beyond the loops, font choices, wallpaper-aware text colour, Parashat HaShavua / Omer / Daf Yomi, air quality / UV / wind / pollen, radar link, SmartRing alarm list, steps goal ring, lock-screen variant, TalkBack sentence for the whole widget, per-widget settings (item 8).
+
+## New suggestions (not yet built - tell me which to build)
+1. **Per-widget settings**: each placed widget with its own style/palette/what to show (item 8 above; biggest remaining item).
+2. **Emulator UI tests with screenshots** (`ui-tests.yml`) and an in-app guide whose pictures come from those tests.
+3. **Omer count + Parashat HaShavua** in the date line and on the dashboard (all computed offline from `HebrewCalendar`).
+4. **Weather extras**: UV, air quality, wind and pollen as chart tabs (Open-Meteo has them); "feels like" comfort word; radar link.
+5. **Dashboard widget gallery**: add a second dashboard "page" for the watch/pocket-watch preview and a full-screen "bedside clock" mode (dim, always-on, flip cards big) with auto-brightness.
+6. **Interval timer** (work/rest rounds) and **timer presets by name** ("Eggs 8 min") one tap from the widget.
+7. **Haptic/ring preview picker** with the phone's own ringtone chooser per timer (system ringtone picker).
+8. **Shabbat mode**: no timers/alerts from candle lighting to nightfall, and a calm look; Havdalah reminder notification.
+9. **Birthdays and anniversaries** from contacts as date countdowns (read-only, opt-in) and Hebrew birthdays.
+10. **Widget themes from art**: the optional round 7 ornaments (`docs/prompts/ROUND7_SEASONAL_PROMPT.md`) plus painted backgrounds that follow the weather.
+11. **Reliability telemetry kept local**: a small on-device log of tick lateness and last errors shown in Widget status (no network), to debug launcher/OEM battery killers.
+12. **Accessibility**: TalkBack reads the whole widget as one sentence; high-contrast and big-text presets; reduce-motion follows the system setting automatically.
+13. **Wear / tablet**: a tablet layout of the dashboard (two columns) and a Wear OS tile (later).

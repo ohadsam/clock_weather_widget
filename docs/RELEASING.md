@@ -1,6 +1,6 @@
-# Releasing
-1. Branch `claude/*` -> push -> `android-ci.yml` (core + app unit tests, lint, assemble debug+release, APK artifact).
-2. Merge to `main` -> `latest-apk.yml` builds the release APK, **verifies it is an in-place update** of the published one (same applicationId, same signing certificate, higher versionCode) and republishes pre-release `latest` with `.sha256`.
-3. versionCode = 100 + commit count (CI passes `-PversionCodeOverride`); versionName in `app/build.gradle.kts` (`val appVersionName`), with a matching `## x.y.z` in `docs/CHANGELOG.md`.
-4. Install: open the APK from the release page on the phone (allow "install unknown apps" once). Later builds install over it.
-5. The committed `app/sideload.jks` (password in `app/build.gradle.kts`) is deliberately not secret; never rotate or delete it.
+# Releasing (summary - the full procedure and runbook are in `docs/OPERATIONS.md`)
+1. Work on `main`; `gradle :core:test` green; docs updated in the same change (`docs/MAINTENANCE.md`).
+2. Bump `appVersionName` in `app/build.gradle.kts` and add `## x.y.z` to `docs/CHANGELOG.md`.
+3. Push. `android-ci.yml` (tests, lint, assemble) and `latest-apk.yml` (release APK, in-place-update verification, publish) must both be green; versionCode = 100 + commit count.
+4. Verify the pre-release `latest`: `ClockWise.apk`, `ClockWise.apk.sha256`, `version.json` with the new version.
+5. Install: open the APK from the release page (allow "install unknown apps" once) or use Settings -> Updates in the app. The committed `app/sideload.jks` is deliberately not secret; never rotate or delete it.

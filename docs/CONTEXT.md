@@ -145,4 +145,4 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `app/src/main/AndroidManifest.xml` | permissions (each commented), widget receiver, activities |
 | `app/src/main/res/*` | strings he/en, widget layout + info, theme, placeholder icon |
 | `.github/workflows/*` | CI, latest-APK publish with in-place-update check, API probe |
-| `docs/*` | PLAN, REQUESTS (ledger), ROADMAP (suggestions), ARCHITECTURE, TESTING, CHANGELOG, USER_GUIDE, RELEASING, DESIGN_LANGUAGE, PENDING_CHATGPT_PROMPTS, prompts/ |
+| `docs/*` | CONTEXT (this), ARCHITECTURE (design), FEATURES, SETTINGS_REFERENCE, DATA_AND_PRIVACY, OPERATIONS, MAINTENANCE, TESTING, RELEASING, PLAN, ROADMAP, REQUESTS (ledger), CHANGELOG, USER_GUIDE, DESIGN_LANGUAGE, PENDING_CHATGPT_PROMPTS, prompts/ (index: `README.md`) |

@@ -1,22 +1,59 @@
 # Architecture
 
+How ClockWise is built, why it is built that way, and where to change what. Read `docs/CONTEXT.md` first for the status and the file map; this file is the design.
+
+## 1. Shape of the system
+ClockWise is a **widget-first** native Android app (Kotlin, Compose, Material 3, `minSdk 26`, `targetSdk 35`). The home-screen widget is one bitmap drawn on a Canvas and pushed into a `RemoteViews`; the app is a **dashboard** of cards, a settings area and some drill-down screens. Everything the widget can show is also visible and configurable in the app (parity rule).
+
 ```
-:app (Android)                                   :core (pure Kotlin/JVM)
-MainActivity -> ui/* (Compose)  ---------+       hebrew/  weather/  sun/  clock/  widget/  agenda/  alarm/  text/
-ClockWidgetProvider -> Snapshot ---------+--->  WidgetSettings, WidgetLayout, Agenda, AlarmIndicator,
-   -> WidgetRenderer (Canvas -> Bitmap)  |       Holidays, HebrewDateFormat, OpenMeteo parser, FlipMath ...
-data/* (SettingsStore, WeatherRepository,|
- CalendarSource, AlarmSource, Location,  |       Rules: no android.* in :core; time is a parameter;
- Net, WeatherWorker)                     |       :core never reads files or network.
+:app (Android, only built by CI)                      :core (pure Kotlin/JVM, tested everywhere)
+MainActivity -> ui/*  (Compose screens)  ----+        hebrew/    calendar, holidays, badges, date text
+ClockWidgetProvider -> Snapshot  -----------+---->   weather/   Open-Meteo parsing, outlook, charts, rain alert
+   -> WidgetRenderer (Canvas -> Bitmap)      |        sun/       sunrise/sunset, nightfall, candle lighting
+   -> WidgetTaps (PendingIntents per zone)   |        clock/     flip digits, world clocks, tick maths, widget health
+data/*  workers, receivers, sources, stores  |        widget/    WidgetSettings, layout plan, tap zones, palettes, seasons, presets
+                                             |        agenda/ alarm/ steps/ timers/ dashboard/ auto/ look/ update/ text/
+Rules: :app -> :core only. No android.* in :core. Time is always a parameter. :core never touches files or the network.
 ```
-* **Dependency direction**: `:app` -> `:core` only. UI -> Snapshot/data -> core. The renderer decides nothing: WHAT to show comes from `WidgetLayout.plan`, `Agenda`, `AlarmIndicator`, `Holidays`.
-* **Parity**: the home-screen widget and the in-app preview call the same `WidgetRenderer.render` with the same `RenderState`.
-* **Live clock**: `TickScheduler` sets an exact alarm for the next minute; `ClockWidgetProvider.tick` pushes 8 pre-rendered flip frames (0.45 s) when the screen is on and "calm animations" is off, else one frame. Re-armed after boot/time/zone/locale change/app update.
-* **Weather**: `WeatherWorker` (30 min, network constraint) -> `WeatherRepository` -> raw JSON cached -> parsed in `:core`; the widget never waits for the network.
-* **Network**: `Net.get` is the only entry; HTTPS, hosts `api.open-meteo.com` and `geocoding-api.open-meteo.com`, 10 s timeouts, 512 KB cap, no redirects. `INTERNET` is declared only for this.
-* **Permissions**: INTERNET (weather), ACCESS_COARSE_LOCATION (optional "my location"), READ_CALENDAR (optional events), SCHEDULE_EXACT_ALARM<=32 / USE_EXACT_ALARM (minute flip). No notifications, no background location, no accounts.
-* **Exported components**: the widget receiver (system must deliver widget broadcasts), the launcher activity, the widget configure activity. PendingIntents are immutable.
-* **Persistence**: SharedPreferences JSON (settings, forecast cache). No database yet; if one is added, Room needs a Migration per version.
+Why two modules: everything decidable without Android lives in `:core` so it is unit-tested in seconds in a sandbox with no Android SDK. `:app` is thin glue (sources, drawing, UI) and is verified by GitHub Actions only.
+
+## 2. Packages in `:core` (what each owns)
+| Package | Owns |
+|---|---|
+| `hebrew` | `HebrewCalendar` (conversion, 30-year round-trip tests), `Holidays.on(date, inIsrael)`, `HolidayBadge` (which painted badge), `HebrewDateFormat`, `Gematria` |
+| `weather` | `OpenMeteo` (URL builders, defensive JSON parser, WMO -> `Sky`), `Forecast` models, `WeatherOutlook` text, `DayChart` (series for the charts), `RainAlert`, `PlaceIds`, `WeatherAnim` (frame tables) |
+| `sun` | `SunTimes` (NOAA maths), `Zmanim` (nightfall, candle lighting, Shabbat/holiday eve) |
+| `clock` | `FlipMath`, `WorldClock`, `TickMath` (next minute boundary), `Freshness` (stale-weather label), `WidgetHealth` |
+| `widget` | `WidgetSettings` (the one settings object + `sanitized()`), `WidgetLayout.plan` (which sections fit), `TapZones`, `Palettes`/`Season`/`Appearance`, `WidgetKind` + `Preset`, `QuietHours`, `PocketMetal`, generated `PocketWatchGeometry` |
+| `agenda`, `alarm` | event filtering/banner text, next-alarm visibility/label |
+| `steps`, `timers` | daily steps from a cumulative counter; stopwatch / countdown / labelled timer list / date countdowns |
+| `dashboard`, `auto` | dashboard card ids, order and visibility; "smart content" rules for the widget and the dashboard order |
+| `look` | share-my-look code and full backup text |
+| `update`, `text` | update manifest parsing and URL rules, share text; `Untrusted.clean` for any external string |
+
+## 3. Packages in `:app`
+| Package | Owns |
+|---|---|
+| `widget` | `ClockWidgetProvider` (+4 subclasses, one per widget type), `Snapshot` (gathers data into a `RenderState`), `WidgetRenderer` (all drawing), `WidgetTaps`, `TickScheduler`, `WeatherArt`/`ArtCache` (painted art), `RenderState` |
+| `data` | sources (`AlarmSource`, `CalendarSource`, `LocationSource`, `StepSource`), stores (`SettingsStore`, `TimerStore`, `TickState`), workers (`WeatherWorker`, `HeartbeatWorker`, `StepWorker`, `CalendarChangeWorker`), alarms/notifications (`CountdownAlarm`, `Notifier`, `RainAlerts`), `Net`, `Updater`/`InstallReceiver`/`AppSharer`, `SourceApps` (opens other apps) |
+| `ui` | `HomeScreen` (the dashboard) + `DashboardTiles`/`TimerTiles`/`DateCountdownTile`/`WidgetTile`/`PlacesOverview`, drill-downs (`DashboardDetails`, `WeatherScreen`, `PlacePickerScreen`), `SettingsScreen` and its sections, `HourChart`, `OsmMap`, `GuideDialog` |
+
+## 4. The two main data flows
+**Widget (every minute and on events).** Trigger (minute alarm, broadcast, worker, settings change) -> `ClockWidgetProvider.pushAll` -> `Snapshot.build` reads settings + cached forecast + alarm + agenda + steps + timers and applies smart content, night/season palette -> `WidgetLayout.plan(size, settings)` chooses sections -> `WidgetRenderer.render` draws one Bitmap -> `TapZones.rows(plan)` + `WidgetTaps` attach what each part opens -> `AppWidgetManager.updateAppWidget`. The widget never waits for the network: it draws what is cached.
+
+**App (dashboard).** `HomeScreen` rebuilds a `RenderState` every 15 s with `Snapshot.build(forDashboard = true)` (agenda, alarm and steps are loaded even if the widget hides them), asks `Dashboard`/`AutoDashboard` for the cards, and each card is a plain composable. Changes call `SettingsStore.save` then `ClockWidgetProvider.updateAll`, so the widget follows immediately.
+
+## 5. Rendering
+One `Bitmap` per widget id sized to the widget (never larger than the RemoteViews memory limit), drawn by `WidgetRenderer`: sections stacked top to bottom by `WidgetLayout.plan` (the clock section is the flexible one). Clock styles: flip cards (8 pre-rendered frames in a 0.45 s burst each minute while the screen is on), digital, minimal, plain analog, painted golden pocket watch (lid opens on the hour). Weather art is painted PNG/WebP loops (`WeatherArt`); until an asset exists a code-drawn placeholder is used. Text always has a soft shadow so it reads over any wallpaper. The settings gear and tap rows are separate invisible views over the image (see `widget_clock.xml`).
+
+## 6. Persistence
+SharedPreferences only (no database): `settings` (one sanitised JSON), `forecast` (raw Open-Meteo JSON per place + fetch time), `timers` (JSON list + date countdowns), `tick`, `steps`, `rain_alert`, `update`, `guide`. Details and privacy in `docs/DATA_AND_PRIVACY.md`. If a database is ever added, Room needs a `Migration` per version and exported schemas.
+
+## 7. Network and permissions (summary; full table in `docs/DATA_AND_PRIVACY.md`)
+Network hosts: Open-Meteo (weather, city search), GitHub (update check, only when pressed), OpenStreetMap tiles (map, only after "Show map"). `Net.get` is the single entry for weather: HTTPS, host allow-list, 10 s timeouts, 512 KB cap, no redirects; `Updater` has its own redirect-validated download. Every permission is optional.
+
+## 8. Security decisions
+Exported components: only the widget receiver (system delivers widget broadcasts), the launcher activity and the widget configure activity. Every other receiver/provider is `exported=false`. All PendingIntents are `FLAG_IMMUTABLE` except the PackageInstaller result (the system must fill it; explicit component, our package). External strings (calendar text, place names, pasted codes) go through `Untrusted.clean` or `sanitized()`. Updates verify SHA-256, package name, higher versionCode and the same signing certificate before install. The sideload key is committed on purpose (personal app, stable in-place updates).
 
 ## Background updates - what wakes the widget (owner requirement, 2026-11-20)
 The widget must stay correct with the app closed. Every piece of shown data has a trigger; if you add data, add a row.
@@ -42,14 +79,8 @@ The widget must stay correct with the app closed. Every piece of shown data has 
 | Resize / add widget | launcher | `onAppWidgetOptionsChanged`, `onUpdate`, `onEnabled` | immediate |
 Self-repair: `WeatherWorker` (every 30 min) also re-arms the minute tick and the calendar watcher, and `updatePeriodMillis` (30 min) calls `onUpdate`, which re-arms the tick too, so a lost chain heals itself. The schedule math is in `:core` (`TickMath`, tested); what only a phone can prove is Doze/OEM battery-saver behaviour.
 
-
-## Map and world places (2026-11-21)
-`osmdroid` shows OpenStreetMap tiles (hosts: `tile.openstreetmap.org`), only after the user presses "Show map"; the user agent is the package name. Taps become `PlaceSetting`s with `PlaceIds.make`. World places are refreshed by `WeatherWorker` with the saved places and shown on the dashboard with their own zone's local time. Disclosed in Settings -> Privacy.
-
-## Dashboard (2026-11-20)
-`HomeScreen` renders the cards from `Dashboard.visibleTiles(settings)` using `Snapshot.build(forDashboard = true)` (agenda, alarm and steps are loaded even when the widget hides them). Cards are plain composables in `DashboardTiles.kt`; drill-downs in `DashboardDetails.kt`; `SourceApps` opens the calendar / alarm app by system intents (no new permissions).
-
-## Updates, sharing and charts (2026-11-20)
-- `latest-apk` publishes `ClockWise.apk`, `ClockWise.apk.sha256` and `version.json` on release `latest`. `Updater` fetches `version.json` only when the user presses the button, downloads only from github.com / *.githubusercontent.com (`UpdateMath.validUrl`), checks SHA-256, package, version, signing certificate, then installs with `PackageInstaller` (result in `InstallReceiver`).
-- Share: link text, or the installed APK through a `FileProvider` (`cache/share`).
-- Forecast charts: `DayChart` (core, pure) builds the series; `HourChart` (Compose Canvas) animates it. The pager in `WeatherScreen` shows each saved place.
+## 9. Known limitations (do not re-report as new)
+- A home-screen widget cannot animate natively: the flip, lid and weather loops are short bursts of pre-rendered frames; some launchers throttle them. The widget redraws once a minute, so timers show minutes only.
+- The APK is signed with the committed sideload key, not for the Play Store.
+- `:app` cannot be compiled in the cloud sandbox (no Android SDK); CI is the only compile/lint/test gate for it.
+- Everything visual or timing-related still needs a real phone (see `AGENT.md` "Not verifiable here").

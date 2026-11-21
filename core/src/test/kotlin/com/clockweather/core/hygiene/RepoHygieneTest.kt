@@ -70,4 +70,49 @@ class RepoHygieneTest {
         assertEquals(infos.size, infos.toSet().size, "two receivers share one appwidget-provider file: $infos")
         for (i in infos) assertTrue(File(root, "app/src/main/res/xml/$i.xml").isFile, "$i.xml missing")
     }
+
+    // ---- documentation completeness (owner request 2026-11-21: docs must be maintained through the whole development) ----
+
+    @Test fun everySettingsFieldIsDocumented() {
+        val src = read("core/src/main/kotlin/com/clockweather/core/widget/WidgetSettings.kt")
+        val body = src.substringAfter("data class WidgetSettings(").substringBefore(") {")
+        val names = Regex("""(?m)^\s+val (\w+):""").findAll(body).map { it.groupValues[1] }.toList()
+        val doc = read("docs/SETTINGS_REFERENCE.md")
+        val missing = names.filterNot { doc.contains("`$it`") }
+        assertTrue(names.size > 30 && missing.isEmpty(), "add to docs/SETTINGS_REFERENCE.md: $missing")
+    }
+
+    @Test fun everyDashboardCardIsInTheFeaturesDoc() {
+        val ids = Regex("""\("([a-z_]+)", "[^"]*", "[^"]*"""").findAll(read("core/src/main/kotlin/com/clockweather/core/dashboard/Dashboard.kt")).map { it.groupValues[1] }.toList()
+        val doc = read("docs/FEATURES.md")
+        val missing = ids.filterNot { doc.contains("`$it`") }
+        assertTrue(ids.size >= 14 && missing.isEmpty(), "add to docs/FEATURES.md card table: $missing")
+    }
+
+    @Test fun everyPermissionIsInThePrivacyDoc() {
+        val perms = Regex("""uses-permission android:name="android\.permission\.([A-Z_]+)"""").findAll(read("app/src/main/AndroidManifest.xml")).map { it.groupValues[1] }.toSet()
+        val doc = read("docs/DATA_AND_PRIVACY.md")
+        val missing = perms.filterNot { doc.contains(it) }
+        assertTrue(perms.size >= 8 && missing.isEmpty(), "add to docs/DATA_AND_PRIVACY.md: $missing")
+    }
+
+    @Test fun everyNetworkHostInCodeIsInThePrivacyDoc() {
+        val hosts = File(root, "app/src/main").walkTopDown().plus(File(root, "core/src/main").walkTopDown()).filter { it.extension == "kt" }
+            .flatMap { f -> Regex(""""([a-z0-9-]+(?:\.[a-z0-9-]+)+\.(?:com|org|net|io))"""").findAll(f.readText()).map { it.groupValues[1] } }.toSet()
+        val doc = read("docs/DATA_AND_PRIVACY.md")
+        val missing = hosts.filterNot { doc.contains(it) }
+        assertTrue(hosts.isNotEmpty() && missing.isEmpty(), "add to docs/DATA_AND_PRIVACY.md: $missing")
+    }
+
+    @Test fun everyWorkflowIsInTheOperationsDoc() {
+        val doc = read("docs/OPERATIONS.md")
+        val missing = File(root, ".github/workflows").listFiles()!!.filter { it.extension == "yml" }.map { it.name }.filterNot { doc.contains(it) }
+        assertTrue(missing.isEmpty(), "add to docs/OPERATIONS.md: $missing")
+    }
+
+    @Test fun everyDocIsLinkedFromTheReadme() {
+        val readme = read("README.md")
+        val missing = File(root, "docs").listFiles()!!.filter { it.extension == "md" }.map { it.name }.filterNot { readme.contains(it) }
+        assertTrue(missing.isEmpty(), "link from README.md documentation map: $missing")
+    }
 }

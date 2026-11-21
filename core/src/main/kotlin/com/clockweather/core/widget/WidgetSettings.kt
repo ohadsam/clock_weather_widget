@@ -71,7 +71,6 @@ data class WidgetSettings(
     val alarmPackage: String = "",
     val alarmShowWithinHours: Int = 24,
     val agendaCalendarIds: List<Long> = emptyList(),
-    /** In-app dashboard: card order and hidden cards ([com.clockweather.core.dashboard.DashTile] ids); empty = defaults. */
     /** Small gear in the widget corner that opens the app settings. */
     val showSettingsButton: Boolean = true,
     /** Festive palette on the holiday itself ([Season]). */
@@ -93,6 +92,7 @@ data class WidgetSettings(
     val quietToHour: Int = 7,
     /** Weather app opened by a tap on the weather; empty = the weather screen of this app. */
     val weatherAppPackage: String = "",
+    /** In-app dashboard: card order and hidden cards ([com.clockweather.core.dashboard.DashTile] ids); empty = defaults. */
     val dashboardOrder: List<String> = emptyList(),
     val dashboardHidden: List<String> = emptyList(),
     val agendaRotateSeconds: Int = 8,
