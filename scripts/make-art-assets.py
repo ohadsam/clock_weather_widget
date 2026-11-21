@@ -292,11 +292,12 @@ def ornaments():
         im = drop_specks(key(f'{src}/{n}')).resize((256, 256), Image.LANCZOS)
         im.save(f'{RES}/drawable-nodpi/{n[:-4]}.webp', format='WEBP', quality=92, alpha_quality=100, method=6)
         ims.append(im)
-    sheet = Image.new('RGB', (256 * 5, 256 * 4), (242, 242, 242))
-    sheet.paste(Image.new('RGB', (256 * 5, 256 * 2), (21, 23, 26)), (0, 256 * 2))
+    rows = (len(ims) + 4) // 5
+    sheet = Image.new('RGB', (256 * 5, 256 * rows * 2), (242, 242, 242))
+    sheet.paste(Image.new('RGB', (256 * 5, 256 * rows), (21, 23, 26)), (0, 256 * rows))
     for i, im in enumerate(ims):
-        for row in (0, 2):
-            sheet.paste(im, ((i % 5) * 256, (row + i // 5) * 256), im.getchannel('A'))
+        for off in (0, rows):
+            sheet.paste(im, ((i % 5) * 256, (off + i // 5) * 256), im.getchannel('A'))
     sheet.save('design/ornaments/review_sheet.png')
     print(len(ims), 'ornaments')
 
