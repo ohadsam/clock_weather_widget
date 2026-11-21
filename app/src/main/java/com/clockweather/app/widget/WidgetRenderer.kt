@@ -83,6 +83,14 @@ object WidgetRenderer {
                 }
                 y += hh
             }
+            if (s.showSettingsButton && wDp >= 150f && hDp >= 90f) drawGear()
+        }
+
+        /** A small, quiet gear in the top corner (the matching tap zone opens Settings). */
+        fun drawGear() {
+            p.reset(); p.isAntiAlias = true
+            p.color = withAlpha(ink, 55); p.textSize = dp(14f); p.textAlign = if (rtl) Paint.Align.LEFT else Paint.Align.RIGHT
+            c.drawText("\u2699", if (rtl) dp(8f) else c.width - dp(8f), dp(17f), p)
         }
 
         // ---------- clock ----------

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- The whole face is one bitmap drawn by WidgetRenderer (the transparent plate lets the wallpaper show through);
-     two invisible tap zones sit on top: upper = clock, lower = weather. -->
+<!-- The whole face is one bitmap drawn by WidgetRenderer (the transparent plate lets the wallpaper show through).
+     On top: 20 invisible equal tap rows (which section each opens comes from core TapZones) and a settings tap zone in the top corner. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -18,15 +18,110 @@
         android:orientation="vertical">
 
         <FrameLayout
-            android:id="@+id/tap_clock"
+            android:id="@+id/tap_r0"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3" />
-
+            android:layout_weight="1" />
         <FrameLayout
-            android:id="@+id/tap_weather"
+            android:id="@+id/tap_r1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2" />
+            android:layout_weight="1" />
+        <FrameLayout
+            android:id="@+id/tap_r2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <FrameLayout
+            android:id="@+id/tap_r3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <FrameLayout
+            android:id="@+id/tap_r4"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <FrameLayout
+            android:id="@+id/tap_r5"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <FrameLayout
+            android:id="@+id/tap_r6"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <FrameLayout
+            android:id="@+id/tap_r7"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <FrameLayout
+            android:id="@+id/tap_r8"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <FrameLayout
+            android:id="@+id/tap_r9"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <FrameLayout
+            android:id="@+id/tap_r10"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <FrameLayout
+            android:id="@+id/tap_r11"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <FrameLayout
+            android:id="@+id/tap_r12"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <FrameLayout
+            android:id="@+id/tap_r13"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <FrameLayout
+            android:id="@+id/tap_r14"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <FrameLayout
+            android:id="@+id/tap_r15"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <FrameLayout
+            android:id="@+id/tap_r16"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <FrameLayout
+            android:id="@+id/tap_r17"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <FrameLayout
+            android:id="@+id/tap_r18"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <FrameLayout
+            android:id="@+id/tap_r19"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/tap_settings"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="top|end" />
 </FrameLayout>

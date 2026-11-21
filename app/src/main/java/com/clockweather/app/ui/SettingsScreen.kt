@@ -102,6 +102,12 @@ fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack
             SwitchRow(stringResource(R.string.show_world), s.showWorldClocks) { onChange(s.copy(showWorldClocks = it)) }
             SwitchRow(stringResource(R.string.show_sun), s.showSunTimes) { onChange(s.copy(showSunTimes = it)) }
             if (s.showSunTimes) SwitchRow(stringResource(R.string.show_nightfall), s.showNightfall) { onChange(s.copy(showNightfall = it)) }
+            SwitchRow(stringResource(R.string.show_settings_button), s.showSettingsButton) { onChange(s.copy(showSettingsButton = it)) }
+            val weatherApps = remember { listOf("com.google.android.apps.weather" to "Pixel Weather", "com.sec.android.daemonapp" to "Samsung Weather").filter { ctx.packageManager.getLaunchIntentForPackage(it.first) != null } }
+            if (weatherApps.isNotEmpty()) {
+                Text(stringResource(R.string.weather_tap_app), style = MaterialTheme.typography.titleSmall)
+                ChipRow(listOf("" to "ClockWise") + weatherApps, { it == s.weatherAppPackage }, { onChange(s.copy(weatherAppPackage = it)) })
+            }
             SwitchRow(stringResource(R.string.show_steps), s.showSteps) { on ->
                 onChange(s.copy(showSteps = on))
                 if (!on) StepWorker.cancel(ctx)
@@ -143,6 +149,7 @@ fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack
         }
 
         DashboardEditor(s, hebrew, onChange)
+        WidgetStatusSection()
         PermissionsSection()
         UpdatesSection(hebrew)
 

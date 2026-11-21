@@ -42,8 +42,9 @@ class MainActivity : ComponentActivity() {
 private fun AppRoot(start: String) {
     val ctx = LocalContext.current
     var settings by remember { mutableStateOf(SettingsStore.load(ctx)) }
-    var screen by remember { mutableStateOf(if (start in setOf("settings", "weather")) start else "home") }
-    var detail by remember { mutableStateOf<DashTile?>(null) }
+    val startTile = if (start.startsWith("detail:")) DashTile.byId(start.removePrefix("detail:")) else null
+    var screen by remember { mutableStateOf(if (startTile != null) "detail" else if (start in setOf("settings", "weather")) start else "home") }
+    var detail by remember { mutableStateOf(startTile) }
     var weatherPlace by remember { mutableStateOf<String?>(null) }
 
     fun update(new: WidgetSettings) {

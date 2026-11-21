@@ -11,7 +11,9 @@ import android.os.PowerManager
 import android.widget.RemoteViews
 import com.clockweather.app.MainActivity
 import com.clockweather.app.R
+import com.clockweather.app.data.HeartbeatWorker
 import com.clockweather.app.data.SettingsStore
+import com.clockweather.app.data.TickState
 import com.clockweather.app.data.StepWorker
 import com.clockweather.app.data.WeatherRepository
 import com.clockweather.app.data.WeatherWorker
@@ -35,6 +37,7 @@ open class ClockWidgetProvider : AppWidgetProvider() {
         WeatherWorker.schedule(context)
         if (SettingsStore.load(context).showSteps) StepWorker.schedule(context)
         com.clockweather.app.data.CalendarChangeWorker.schedule(context)
+        HeartbeatWorker.schedule(context)
         TickScheduler.scheduleNext(context)
     }
 
@@ -45,6 +48,7 @@ open class ClockWidgetProvider : AppWidgetProvider() {
     override fun onUpdate(context: Context, manager: AppWidgetManager, ids: IntArray) {
         pushAll(context, manager, ids, kind)
         TickScheduler.scheduleNext(context)
+        HeartbeatWorker.schedule(context)
     }
 
     override fun onAppWidgetOptionsChanged(context: Context, manager: AppWidgetManager, id: Int, newOptions: Bundle) {
@@ -57,6 +61,8 @@ open class ClockWidgetProvider : AppWidgetProvider() {
             thread(name = "clock-tick") { try { tick(context) } finally { pending.finish() } }
             return
         }
+        // A new time zone (or a clock change) must be picked up by this long-lived process, or the widget would keep the old zone.
+        if (intent.action == Intent.ACTION_TIMEZONE_CHANGED || intent.action == Intent.ACTION_TIME_CHANGED) java.util.TimeZone.setDefault(null)
         super.onReceive(context, intent)
         if (intent.action in RESCHEDULE_ACTIONS) {
             TickScheduler.scheduleNext(context)
@@ -67,6 +73,7 @@ open class ClockWidgetProvider : AppWidgetProvider() {
     private fun tick(context: Context) {
         // Re-arm FIRST: if anything below throws or the process dies, the chain of minute ticks must survive.
         TickScheduler.scheduleNext(context)
+        TickState.mark(context)
         val manager = AppWidgetManager.getInstance(context)
         if (allIds(context).isEmpty()) return
         val now = Instant.now()
@@ -142,6 +149,14 @@ open class ClockWidgetProvider : AppWidgetProvider() {
         private fun allIds(context: Context): List<Int> =
             idsByKind(context, AppWidgetManager.getInstance(context)).flatMap { it.second.toList() }
 
+        /** Re-arm the minute tick and redraw. With [onlyIfStale] the redraw happens only when the last tick is over 2 minutes old. */
+        fun repair(context: Context, onlyIfStale: Boolean = false) {
+            TickScheduler.scheduleNext(context)
+            if (onlyIfStale && System.currentTimeMillis() - TickState.last(context) < 2 * 60_000L) return
+            TickState.mark(context)
+            updateAll(context)
+        }
+
         /** Redraw every placed widget of every kind now (after Settings change or fresh weather data). */
         fun updateAll(context: Context) {
             val manager = AppWidgetManager.getInstance(context)
@@ -156,11 +171,21 @@ open class ClockWidgetProvider : AppWidgetProvider() {
                 val bmp = WidgetRenderer.render(context, (wDp * density).toInt(), (hDp * density).toInt(), density, st)
                 val rv = RemoteViews(context.packageName, R.layout.widget_clock)
                 rv.setImageViewBitmap(R.id.widget_image, bmp)
-                rv.setOnClickPendingIntent(R.id.tap_clock, open(context, if (kind == WidgetKind.WEATHER) "weather" else "settings", id * 2))
-                rv.setOnClickPendingIntent(R.id.tap_weather, open(context, "weather", id * 2 + 1))
+                val plan = com.clockweather.core.widget.WidgetLayout.plan(wDp, hDp, st.settings, kind)
+                val intents = HashMap<com.clockweather.core.widget.TapTarget, PendingIntent?>()
+                com.clockweather.core.widget.TapZones.rows(plan).forEachIndexed { i, target ->
+                    rv.setOnClickPendingIntent(ROW_IDS[i], intents.getOrPut(target) { WidgetTaps.pending(context, target, st.settings, id) })
+                }
+                rv.setViewVisibility(R.id.tap_settings, if (st.settings.showSettingsButton) android.view.View.VISIBLE else android.view.View.GONE)
+                rv.setOnClickPendingIntent(R.id.tap_settings, open(context, "settings", id * 16 + 15))
                 manager.updateAppWidget(id, rv)
             }
         }
+
+        private val ROW_IDS = intArrayOf(
+            R.id.tap_r0, R.id.tap_r1, R.id.tap_r2, R.id.tap_r3, R.id.tap_r4, R.id.tap_r5, R.id.tap_r6, R.id.tap_r7, R.id.tap_r8, R.id.tap_r9,
+            R.id.tap_r10, R.id.tap_r11, R.id.tap_r12, R.id.tap_r13, R.id.tap_r14, R.id.tap_r15, R.id.tap_r16, R.id.tap_r17, R.id.tap_r18, R.id.tap_r19,
+        )
 
         private fun sizeDp(o: Bundle, context: Context): Pair<Int, Int> {
             val portrait = context.resources.configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
@@ -169,7 +194,7 @@ open class ClockWidgetProvider : AppWidgetProvider() {
             return w.coerceIn(60, 800) to h.coerceIn(40, 800)
         }
 
-        private fun open(context: Context, screen: String, code: Int): PendingIntent {
+        internal fun open(context: Context, screen: String, code: Int): PendingIntent {
             val i = Intent(context, MainActivity::class.java).putExtra(MainActivity.EXTRA_SCREEN, screen).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
             return PendingIntent.getActivity(context, code, i, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
         }

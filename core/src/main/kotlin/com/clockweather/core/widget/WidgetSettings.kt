@@ -69,6 +69,10 @@ data class WidgetSettings(
     val alarmShowWithinHours: Int = 24,
     val agendaCalendarIds: List<Long> = emptyList(),
     /** In-app dashboard: card order and hidden cards ([com.clockweather.core.dashboard.DashTile] ids); empty = defaults. */
+    /** Small gear in the widget corner that opens the app settings. */
+    val showSettingsButton: Boolean = true,
+    /** Weather app opened by a tap on the weather; empty = the weather screen of this app. */
+    val weatherAppPackage: String = "",
     val dashboardOrder: List<String> = emptyList(),
     val dashboardHidden: List<String> = emptyList(),
     val agendaRotateSeconds: Int = 8,
@@ -100,6 +104,7 @@ data class WidgetSettings(
             alarmPackage = alarmPackage.take(200).filter { it.isLetterOrDigit() || it == '.' || it == '_' },
             alarmShowWithinHours = alarmShowWithinHours.coerceIn(0, 168),
             agendaCalendarIds = agendaCalendarIds.take(40),
+            weatherAppPackage = weatherAppPackage.take(200).filter { it.isLetterOrDigit() || it == '.' || it == '_' },
             dashboardOrder = dashboardOrder.filter { com.clockweather.core.dashboard.DashTile.byId(it) != null }.distinct(),
             dashboardHidden = dashboardHidden.filter { com.clockweather.core.dashboard.DashTile.byId(it) != null }.distinct(),
             agendaRotateSeconds = agendaRotateSeconds.coerceIn(3, 60),

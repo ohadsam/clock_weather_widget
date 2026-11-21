@@ -167,4 +167,15 @@
     <string name="move_up">Move up</string>
     <string name="move_down">Move down</string>
     <string name="dashboard_reset">Reset to default</string>
+    <string name="sec_health">Widget status</string>
+    <string name="health_no_widget">No widget on the home screen</string>
+    <string name="health_ok">The clock updates every minute</string>
+    <string name="health_late">Update is slightly late</string>
+    <string name="health_stopped">The minute update stopped. Tap "Repair now".</string>
+    <string name="health_no_exact">Exact alarms are not allowed, the clock may be late (Settings > Permissions).</string>
+    <string name="health_last_tick">Last update %1$d seconds ago</string>
+    <string name="health_hint">The clock updates at the start of every minute, even with the app closed. If it looks stuck, repair it here.</string>
+    <string name="health_repair">Repair now</string>
+    <string name="show_settings_button">Settings button on the widget</string>
+    <string name="weather_tap_app">Tapping the weather opens</string>
 </resources>

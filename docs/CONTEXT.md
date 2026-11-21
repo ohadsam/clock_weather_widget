@@ -59,6 +59,8 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/main/kotlin/com/clockweather/core/hebrew/Holidays.kt` | Jewish holidays/special days for a Gregorian day (Israel/diaspora) |
 | `core/src/main/kotlin/com/clockweather/core/steps/StepMath.kt` | Daily steps from a cumulative counter (reboot-safe) |
 | `core/src/main/kotlin/com/clockweather/core/dashboard/Dashboard.kt` | Dashboard cards: ids, order and visibility maths |
+| `core/src/main/kotlin/com/clockweather/core/widget/TapZones.kt` | Which section each tap row of the widget opens (from the layout plan) |
+| `core/src/main/kotlin/com/clockweather/core/clock/WidgetHealth.kt` | Verdict: is the minute tick alive? |
 | `core/src/main/kotlin/com/clockweather/core/sun/SunTimes.kt` | Offline sunrise/sunset (NOAA) |
 | `core/src/main/kotlin/com/clockweather/core/sun/Zmanim.kt` | Nightfall (tzeit), candle lighting, Shabbat/Yom Tov eve |
 | `core/src/main/kotlin/com/clockweather/core/text/Untrusted.kt` | Cleaning of untrusted text |
@@ -74,6 +76,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/test/kotlin/com/clockweather/core/hygiene/RepoHygieneTest.kt` | Docs file map, strings parity, :core purity, changelog |
 | `core/src/test/kotlin/com/clockweather/core/steps/StepMathTest.kt` | Step maths tests |
 | `core/src/test/kotlin/com/clockweather/core/dashboard/DashboardTest.kt` | Dashboard order/visibility tests |
+| `core/src/test/kotlin/com/clockweather/core/widget/TapZonesAndHealthTest.kt` | Tap zones, widget health, daylight-saving clock tests |
 | `core/src/test/kotlin/com/clockweather/core/sun/SunTimesTest.kt` | Sunrise/sunset tests |
 | `core/src/test/kotlin/com/clockweather/core/sun/ZmanimTest.kt` | Nightfall / candle lighting tests |
 | `core/src/test/kotlin/com/clockweather/core/weather/OpenMeteoTest.kt` | Forecast/geocoding parsing, WMO, outlook tests |
@@ -109,6 +112,10 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `app/src/main/java/com/clockweather/app/ui/DashboardDetails.kt` | Drill-down screens for dashboard cards |
 | `app/src/main/java/com/clockweather/app/ui/DashboardEditor.kt` | Settings: show/hide and reorder dashboard cards |
 | `app/src/main/java/com/clockweather/app/ui/WidgetTile.kt` | Dashboard card with the live widget preview and widget quick settings |
+| `app/src/main/java/com/clockweather/app/data/TickState.kt` | When the minute tick last ran |
+| `app/src/main/java/com/clockweather/app/data/HeartbeatWorker.kt` | 15-minute safety net that re-arms the tick |
+| `app/src/main/java/com/clockweather/app/widget/WidgetTaps.kt` | What each widget tap zone opens (calendar, alarm, weather app, our screens) |
+| `app/src/main/java/com/clockweather/app/ui/WidgetStatusSection.kt` | Settings: is the clock tick alive, repair button |
 | `app/src/main/java/com/clockweather/app/ui/PlacesOverview.kt` | All saved places at a glance on Home |
 | `app/build.gradle.kts`, `settings.gradle.kts`, `gradle/libs.versions.toml` | build (versionName here is the single source) |
 | `app/src/main/AndroidManifest.xml` | permissions (each commented), widget receiver, activities |

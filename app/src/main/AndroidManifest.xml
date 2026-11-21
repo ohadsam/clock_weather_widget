@@ -12,8 +12,16 @@
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     <!-- Optional: today's steps from the phone's own step counter (Android 10+ asks at run time). Never sent anywhere. -->
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    <!-- Re-arms the minute tick after a reboot (exact alarms do not survive a restart). -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- In-app update: lets this app hand its own newer APK (same signing key) to the system installer as an update. -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <!-- Lets the widget see which weather apps are installed (a tap on the weather can open one). -->
+    <queries>
+        <package android:name="com.google.android.apps.weather" />
+        <package android:name="com.sec.android.daemonapp" />
+    </queries>
 
     <application
         android:allowBackup="true"

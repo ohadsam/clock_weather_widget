@@ -167,4 +167,15 @@
     <string name="move_up">הזז למעלה</string>
     <string name="move_down">הזז למטה</string>
     <string name="dashboard_reset">איפוס לברירת מחדל</string>
+    <string name="sec_health">מצב הווידג\'ט</string>
+    <string name="health_no_widget">אין ווידג\'ט על מסך הבית</string>
+    <string name="health_ok">השעון מתעדכן כל דקה</string>
+    <string name="health_late">עדכון מאחר מעט</string>
+    <string name="health_stopped">העדכון הדקתי נעצר. לחץ "תקן עכשיו".</string>
+    <string name="health_no_exact">אין הרשאת התראות מדויקות, השעון עלול לאחר (הגדרות > הרשאות).</string>
+    <string name="health_last_tick">עדכון אחרון לפני %1$d שניות</string>
+    <string name="health_hint">השעון מתעדכן בכל תחילת דקה, גם כשהאפליקציה סגורה. אם הוא נראה תקוע, תקן כאן.</string>
+    <string name="health_repair">תקן עכשיו</string>
+    <string name="show_settings_button">כפתור הגדרות בווידג\'ט</string>
+    <string name="weather_tap_app">לחיצה על מזג האוויר פותחת</string>
 </resources>
