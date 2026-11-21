@@ -1,6 +1,10 @@
 name: API probe
 # The cloud sandbox cannot reach Open-Meteo, so the real response shape is verified here, never assumed.
-on: workflow_dispatch
+# Also runs on a push that edits this file (the repo's default branch is not main, so "Run workflow" 404s).
+on:
+  workflow_dispatch:
+  push:
+    paths: ['.github/workflows/api-probe.yml']
 jobs:
   probe:
     runs-on: ubuntu-latest
