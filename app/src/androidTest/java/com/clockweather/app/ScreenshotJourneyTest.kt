@@ -8,15 +8,13 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
-import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.platform.io.PlatformTestStorageRegistry
 import org.junit.Rule
 import org.junit.Test
-import java.io.File
-import java.io.FileOutputStream
 
 /**
- * Walks the main screens and saves a PNG of each to the app's external files folder (`screenshots/`), which `ui-tests.yml` pulls and uploads
- * as an artifact. Look at them: they are the evidence for layout, contrast and RTL that no unit test can give.
+ * Walks the main screens and saves a PNG of each through the test runner's output storage; AGP pulls them and `ui-tests.yml` uploads them
+ * as the `ui-screenshots` artifact. Look at them: they are the evidence for layout, contrast and RTL that no unit test can give.
  */
 class ScreenshotJourneyTest {
     @get:Rule val rule = createAndroidComposeRule<MainActivity>()
@@ -24,8 +22,9 @@ class ScreenshotJourneyTest {
     private fun shot(name: String) {
         rule.waitForIdle()
         val bmp = rule.onRoot().captureToImage().asAndroidBitmap()
-        val dir = File(InstrumentationRegistry.getInstrumentation().targetContext.getExternalFilesDir(null), "screenshots").apply { mkdirs() }
-        FileOutputStream(File(dir, "$name.png")).use { bmp.compress(Bitmap.CompressFormat.PNG, 100, it) }
+        // The test runner's own output folder: AGP copies it to app/build/outputs/connected_android_test_additional_output/ before it uninstalls the app
+        // (files written into the app's own folders would be deleted by that uninstall).
+        PlatformTestStorageRegistry.getInstance().openOutputFile("$name.png").use { bmp.compress(Bitmap.CompressFormat.PNG, 100, it) }
     }
 
     @Test fun journey() {
