@@ -3,6 +3,9 @@ package com.clockweather.app.widget
 import android.content.Context
 import com.clockweather.app.data.AlarmSource
 import com.clockweather.core.auto.AutoContent
+import com.clockweather.core.timers.DateCountdowns
+import com.clockweather.core.timers.TimerList
+import com.clockweather.core.widget.Appearance
 import com.clockweather.core.auto.Facts
 import com.clockweather.app.data.CalendarSource
 import com.clockweather.app.data.SettingsStore
@@ -37,11 +40,16 @@ object Snapshot {
         val steps = if (shaped.showSteps) StepSource.today(ctx) else null
         // Smart content: drop what is empty or irrelevant right now (the layout then gives the space to the rest)
         val effective = if (s.autoContent && !forDashboard) AutoContent.apply(s, Facts(now, zone, agenda, alarm, forecast, steps, s.places.size, s.worldClocks.size)) else s
-        val sw = TimerStore.stopwatch(ctx).takeIf { it.active }
-        val cd = TimerStore.countdown(ctx).takeIf { it.active }
-        val withTimers = effective.copy(timerRowActive = effective.showTimers && (sw != null || cd != null))
+        val hebrewNow = isHebrew(ctx, s.language)
+        val today = now.atZone(zone).toLocalDate()
+        val lines = if (effective.showTimers) listOfNotNull(DateCountdowns.widgetLine(TimerStore.dates(ctx), today, hebrewNow)) + TimerList.widgetLines(TimerStore.items(ctx), now.toEpochMilli(), hebrewNow, 3) else emptyList()
+        // night palette / holiday look, chosen from the clock (the widget and the in-app preview use the same result)
+        val local = now.atZone(zone)
+        val fday = forecast?.today(now)
+        val night = Appearance.isNight(local.hour, local.minute, fday?.sunrise?.let { it.hour * 60 + it.minute }, fday?.sunset?.let { it.hour * 60 + it.minute })
+        val withTimers = effective.copy(timerRowActive = lines.isNotEmpty(), paletteId = Appearance.paletteId(effective, today, night))
         return RenderState(
-            stopwatch = sw, countdown = cd,
+            timerLines = lines,
             settings = withTimers, kind = kind, now = now, zone = zone, hebrew = isHebrew(ctx, s.language), forecast = forecast,
             nextAlarm = alarm, agenda = agenda, steps = steps,
             flipFrom = flipFrom, flipProgress = progress, animMs = animMs, lidOpen = lidOpen,

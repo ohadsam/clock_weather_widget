@@ -9,6 +9,7 @@ enum class DashTile(val id: String, val he: String, val en: String, val defaultV
     ALARM("alarm", "שעון מעורר", "Alarm"),
     STOPWATCH("stopwatch", "טיימר", "Stopwatch"),
     COUNTDOWN("countdown", "ספירה לאחור", "Countdown"),
+    DATE_COUNTDOWN("date_countdown", "ימים עד אירוע", "Days until an event"),
     AGENDA("agenda", "אירועי היום", "Today's events"),
     SUN("sun", "זריחה, שקיעה וצאת הכוכבים", "Sun and nightfall"),
     STEPS("steps", "צעדים", "Steps", defaultVisible = false),

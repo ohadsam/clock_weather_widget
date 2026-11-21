@@ -117,6 +117,13 @@ fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack
                 SliderRow(stringResource(R.string.quiet_to), s.quietToHour, 0..23, "%02d:00".format(s.quietToHour)) { onChange(s.copy(quietToHour = it)) }
                 Text(stringResource(R.string.quiet_hint), style = MaterialTheme.typography.bodySmall)
             }
+            SwitchRow(stringResource(R.string.seasonal_theme), s.seasonalTheme) { onChange(s.copy(seasonalTheme = it)) }
+            Text(stringResource(R.string.seasonal_hint), style = MaterialTheme.typography.bodySmall)
+            SwitchRow(stringResource(R.string.auto_day_night), s.autoDayNight) { onChange(s.copy(autoDayNight = it)) }
+            if (s.autoDayNight) {
+                Text(stringResource(R.string.night_palette), style = MaterialTheme.typography.titleSmall)
+                ChipRow(Palettes.ALL.map { it.id to (if (hebrew) it.he else it.en) }, { it == s.nightPaletteId }, { onChange(s.copy(nightPaletteId = it)) })
+            }
             SwitchRow(stringResource(R.string.show_settings_button), s.showSettingsButton) { onChange(s.copy(showSettingsButton = it)) }
             val weatherApps = remember { listOf("com.google.android.apps.weather" to "Pixel Weather", "com.sec.android.daemonapp" to "Samsung Weather").filter { ctx.packageManager.getLaunchIntentForPackage(it.first) != null } }
             if (weatherApps.isNotEmpty()) {
@@ -165,12 +172,16 @@ fun SettingsScreen(s: WidgetSettings, onChange: (WidgetSettings) -> Unit, onBack
 
         DashboardEditor(s, hebrew, onChange)
         WidgetStatusSection()
+        BackupSection(s, onChange)
         PermissionsSection()
         UpdatesSection(hebrew)
 
         val version = remember { runCatching { ctx.packageManager.getPackageInfo(ctx.packageName, 0).versionName }.getOrNull() ?: "" }
         SectionCard(stringResource(R.string.sec_privacy), stringResource(R.string.sec_privacy_sum, version)) {
             Text(stringResource(R.string.privacy_body), style = MaterialTheme.typography.bodyMedium)
+        }
+        SectionCard(stringResource(R.string.sec_guide), stringResource(R.string.sec_guide_sum)) {
+            Button(onClick = { GuidePrefs.setSeen(ctx, false); android.widget.Toast.makeText(ctx, ctx.getString(R.string.guide_again), android.widget.Toast.LENGTH_LONG).show() }, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.show_guide)) }
         }
         SectionCard(stringResource(R.string.sec_whats_new), stringResource(R.string.sec_whats_new_sum, version)) {
             Text(stringResource(R.string.whats_new_body), style = MaterialTheme.typography.bodyMedium)

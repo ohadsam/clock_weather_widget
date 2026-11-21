@@ -30,6 +30,18 @@ The line under the weather shows sunrise, sunset and nightfall; on a Friday or t
 ## Map and places around the world
 Open the map card (or "Add a place around the world"): search a city or press "Show map" and tap it. You see the weather and local time there, then save it as "my place" (used by the widget) or as a world place (shown on the dashboard).
 
+## Several timers, labels and alerts
+Add as many stopwatches and countdowns as you need. Each has a label, Start/Pause, Restart and Cancel. For a countdown choose what happens at the end: a ringtone (alarm, notification or phone ringtone) and/or vibration, in any combination, and press "Test the alert". The widget shows up to three active timers by label.
+
+## Days until an event
+Pick a holiday in one tap or any date; the card shows the days left, and the nearest one also shows in the widget.
+
+## Festive and night looks
+Settings > What to show: "Festive look on holidays" and "Automatic day and night look".
+
+## Backup and sharing
+Settings > Backup and sharing: send your look as a short code, back up all settings as text, and paste a code to apply it.
+
 ## Stopwatch and countdown
 Two dashboard cards. Start either one and it also appears as a row in the widget (minutes, updated every minute); the dashboard shows live seconds. The countdown rings a notification when it ends (allow notifications when asked).
 

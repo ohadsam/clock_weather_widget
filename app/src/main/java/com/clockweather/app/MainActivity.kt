@@ -58,7 +58,9 @@ private fun AppRoot(start: String) {
         if (s.places != old.places || s.worldPlaces != old.worldPlaces || s.activePlaceId != old.activePlaceId) WeatherWorker.refreshNow(ctx)
     }
 
+    var showGuide by remember { mutableStateOf(!com.clockweather.app.ui.GuidePrefs.seen(ctx)) }
     BackHandler(enabled = screen != "home") { screen = "home" }
+    if (showGuide) com.clockweather.app.ui.GuideDialog { com.clockweather.app.ui.GuidePrefs.setSeen(ctx); showGuide = false }
     Box(Modifier.fillMaxSize().statusBarsPadding()) {
         when (screen) {
             "settings" -> SettingsScreen(settings, ::update) { screen = "home" }

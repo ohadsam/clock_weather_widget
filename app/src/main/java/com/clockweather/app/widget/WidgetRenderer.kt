@@ -18,7 +18,6 @@ import com.clockweather.core.hebrew.HebrewDateFormat
 import com.clockweather.core.hebrew.HolidayBadge
 import com.clockweather.core.hebrew.Holidays
 import com.clockweather.core.sun.SunTimes
-import com.clockweather.core.timers.TimerFormat
 import com.clockweather.core.widget.PocketMetal
 import com.clockweather.core.sun.Zmanim
 import com.clockweather.core.weather.TempFormat
@@ -374,12 +373,7 @@ object WidgetRenderer {
 
         /** One quiet row: stopwatch and/or countdown. The widget redraws once a minute, so only minutes are shown. */
         fun drawTimers(r: RectF) {
-            val nowMs = st.now.toEpochMilli()
-            val parts = listOfNotNull(
-                st.stopwatch?.let { TimerFormat.widgetStopwatch(it.elapsed(nowMs), st.hebrew) },
-                st.countdown?.let { TimerFormat.widgetCountdown(it, nowMs, st.hebrew) },
-            )
-            if (parts.isNotEmpty()) fitText(parts.joinToString("    "), RectF(r.left, r.top, r.right, r.bottom), ink, 12f, bold = true)
+            if (st.timerLines.isNotEmpty()) fitText(st.timerLines.joinToString("    "), RectF(r.left, r.top, r.right, r.bottom), ink, 12f, bold = true)
         }
 
         fun drawAgenda(r: RectF) {

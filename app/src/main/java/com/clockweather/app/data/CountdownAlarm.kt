@@ -6,39 +6,45 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.clockweather.app.R
 import com.clockweather.app.widget.ClockWidgetProvider
+import com.clockweather.core.timers.TimerItem
 
-/** One exact alarm at the moment the countdown ends; the receiver marks it finished, notifies and redraws the widget. */
+/** One exact alarm per running countdown, at the moment it ends; the receiver marks it finished, rings / vibrates as configured and redraws the widget. */
 object CountdownAlarm {
-    private fun pending(ctx: Context): PendingIntent =
-        PendingIntent.getBroadcast(ctx, 4001, Intent(ctx, CountdownReceiver::class.java), PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+    private fun pending(ctx: Context, id: String): PendingIntent =
+        PendingIntent.getBroadcast(ctx, 6000 + (id.hashCode() and 0xFFFF), Intent(ctx, CountdownReceiver::class.java).putExtra("id", id), PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
 
-    fun schedule(ctx: Context, atMs: Long) {
+    fun schedule(ctx: Context, item: TimerItem) {
+        val c = item.countdownState
+        if (!item.countdown || !c.running) return
         val am = ctx.getSystemService(Context.ALARM_SERVICE) as? AlarmManager ?: return
         val exactOk = Build.VERSION.SDK_INT < Build.VERSION_CODES.S || am.canScheduleExactAlarms()
-        if (exactOk) am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, atMs, pending(ctx)) else am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, atMs, pending(ctx))
+        if (exactOk) am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, c.endsAtMs, pending(ctx, item.id)) else am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, c.endsAtMs, pending(ctx, item.id))
     }
 
-    fun cancel(ctx: Context) { (ctx.getSystemService(Context.ALARM_SERVICE) as? AlarmManager)?.cancel(pending(ctx)) }
+    fun cancel(ctx: Context, id: String) { (ctx.getSystemService(Context.ALARM_SERVICE) as? AlarmManager)?.cancel(pending(ctx, id)) }
 
-    /** After a reboot or an app update: arm again for a countdown that is still running (or finish it if it ended meanwhile). */
+    /** After a reboot or an app update: arm again every running countdown (or finish the ones that ended meanwhile). */
     fun restore(ctx: Context) {
-        val c = TimerStore.countdown(ctx)
-        if (!c.running) return
-        if (c.isDue(System.currentTimeMillis())) CountdownReceiver.finish(ctx) else schedule(ctx, c.endsAtMs)
+        val now = System.currentTimeMillis()
+        for (item in TimerStore.items(ctx)) {
+            val c = item.countdownState
+            if (!item.countdown || !c.running) continue
+            if (c.isDue(now)) CountdownReceiver.finish(ctx, item.id) else schedule(ctx, item)
+        }
     }
 }
 
 class CountdownReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context, intent: Intent) { finish(context) }
+    override fun onReceive(context: Context, intent: Intent) { intent.getStringExtra("id")?.let { finish(context, it) } }
 
     companion object {
-        fun finish(ctx: Context) {
-            val c = TimerStore.countdown(ctx)
+        fun finish(ctx: Context, id: String) {
+            val item = TimerStore.items(ctx).firstOrNull { it.id == id } ?: return
+            val c = item.countdownState
             if (!c.running || !c.isDue(System.currentTimeMillis() + 1500)) return
-            TimerStore.save(ctx, c.finish())
-            Notifier.post(ctx, Notifier.CH_TIMER, 4001, ctx.getString(R.string.countdown_done_title), ctx.getString(R.string.countdown_done_text))
+            val done = TimerStore.update(ctx, id) { it.with(c.finish()) } ?: return
+            Notifier.postTimerDone(ctx, done)
             ClockWidgetProvider.updateAll(ctx)
         }
     }

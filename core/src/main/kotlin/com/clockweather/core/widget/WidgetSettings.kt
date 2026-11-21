@@ -74,6 +74,11 @@ data class WidgetSettings(
     /** In-app dashboard: card order and hidden cards ([com.clockweather.core.dashboard.DashTile] ids); empty = defaults. */
     /** Small gear in the widget corner that opens the app settings. */
     val showSettingsButton: Boolean = true,
+    /** Festive palette on the holiday itself ([Season]). */
+    val seasonalTheme: Boolean = false,
+    /** At night (after sunset) use [nightPaletteId] instead of the chosen palette. */
+    val autoDayNight: Boolean = false,
+    val nightPaletteId: String = "midnight",
     /** Smart content: the widget and the dashboard show what matters now and drop what is empty ([com.clockweather.core.auto.AutoContent]). */
     val autoContent: Boolean = false,
     /** Show an active stopwatch / countdown as a row in the widget. */
@@ -122,6 +127,7 @@ data class WidgetSettings(
             alarmShowWithinHours = alarmShowWithinHours.coerceIn(0, 168),
             agendaCalendarIds = agendaCalendarIds.take(40),
             timerRowActive = false,
+            nightPaletteId = if (Palettes.byId(nightPaletteId) != null) nightPaletteId else "midnight",
             quietFromHour = quietFromHour.coerceIn(0, 23),
             quietToHour = quietToHour.coerceIn(0, 23),
             weatherAppPackage = weatherAppPackage.take(200).filter { it.isLetterOrDigit() || it == '.' || it == '_' },

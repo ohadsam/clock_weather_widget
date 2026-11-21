@@ -26,8 +26,20 @@ object Palettes {
         Palette("forest", "יער", "Forest", 0xFFE3EFE0.toInt(), 0xFFC9DEC4.toInt(), 0xFF14301C.toInt(), 0xFF14301C.toInt(), 0xFFEAF6E7.toInt(), 0xFF66BB6A.toInt(), 0xFF93AE8E.toInt()),
         Palette("midnight", "חצות", "Midnight", 0xFF1A2238.toInt(), 0xFF111829.toInt(), 0xFFF2F5FF.toInt(), 0xFF0B0F1C.toInt(), 0xFFF2F5FF.toInt(), 0xFF8C9EFF.toInt(), 0xFF080B14.toInt()),
     )
+    /** Festive looks, used only by [Season]; they are not offered in the colour chips. */
+    val SEASONAL = listOf(
+        Palette("s_hanukkah", "חנוכה", "Hanukkah", 0xFF1F3A8A.toInt(), 0xFF16296B.toInt(), 0xFFFFFFFF.toInt(), 0xFF0E1A47.toInt(), 0xFFFFFFFF.toInt(), 0xFFFFD54F.toInt(), 0xFF0A1233.toInt()),
+        Palette("s_pesach", "פסח", "Passover", 0xFFFFFFFF.toInt(), 0xFFF1EBD2.toInt(), 0xFF2C3A1E.toInt(), 0xFF2C3A1E.toInt(), 0xFFFFFBEA.toInt(), 0xFFC9A227.toInt(), 0xFFCFC7A0.toInt()),
+        Palette("s_rosh_hashana", "ראש השנה", "Rosh Hashana", 0xFFFFE9B8.toInt(), 0xFFFFD27A.toInt(), 0xFF5A1A12.toInt(), 0xFF5A1A12.toInt(), 0xFFFFF2DC.toInt(), 0xFFC62828.toInt(), 0xFFD9A94F.toInt()),
+        Palette("s_sukkot", "סוכות", "Sukkot", 0xFFE6F2D5.toInt(), 0xFFC8DFA8.toInt(), 0xFF1E3A12.toInt(), 0xFF1E3A12.toInt(), 0xFFF1FAE6.toInt(), 0xFFF9A825.toInt(), 0xFF9DB57B.toInt()),
+        Palette("s_purim", "פורים", "Purim", 0xFFF3E1FA.toInt(), 0xFFDDB8EE.toInt(), 0xFF3B0F52.toInt(), 0xFF3B0F52.toInt(), 0xFFFBEEFF.toInt(), 0xFFEC407A.toInt(), 0xFFB48CC7.toInt()),
+        Palette("s_tu_bishvat", "ט״ו בשבט", "Tu BiShvat", 0xFFFFF1F6.toInt(), 0xFFFAD4E2.toInt(), 0xFF1F3B1A.toInt(), 0xFF1F3B1A.toInt(), 0xFFFFF5F8.toInt(), 0xFF7CB342.toInt(), 0xFFD9A6BA.toInt()),
+        Palette("s_shavuot", "שבועות", "Shavuot", 0xFFFFFFFF.toInt(), 0xFFE8F3E4.toInt(), 0xFF1B3A24.toInt(), 0xFF1B3A24.toInt(), 0xFFF4FFF4.toInt(), 0xFFFFC107.toInt(), 0xFFB6CFB0.toInt()),
+        Palette("s_independence", "יום העצמאות", "Independence Day", 0xFFFFFFFF.toInt(), 0xFFDCE9FB.toInt(), 0xFF0B2B6B.toInt(), 0xFF0B2B6B.toInt(), 0xFFFFFFFF.toInt(), 0xFF1E6BFF.toInt(), 0xFFA9BEE0.toInt()),
+        Palette("s_lag_baomer", "ל״ג בעומר", "Lag BaOmer", 0xFF3B2412.toInt(), 0xFF2A190C.toInt(), 0xFFFFE0B2.toInt(), 0xFF1C1008.toInt(), 0xFFFFE0B2.toInt(), 0xFFFF6D00.toInt(), 0xFF140B05.toInt()),
+    )
     val DEFAULT = ALL.first()
-    fun byId(id: String): Palette? = ALL.firstOrNull { it.id == id }
+    fun byId(id: String): Palette? = ALL.firstOrNull { it.id == id } ?: SEASONAL.firstOrNull { it.id == id }
 
     private fun lin(c: Int): Double { val v = c / 255.0; return if (v <= 0.03928) v / 12.92 else ((v + 0.055) / 1.055).pow(2.4) }
     fun luminance(argb: Int): Double = 0.2126 * lin((argb shr 16) and 0xFF) + 0.7152 * lin((argb shr 8) and 0xFF) + 0.0722 * lin(argb and 0xFF)

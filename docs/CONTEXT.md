@@ -66,6 +66,10 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/main/kotlin/com/clockweather/core/timers/Timers.kt` | Stopwatch and countdown state machines + text for app and widget |
 | `core/src/main/kotlin/com/clockweather/core/weather/RainAlert.kt` | Rain about to start: when to alert |
 | `core/src/main/kotlin/com/clockweather/core/widget/QuietHours.kt` | Night mode hours (wrap past midnight) |
+| `core/src/main/kotlin/com/clockweather/core/timers/TimerItems.kt` | Many labelled timers, each with its own end-of-time sound/vibration |
+| `core/src/main/kotlin/com/clockweather/core/timers/DateCountdown.kt` | Days until an event |
+| `core/src/main/kotlin/com/clockweather/core/look/LookCode.kt` | Share-my-look code and full backup text |
+| `core/src/main/kotlin/com/clockweather/core/widget/Seasons.kt` | Holiday looks and the effective palette (night / season / chosen) |
 | `core/src/main/kotlin/com/clockweather/core/sun/SunTimes.kt` | Offline sunrise/sunset (NOAA) |
 | `core/src/main/kotlin/com/clockweather/core/sun/Zmanim.kt` | Nightfall (tzeit), candle lighting, Shabbat/Yom Tov eve |
 | `core/src/main/kotlin/com/clockweather/core/text/Untrusted.kt` | Cleaning of untrusted text |
@@ -85,6 +89,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/test/kotlin/com/clockweather/core/auto/AutoContentTest.kt` | Smart content tests |
 | `core/src/test/kotlin/com/clockweather/core/weather/PlaceIdsTest.kt` | Place id and world-places sanitising tests |
 | `core/src/test/kotlin/com/clockweather/core/timers/TimersTest.kt` | Timers, rain alert and quiet hours tests |
+| `core/src/test/kotlin/com/clockweather/core/timers/TimerItemsTest.kt` | Timer list, date countdowns, look code, seasons tests |
 | `core/src/test/kotlin/com/clockweather/core/sun/SunTimesTest.kt` | Sunrise/sunset tests |
 | `core/src/test/kotlin/com/clockweather/core/sun/ZmanimTest.kt` | Nightfall / candle lighting tests |
 | `core/src/test/kotlin/com/clockweather/core/weather/OpenMeteoTest.kt` | Forecast/geocoding parsing, WMO, outlook tests |
@@ -131,6 +136,9 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `app/src/main/java/com/clockweather/app/data/CountdownAlarm.kt` | Exact alarm + receiver when the countdown ends |
 | `app/src/main/java/com/clockweather/app/data/RainAlerts.kt` | Rain-is-about-to-start notification check |
 | `app/src/main/java/com/clockweather/app/ui/TimerTiles.kt` | Dashboard cards: stopwatch and countdown |
+| `app/src/main/java/com/clockweather/app/ui/DateCountdownTile.kt` | Dashboard card: days until a holiday or a chosen date |
+| `app/src/main/java/com/clockweather/app/ui/BackupSection.kt` | Settings: share my look, backup, restore by pasted code |
+| `app/src/main/java/com/clockweather/app/ui/GuideDialog.kt` | First-run guide (4 pages) and its seen flag |
 | `app/src/main/java/com/clockweather/app/ui/PlacesOverview.kt` | All saved places at a glance on Home |
 | `app/build.gradle.kts`, `settings.gradle.kts`, `gradle/libs.versions.toml` | build (versionName here is the single source) |
 | `app/src/main/AndroidManifest.xml` | permissions (each commented), widget receiver, activities |
