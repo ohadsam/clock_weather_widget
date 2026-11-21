@@ -25,6 +25,8 @@ data class TimerItem(
     val cd: String = "",
     val sound: String = SoundKind.ALARM.name,
     val vibrate: Boolean = true,
+    /** A ringtone chosen with the phone's own picker (content URI); overrides [sound] when not empty. */
+    val soundUri: String = "",
 ) {
     val stopwatch: Stopwatch get() = Stopwatch.decode(sw)
     val countdownState: Countdown get() = Countdown.decode(cd)
@@ -51,12 +53,16 @@ object TimerList {
     }
 
     private fun clean(list: List<TimerItem>): List<TimerItem> =
-        list.map { it.copy(label = Untrusted.clean(it.label, MAX_LABEL), sound = SoundKind.byName(it.sound).name) }
+        list.map { it.copy(label = Untrusted.clean(it.label, MAX_LABEL), sound = SoundKind.byName(it.sound).name, soundUri = it.soundUri.takeIf { u -> u.length <= 300 && u.startsWith("content://") } ?: "") }
             .filter { it.id.isNotEmpty() }.distinctBy { it.id }.take(MAX_ITEMS)
 
     fun add(list: List<TimerItem>, item: TimerItem): List<TimerItem> = if (list.size >= MAX_ITEMS) list else list + item
     fun remove(list: List<TimerItem>, id: String): List<TimerItem> = list.filterNot { it.id == id }
     fun replace(list: List<TimerItem>, item: TimerItem): List<TimerItem> = list.map { if (it.id == item.id) item else it }
+
+    /** A new, not started countdown made from a saved preset (same label, duration and alert). */
+    fun fromPreset(preset: TimerItem, id: String): TimerItem =
+        preset.copy(id = id, countdown = true, sw = "", cd = Countdown().withDuration(preset.countdownState.totalMs).encode())
 
     fun nextId(list: List<TimerItem>, nowMs: Long): String {
         var n = nowMs.toString(36)

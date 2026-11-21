@@ -90,8 +90,10 @@ object WidgetRenderer {
 
         /** On a holiday (festive looks on) a small painted ornament sits in the top corner opposite the gear. */
         fun drawOrnament() {
-            val season = com.clockweather.core.widget.Season.of(local.toLocalDate(), s.inIsrael) ?: return
-            val bmp = ArtCache.get(ctx, "orn_" + season.ornament) ?: return
+            val day = com.clockweather.core.widget.Season.effectiveDay(local.toLocalDate(), local.toLocalTime(), st.forecast?.today(st.now)?.sunset?.toLocalTime())
+            val key = com.clockweather.core.widget.Season.ornamentKey(day, s.inIsrael) ?: return
+            // Hanukkah has one picture per day (orn_hanukkah_1..8); until they exist the general one is used
+            val bmp = ArtCache.get(ctx, "orn_$key") ?: ArtCache.get(ctx, "orn_" + (com.clockweather.core.widget.Season.of(day, s.inIsrael)?.ornament ?: return)) ?: return
             val side = dp(30f)
             val left = if (rtl) c.width - side - dp(6f) else dp(6f)
             c.drawBitmap(bmp, null, RectF(left, dp(4f), left + side, dp(4f) + side), Paint(Paint.ANTI_ALIAS_FLAG).apply { isFilterBitmap = true })
@@ -318,6 +320,9 @@ object WidgetRenderer {
             val sunset = st.forecast?.today(st.now)?.sunset?.toLocalTime()
             val hd = HebrewDateFormat.hebrewDateAt(local.toLocalDate(), local.toLocalTime(), sunset, s.rollHebrewAtSunset)
             if (s.showHebrewDate) parts += HebrewDateFormat.full(hd, st.hebrew, withYear = false)
+            if (s.showOmer) com.clockweather.core.hebrew.Omer.day(hd)?.let { parts += com.clockweather.core.hebrew.Omer.text(it, st.hebrew) }
+            if (s.showParsha && st.hebrew && (local.dayOfWeek == java.time.DayOfWeek.FRIDAY || local.dayOfWeek == java.time.DayOfWeek.SATURDAY))
+                com.clockweather.core.hebrew.WeeklyPortion.label(local.toLocalDate(), s.inIsrael)?.let { parts += "פרשת $it" }
             val box = RectF(r.left, r.top, r.right, r.bottom)
             val holiday = if (s.showHolidays) Holidays.on(local.toLocalDate(), s.inIsrael).firstOrNull() else null
             val line = (parts + listOfNotNull(holiday?.name(st.hebrew))).joinToString("  ·  ")

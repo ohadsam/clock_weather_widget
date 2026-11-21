@@ -82,6 +82,12 @@ data class WidgetSettings(
     val autoContent: Boolean = false,
     /** Show an active stopwatch / countdown as a row in the widget. */
     val showTimers: Boolean = true,
+    /** Date line: the weekly Torah portion on Friday and Shabbat. */
+    val showParsha: Boolean = true,
+    /** Date line: the Omer count during the Omer. */
+    val showOmer: Boolean = true,
+    /** From candle lighting to nightfall: calm look, no animations, no alerts. */
+    val shabbatMode: Boolean = false,
     /** Birthdays / anniversaries / special events from the Special Events app's device calendar: nearest one in the widget row, a card on the dashboard. */
     val showSpecialEvents: Boolean = true,
     /** The widget row shows a special event only when it is at most this many days away. */

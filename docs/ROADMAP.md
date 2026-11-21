@@ -38,12 +38,12 @@ Still open from the list: living weather layers beyond the loops, font choices, 
 ## New suggestions (not yet built - tell me which to build)
 1. ~~Per-widget settings~~ DONE 2026-11-21 (R65).
 2. **Emulator UI tests with screenshots** (`ui-tests.yml`) and an in-app guide whose pictures come from those tests.
-3. **Omer count + Parashat HaShavua** in the date line and on the dashboard (all computed offline from `HebrewCalendar`).
+3. ~~Omer count + Parashat HaShavua~~ DONE (R71) - in the date line and on the dashboard (all computed offline from `HebrewCalendar`).
 4. **Weather extras**: UV, air quality, wind and pollen as chart tabs (Open-Meteo has them); "feels like" comfort word; radar link.
-5. **Dashboard widget gallery**: add a second dashboard "page" for the watch/pocket-watch preview and a full-screen "bedside clock" mode (dim, always-on, flip cards big) with auto-brightness.
+5. ~~Bedside clock~~ DONE (R71); **Dashboard widget gallery**: add a second dashboard "page" for the watch/pocket-watch preview and a full-screen "bedside clock" mode (dim, always-on, flip cards big) with auto-brightness.
 6. **Interval timer** (work/rest rounds) and **timer presets by name** ("Eggs 8 min") one tap from the widget.
-7. **Haptic/ring preview picker** with the phone's own ringtone chooser per timer (system ringtone picker).
-8. **Shabbat mode**: no timers/alerts from candle lighting to nightfall, and a calm look; Havdalah reminder notification.
+7. ~~Ringtone picker~~ DONE (R71); **Haptic/ring preview picker** with the phone's own ringtone chooser per timer (system ringtone picker).
+8. ~~Shabbat mode~~ DONE (R71) (Havdalah reminder notification not built); **Shabbat mode**: no timers/alerts from candle lighting to nightfall, and a calm look; Havdalah reminder notification.
 9. ~~Birthdays and anniversaries~~ DONE 2026-11-21 through the Special Events app's calendar (R67); direct contacts birthdays and a direct provider remain optional (see `docs/SPECIAL_EVENTS_INTEGRATION.md`).
 10. **Widget themes from art**: the optional round 7 ornaments (`docs/prompts/ROUND7_SEASONAL_PROMPT.md`) plus painted backgrounds that follow the weather.
 11. **Reliability telemetry kept local**: a small on-device log of tick lateness and last errors shown in Widget status (no network), to debug launcher/OEM battery killers.

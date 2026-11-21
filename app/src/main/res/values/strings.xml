@@ -277,4 +277,21 @@
     <string name="no_special_events_soon">אין אירועים מיוחדים ב-60 הימים הקרובים</string>
     <string name="special_events_enable_hint">באפליקציה "אירועים מיוחדים" הפעל ייצוא ליומן (הגדרות > ייצוא ליומן) ואשר גישה ליומן כאן.</string>
     <string name="special_events_missing">התקן את האפליקציה "אירועים מיוחדים" כדי לראות כאן ימי הולדת, אזכרות ואירועים אחרים.</string>
+    <string name="metric_uv">קרינה (UV)</string>
+    <string name="metric_wind">רוח</string>
+    <string name="feels_like">מרגיש כמו</string>
+    <string name="rain_radar">מכ"ם גשם (בדפדפן)</string>
+    <string name="timer_presets">תבניות שמורות</string>
+    <string name="pick_ringtone">בחר צלצול מהטלפון</string>
+    <string name="ringtone_chosen">צלצול נבחר (לחץ להחלפה)</string>
+    <string name="default_ringtone">חזור לצלצול הרגיל</string>
+    <string name="save_preset">שמור כתבנית</string>
+    <string name="open_bedside">פתח מצב שעון שולחן</string>
+    <string name="bedside_hint">מסך שחור עם שעה גדולה ועמומה, התאריך והשעון המעורר הבא. המסך נשאר דלוק בבהירות מינימלית. לחיצה יוצאת.</string>
+    <string name="bedside_exit">יציאה ממצב שעון שולחן</string>
+    <string name="show_parsha">פרשת השבוע (שישי ושבת)</string>
+    <string name="show_omer">ספירת העומר</string>
+    <string name="shabbat_mode">מצב שבת וחג</string>
+    <string name="shabbat_mode_hint">מהדלקת נרות עד צאת השבת או החג: בלי אנימציות ובלי התראות גשם.</string>
+    <string name="health_lateness">%1$d העדכונים האחרונים: חציוני %2$d שנ\' אחרי תחילת הדקה, מקסימום %3$d שנ\'.</string>
 </resources>

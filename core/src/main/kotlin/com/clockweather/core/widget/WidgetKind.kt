@@ -33,7 +33,9 @@ enum class Preset(val id: String, val he: String, val en: String) {
     MINIMAL("minimal", "מינימלי", "Minimal"),
     SUNSET_ANALOG("sunset_analog", "שקיעה אנלוגי", "Sunset analog"),
     SHABBAT_CALM("shabbat_calm", "שבת רגועה", "Shabbat calm"),
-    POCKET_GOLD("pocket_gold", "שעון כיס זהב", "Gold pocket watch");
+    POCKET_GOLD("pocket_gold", "שעון כיס זהב", "Gold pocket watch"),
+    HIGH_CONTRAST("high_contrast", "ניגודיות גבוהה", "High contrast"),
+    BIG_TEXT("big_text", "כתב גדול", "Big text");
 
     fun apply(s: WidgetSettings): WidgetSettings = when (this) {
         CLASSIC_HTC -> s.copy(clockStyle = ClockStyle.FLIP, paletteId = "classic_white", backgroundAlphaPct = 0, panelAlphaPct = 75, cornerRadiusDp = 18, scalePct = 100, calmAnimations = false)
@@ -42,6 +44,8 @@ enum class Preset(val id: String, val he: String, val en: String) {
         MINIMAL -> s.copy(clockStyle = ClockStyle.MINIMAL, paletteId = "graphite", backgroundAlphaPct = 0, panelAlphaPct = 0, cornerRadiusDp = 12, scalePct = 90, showWorldClocks = false, showSunTimes = false, showAgenda = false)
         SUNSET_ANALOG -> s.copy(clockStyle = ClockStyle.ANALOG, paletteId = "sunset", backgroundAlphaPct = 15, panelAlphaPct = 60, cornerRadiusDp = 30, scalePct = 100, calmAnimations = false)
         POCKET_GOLD -> s.copy(clockStyle = ClockStyle.POCKET, paletteId = "sand", backgroundAlphaPct = 0, panelAlphaPct = 70, cornerRadiusDp = 20, scalePct = 100, calmAnimations = false)
+        HIGH_CONTRAST -> s.copy(clockStyle = ClockStyle.DIGITAL, paletteId = "graphite", backgroundAlphaPct = 85, panelAlphaPct = 100, cornerRadiusDp = 12, scalePct = 110, calmAnimations = true, showWorldClocks = false)
+        BIG_TEXT -> s.copy(clockStyle = ClockStyle.DIGITAL, paletteId = "classic_white", backgroundAlphaPct = 60, panelAlphaPct = 90, cornerRadiusDp = 20, scalePct = 150, calmAnimations = true, showWorldClocks = false, showSunTimes = false, showAgenda = false)
         SHABBAT_CALM -> s.copy(clockStyle = ClockStyle.DIGITAL, paletteId = "sand", backgroundAlphaPct = 20, panelAlphaPct = 70, cornerRadiusDp = 20, scalePct = 100, calmAnimations = true, showHolidays = true, showHebrewDate = true, showSunTimes = true)
     }
 }

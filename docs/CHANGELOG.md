@@ -1,6 +1,7 @@
 # Changelog
 
 ## 0.3.0
+- Weekly Torah portion and Omer count; Hanukkah ornament per day; Shabbat and Yom Tov mode; bedside clock; UV and wind charts with comfort words and a rain-radar link; timer presets and a phone ringtone picker; TalkBack description, High-contrast and Big-text presets; two-column dashboard on tablets.
 - Birthdays, anniversaries and memorials from the Special Events app (through its calendar) in the widget row and a dashboard card.
 - Painted holiday ornaments in the widget corner and the dashboard header on the holiday (festive looks).
 - Per-widget settings: each placed widget can have its own look and items.

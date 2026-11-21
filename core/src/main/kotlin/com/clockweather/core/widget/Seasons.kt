@@ -10,6 +10,18 @@ enum class Season(val paletteId: String, val he: String, val en: String, val orn
     SHAVUOT("s_shavuot", "שבועות", "Shavuot", "shavuot"), INDEPENDENCE("s_independence", "יום העצמאות", "Independence Day", "independence"), LAG_BAOMER("s_lag_baomer", "ל״ג בעומר", "Lag BaOmer", "lag_baomer");
 
     companion object {
+        /** A holiday starts at sunset: in the evening after [sunset] the next civil day is the one that counts. */
+        fun effectiveDay(date: LocalDate, time: java.time.LocalTime, sunset: java.time.LocalTime?): LocalDate =
+            if (sunset != null && time >= sunset) date.plusDays(1) else date
+
+        /** The art for [day]: the ornament of the season, and on Hanukkah the picture with that day's candles (`hanukkah_1` .. `hanukkah_8`). */
+        fun ornamentKey(day: LocalDate, inIsrael: Boolean): String? {
+            val season = of(day, inIsrael) ?: return null
+            if (season != HANUKKAH) return season.ornament
+            val n = Holidays.on(day, inIsrael).firstOrNull { it.id == "hanukkah" }?.dayOfHoliday
+            return if (n != null) "hanukkah_$n" else season.ornament
+        }
+
         fun of(day: LocalDate, inIsrael: Boolean): Season? = Holidays.on(day, inIsrael).firstNotNullOfOrNull { h ->
             when (h.id) {
                 "hanukkah" -> HANUKKAH

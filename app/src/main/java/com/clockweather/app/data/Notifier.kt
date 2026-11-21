@@ -46,10 +46,12 @@ object Notifier {
     fun postTimerDone(ctx: Context, item: TimerItem) {
         if (!canPost(ctx)) return
         val sound = item.soundKind
-        val channel = "timer_${sound.name.lowercase()}_${if (item.vibrate) 1 else 0}"
+        val custom = item.soundUri.takeIf { it.isNotEmpty() }
+        val channel = "timer_" + (if (custom != null) "u${custom.hashCode().toUInt()}" else sound.name.lowercase()) + "_${if (item.vibrate) 1 else 0}"
         val nm = ctx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val ch = NotificationChannel(channel, ctx.getString(R.string.channel_timer) + " - " + ctx.getString(soundLabel(sound)) + if (item.vibrate) " + " + ctx.getString(R.string.vibrate) else "", NotificationManager.IMPORTANCE_HIGH)
-        if (sound == SoundKind.NONE) ch.setSound(null, null) else {
+        if (custom != null) ch.setSound(android.net.Uri.parse(custom), AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build())
+        else if (sound == SoundKind.NONE) ch.setSound(null, null) else {
             val type = when (sound) { SoundKind.ALARM -> RingtoneManager.TYPE_ALARM; SoundKind.RINGTONE -> RingtoneManager.TYPE_RINGTONE; else -> RingtoneManager.TYPE_NOTIFICATION }
             val usage = when (sound) { SoundKind.ALARM -> AudioAttributes.USAGE_ALARM; SoundKind.RINGTONE -> AudioAttributes.USAGE_NOTIFICATION_RINGTONE; else -> AudioAttributes.USAGE_NOTIFICATION }
             ch.setSound(RingtoneManager.getDefaultUri(type), AudioAttributes.Builder().setUsage(usage).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build())
@@ -61,7 +63,7 @@ object Notifier {
         val title = item.label.ifEmpty { ctx.getString(R.string.countdown_done_title) }
         val n = Notification.Builder(ctx, channel).setSmallIcon(android.R.drawable.ic_lock_idle_alarm).setContentTitle(title)
             .setContentText(ctx.getString(R.string.countdown_done_text)).setContentIntent(open(ctx, id, "home")).setAutoCancel(true).setTimeoutAfter(5 * 60_000L).build()
-        if (sound != SoundKind.NONE) n.flags = n.flags or Notification.FLAG_INSISTENT // keeps ringing until it is dismissed (or 30 s: the sound is a short loop)
+        if (sound != SoundKind.NONE || custom != null) n.flags = n.flags or Notification.FLAG_INSISTENT // keeps ringing until it is dismissed (or 30 s: the sound is a short loop)
         nm.notify(id, n)
     }
 

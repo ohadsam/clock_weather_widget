@@ -112,3 +112,48 @@ class SpecialEventsTest {
         assertNull(com.clockweather.core.agenda.SpecialEvents.widgetLine(emptyList(), true))
     }
 }
+
+class JewishDayTest {
+    private val zone = ZoneId.of("Asia/Jerusalem")
+
+    @Test fun hanukkahShowsTheRightCandlesEachDayAndEvening() {
+        val d1 = LocalDate.of(2026, 12, 5) // 25 Kislev 5787
+        assertEquals("hanukkah_1", com.clockweather.core.widget.Season.ornamentKey(d1, true))
+        assertEquals("hanukkah_8", com.clockweather.core.widget.Season.ornamentKey(d1.plusDays(7), true))
+        assertEquals((1..8).map { "hanukkah_$it" }, (0..7).map { com.clockweather.core.widget.Season.ornamentKey(d1.plusDays(it.toLong()), true) })
+        // the evening before day 1 already counts as the first night
+        val eve = com.clockweather.core.widget.Season.effectiveDay(d1.minusDays(1), java.time.LocalTime.of(17, 30), java.time.LocalTime.of(16, 40))
+        assertEquals("hanukkah_1", com.clockweather.core.widget.Season.ornamentKey(eve, true))
+        assertEquals(d1.minusDays(1), com.clockweather.core.widget.Season.effectiveDay(d1.minusDays(1), java.time.LocalTime.of(12, 0), java.time.LocalTime.of(16, 40)))
+        assertEquals("pesach", com.clockweather.core.widget.Season.ornamentKey(LocalDate.of(2027, 4, 22), true))
+    }
+
+    @Test fun parshaAndOmer() {
+        assertEquals("ויצא", com.clockweather.core.hebrew.WeeklyPortion.label(LocalDate.of(2026, 11, 21), true)) // Shabbat
+        assertEquals("ויצא", com.clockweather.core.hebrew.WeeklyPortion.label(LocalDate.of(2026, 11, 18), true)) // Wednesday: the coming Shabbat
+        assertEquals("וישב", com.clockweather.core.hebrew.WeeklyPortion.label(LocalDate.of(2026, 12, 5), true)) // Shabbat Hanukkah
+        val h = com.clockweather.core.hebrew.HebrewDate(5787, com.clockweather.core.hebrew.HebrewCalendar.NISAN, 16)
+        assertEquals(1, com.clockweather.core.hebrew.Omer.day(h))
+        assertEquals(49, com.clockweather.core.hebrew.Omer.day(com.clockweather.core.hebrew.HebrewDate(5787, com.clockweather.core.hebrew.HebrewCalendar.SIVAN, 5)))
+        assertNull(com.clockweather.core.hebrew.Omer.day(com.clockweather.core.hebrew.HebrewDate(5787, com.clockweather.core.hebrew.HebrewCalendar.SIVAN, 6)))
+        assertEquals("Omer: day 8", com.clockweather.core.hebrew.Omer.text(8, false))
+    }
+
+    @Test fun shabbatModeWindow() {
+        val lat = 32.09; val lon = 34.88
+        val fri = LocalDate.of(2026, 11, 20); val sat = fri.plusDays(1)
+        fun on(d: LocalDate, h: Int, m: Int) = com.clockweather.core.sun.ShabbatMode.isActive(d, java.time.LocalTime.of(h, m), lat, lon, zone, true)
+        assertFalse(on(fri, 12, 0)); assertTrue(on(fri, 17, 30)); assertTrue(on(sat, 12, 0)); assertFalse(on(sat, 20, 30)); assertFalse(on(LocalDate.of(2026, 11, 18), 17, 30))
+    }
+
+    @Test fun comfortAndSpeechAndPresets() {
+        assertEquals("נעים", com.clockweather.core.weather.Comfort.word(22.0, true)); assertEquals("Very cold", com.clockweather.core.weather.Comfort.word(0.0, false))
+        assertEquals("Thursday 17:05, 25°, rain expected, alarm 06:30", com.clockweather.core.widget.WidgetSpeech.sentence(false, "17:05", "Thursday", "25°, rain expected", listOf("alarm 06:30")))
+        val preset = TimerItem("p", true, "Eggs", cd = Countdown().withDuration(8 * 60_000L).start(0).encode(), sound = "ALARM", vibrate = false)
+        val fresh = TimerList.fromPreset(preset, "n1")
+        assertEquals("n1", fresh.id); assertEquals(8 * 60_000L, fresh.countdownState.totalMs); assertFalse(fresh.countdownState.running); assertEquals("Eggs", fresh.label)
+        assertEquals("", TimerList.decode(TimerList.encode(listOf(TimerItem("x", true, soundUri = "file:///evil")))).single().soundUri)
+        assertEquals("content://media/1", TimerList.decode(TimerList.encode(listOf(TimerItem("x", true, soundUri = "content://media/1")))).single().soundUri)
+        assertTrue(com.clockweather.core.widget.Preset.values().size >= 9)
+    }
+}

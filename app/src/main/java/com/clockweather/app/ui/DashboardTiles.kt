@@ -74,6 +74,8 @@ internal fun DateTile(st: RenderState, index: Int, animate: Boolean, onOpen: () 
     DashCard(index, animate, DashTitles.of(com.clockweather.core.dashboard.DashTile.DATE, st.hebrew), onOpen) {
         Text(DateTimeFormatter.ofPattern(if (st.hebrew) "EEEE, d בMMMM yyyy" else "EEEE, d MMMM yyyy", loc).format(local), style = MaterialTheme.typography.titleLarge)
         Text(HebrewDateFormat.full(hd, st.hebrew), style = MaterialTheme.typography.bodyLarge)
+        com.clockweather.core.hebrew.Omer.day(hd)?.let { Text(com.clockweather.core.hebrew.Omer.text(it, st.hebrew), style = MaterialTheme.typography.bodyMedium) }
+        com.clockweather.core.hebrew.WeeklyPortion.label(local.toLocalDate(), s.inIsrael)?.takeIf { st.hebrew }?.let { Text("פרשת השבוע: $it", style = MaterialTheme.typography.bodyMedium) }
         if (holiday != null) Text("✡ " + holiday.name(st.hebrew), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.secondary)
     }
 }
@@ -224,5 +226,12 @@ internal fun SpecialEventsTile(st: RenderState, index: Int, animate: Boolean) {
             installed -> Text(stringResource(R.string.special_events_enable_hint), style = MaterialTheme.typography.bodyMedium)
             else -> Text(stringResource(R.string.special_events_missing), style = MaterialTheme.typography.bodyMedium)
         }
+    }
+}
+
+@Composable
+internal fun BedsideTile(st: RenderState, index: Int, animate: Boolean, onOpen: () -> Unit) {
+    DashCard(index, animate, DashTitles.of(com.clockweather.core.dashboard.DashTile.BEDSIDE, st.hebrew), onOpen, stringResource(R.string.open_bedside), onOpen) {
+        Text(stringResource(R.string.bedside_hint), style = MaterialTheme.typography.bodyMedium)
     }
 }

@@ -42,6 +42,9 @@ fun WidgetStatusSection() {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(stringResource(label), style = MaterialTheme.typography.bodyLarge)
             if (last > 0) Text(stringResource(R.string.health_last_tick, ((now - last) / 1000).coerceAtLeast(0)), style = MaterialTheme.typography.bodySmall)
+            com.clockweather.app.data.TickState.lateness(ctx).takeIf { it.isNotEmpty() }?.let { l ->
+                Text(stringResource(R.string.health_lateness, l.size, l.sorted()[l.size / 2], l.max()), style = MaterialTheme.typography.bodySmall)
+            }
             Text(stringResource(R.string.health_hint), style = MaterialTheme.typography.bodySmall)
             OutlinedButton(onClick = { ClockWidgetProvider.repair(ctx); refresh++ }, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.health_repair)) }
         }

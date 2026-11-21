@@ -6,6 +6,7 @@ import com.clockweather.core.auto.AutoContent
 import com.clockweather.core.timers.DateCountdowns
 import com.clockweather.core.timers.TimerList
 import com.clockweather.core.widget.Appearance
+import com.clockweather.core.widget.Season
 import com.clockweather.core.auto.Facts
 import com.clockweather.app.data.CalendarSource
 import com.clockweather.app.data.SettingsStore
@@ -51,7 +52,8 @@ object Snapshot {
         val local = now.atZone(zone)
         val fday = forecast?.today(now)
         val night = Appearance.isNight(local.hour, local.minute, fday?.sunrise?.let { it.hour * 60 + it.minute }, fday?.sunset?.let { it.hour * 60 + it.minute })
-        val withTimers = effective.copy(timerRowActive = lines.isNotEmpty(), paletteId = Appearance.paletteId(effective, today, night))
+        val seasonDay = Season.effectiveDay(today, local.toLocalTime(), fday?.sunset?.toLocalTime())
+        val withTimers = effective.copy(timerRowActive = lines.isNotEmpty(), paletteId = Appearance.paletteId(effective, seasonDay, night))
         return RenderState(
             timerLines = lines,
             settings = withTimers, kind = kind, now = now, zone = zone, hebrew = isHebrew(ctx, s.language), forecast = forecast,

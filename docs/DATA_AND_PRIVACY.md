@@ -21,6 +21,7 @@ The Settings -> Permissions screen lists each one with its state and an Allow / 
 | `api.open-meteo.com` | rounded latitude/longitude of saved places | every 30 min by `WeatherWorker`, on refresh, when a place is added |
 | `geocoding-api.open-meteo.com` | the text you typed in place search | when you press Search |
 | `github.com` and `githubusercontent.com` | nothing personal (a plain GET of `version.json` and the APK) | only when you press "Check for updates" / download |
+| `www.windy.com` | opened in the browser (not by the app) only when you tap "Rain radar"; the place coordinates are in the link | only on that tap |
 | `tile.openstreetmap.org` | the map area you look at, your IP address | only after you press "Show map" |
 No analytics, no ads, no accounts, no crash reporting. The phone's own geocoder (Android `Geocoder`) may be used to name a tapped map point; that is the phone's service, not ours.
 
@@ -29,8 +30,8 @@ No analytics, no ads, no accounts, no crash reporting. The phone's own geocoder 
 |---|---|
 | `settings` / `json` | all settings (`docs/SETTINGS_REFERENCE.md`), including saved places and calendar ids |
 | `forecast` | raw weather JSON per place + fetch time |
-| `timers` | stopwatches, countdowns (with labels and sound choices), date countdowns |
-| `tick` | when the minute tick last ran |
+| `timers` | stopwatches, countdowns (labels, sound / ringtone choices), saved presets, date countdowns |
+| `tick` | when the minute tick last ran and how late the last 30 ticks were (shown in Settings -> Widget status) |
 | `steps` | today's baseline and last reading of the step counter |
 | `rain_alert` | when the last rain notification was shown |
 | `update` | last install status |

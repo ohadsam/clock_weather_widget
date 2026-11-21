@@ -25,7 +25,7 @@ object OpenMeteo {
     fun forecastUrl(lat: Double, lon: Double, days: Int = 3): String =
         "https://$HOST/v1/forecast?latitude=${coord(lat)}&longitude=${coord(lon)}" +
             "&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,wind_speed_10m" +
-            "&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,is_day" +
+            "&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,is_day,uv_index,wind_speed_10m,apparent_temperature" +
             "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,sunrise,sunset" +
             "&timezone=auto&forecast_days=${days.coerceIn(1, 7)}"
 
@@ -91,6 +91,9 @@ object OpenMeteo {
                 humidityPct = h.arr("relative_humidity_2m")?.numAt(i)?.toInt()?.coerceIn(0, 100),
                 sky = Sky.fromWmo(h.arr("weather_code")?.numAt(i)?.toInt()),
                 isDay = (h.arr("is_day")?.numAt(i) ?: 1.0) >= 1.0,
+                uvIndex = h.arr("uv_index")?.numAt(i)?.coerceIn(0.0, 20.0),
+                windKmh = h.arr("wind_speed_10m")?.numAt(i)?.coerceIn(0.0, 400.0),
+                feelsC = h.arr("apparent_temperature")?.numAt(i),
             )
         }
     }

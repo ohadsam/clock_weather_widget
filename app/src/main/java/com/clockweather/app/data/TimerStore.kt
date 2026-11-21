@@ -41,6 +41,10 @@ object TimerStore {
         return new
     }
 
+    /** Saved countdown templates ("Eggs 8 min" with its alert): one tap starts a new countdown from one. */
+    fun presets(ctx: Context): List<TimerItem> = TimerList.decode(p(ctx).getString("presets", null)).filter { it.countdown }
+    fun savePresets(ctx: Context, list: List<TimerItem>) { p(ctx).edit().putString("presets", TimerList.encode(list)).apply() }
+
     fun dates(ctx: Context): List<DateCountdown> = DateCountdowns.decode(p(ctx).getString("dates", null))
     fun saveDates(ctx: Context, list: List<DateCountdown>) { p(ctx).edit().putString("dates", DateCountdowns.encode(list)).apply() }
 }

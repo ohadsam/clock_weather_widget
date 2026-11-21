@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.clockweather.app.data.SettingsStore
 import com.clockweather.app.data.WeatherWorker
+import com.clockweather.app.ui.BedsideScreen
 import com.clockweather.app.ui.ClockWeatherTheme
 import com.clockweather.app.ui.DashDetailScreen
 import com.clockweather.app.ui.HomeScreen
@@ -64,12 +65,13 @@ private fun AppRoot(start: String) {
     Box(Modifier.fillMaxSize().statusBarsPadding()) {
         when (screen) {
             "settings" -> SettingsScreen(settings, ::update) { screen = "home" }
+            "bedside" -> BedsideScreen(settings) { screen = "home" }
             "map" -> PlacePickerScreen(settings, ::update) { screen = "home" }
             "weather" -> WeatherScreen(settings, weatherPlace) { screen = "home" }
             "detail" -> detail?.let { DashDetailScreen(it, settings) { screen = "home" } } ?: run { screen = "home" }
             else -> HomeScreen(
                 settings, onSettings = { screen = "settings" }, onOpenWeather = { weatherPlace = it; screen = "weather" },
-                onOpenDetail = { detail = it; screen = "detail" }, onOpenMap = { screen = "map" }, onChange = ::update,
+                onOpenDetail = { detail = it; screen = "detail" }, onOpenMap = { screen = "map" }, onOpenBedside = { screen = "bedside" }, onChange = ::update,
             )
         }
     }

@@ -74,6 +74,11 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/main/kotlin/com/clockweather/core/widget/Seasons.kt` | Holiday looks and the effective palette (night / season / chosen) |
 | `core/src/main/kotlin/com/clockweather/core/widget/WidgetOverride.kt` | What one placed widget changes vs the global settings |
 | `core/src/main/kotlin/com/clockweather/core/agenda/SpecialEvents.kt` | Birthdays / special events as "N days until" lines |
+| `core/src/main/kotlin/com/clockweather/core/hebrew/Parsha.kt` | Weekly Torah portion (ported from the Special Events app) |
+| `core/src/main/kotlin/com/clockweather/core/hebrew/Omer.kt` | Omer count |
+| `core/src/main/kotlin/com/clockweather/core/weather/Comfort.kt` | Comfort and UV words |
+| `core/src/main/kotlin/com/clockweather/core/sun/ShabbatMode.kt` | Shabbat / Yom Tov window for the calm mode |
+| `core/src/main/kotlin/com/clockweather/core/widget/WidgetSpeech.kt` | One TalkBack sentence for the widget |
 | `core/src/main/kotlin/com/clockweather/core/sun/SunTimes.kt` | Offline sunrise/sunset (NOAA) |
 | `core/src/main/kotlin/com/clockweather/core/sun/Zmanim.kt` | Nightfall (tzeit), candle lighting, Shabbat/Yom Tov eve |
 | `core/src/main/kotlin/com/clockweather/core/text/Untrusted.kt` | Cleaning of untrusted text |
@@ -145,6 +150,8 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `app/src/main/java/com/clockweather/app/ui/GuideDialog.kt` | First-run guide (4 pages) and its seen flag |
 | `app/src/main/java/com/clockweather/app/ui/WidgetsSection.kt` | Settings: each placed widget with its own look and items |
 | `app/src/main/java/com/clockweather/app/data/SpecialEventsSource.kt` | Reads the Special Events app's calendar (birthdays, memorials) |
+| `app/src/main/java/com/clockweather/app/ui/BedsideScreen.kt` | Bedside clock mode |
+| `app/src/main/java/com/clockweather/app/widget/Speech.kt` | TalkBack sentence for the widget |
 | `app/src/main/java/com/clockweather/app/ui/PlacesOverview.kt` | All saved places at a glance on Home |
 | `app/build.gradle.kts`, `settings.gradle.kts`, `gradle/libs.versions.toml` | build (versionName here is the single source) |
 | `app/src/main/AndroidManifest.xml` | permissions (each commented), widget receiver, activities |

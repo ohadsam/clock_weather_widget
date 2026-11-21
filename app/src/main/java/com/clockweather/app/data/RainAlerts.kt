@@ -15,6 +15,8 @@ object RainAlerts {
         if (!s.rainAlert || !Notifier.canPost(ctx)) return
         val place = s.places.firstOrNull { it.id == s.activePlaceId } ?: return
         val f = WeatherRepository.cached(ctx, place.id) ?: return
+        val local = now.atZone(ZoneId.systemDefault())
+        if (s.shabbatMode && com.clockweather.core.sun.ShabbatMode.isActive(local.toLocalDate(), local.toLocalTime(), place.lat, place.lon, ZoneId.systemDefault(), s.inIsrael)) return
         if (QuietHours.isQuiet(s.quietHoursEnabled, s.quietFromHour, s.quietToHour, now.atZone(ZoneId.systemDefault()).toLocalTime())) return
         val prefs = ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
         if (!RainAlert.mayNotify(prefs.getLong("last", 0L), now.toEpochMilli())) return

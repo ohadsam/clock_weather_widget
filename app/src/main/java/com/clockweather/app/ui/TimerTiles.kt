@@ -89,12 +89,25 @@ private fun TimersCard(st: RenderState, index: Int, animate: Boolean, countdown:
     DashCard(index, animate, DashTitles.of(tile, st.hebrew), null) {
         if (items.isEmpty()) Text(stringResource(if (countdown) R.string.no_countdowns else R.string.no_stopwatches), style = MaterialTheme.typography.bodyMedium)
         Text(stringResource(if (st.settings.showTimers) R.string.timer_in_widget_hint else R.string.timer_widget_off_hint), style = MaterialTheme.typography.bodySmall)
+        if (countdown) {
+            val presets = remember(now / 1000) { TimerStore.presets(ctx) }
+            if (presets.isNotEmpty()) {
+                Text(stringResource(R.string.timer_presets), style = MaterialTheme.typography.titleSmall)
+                ChipRow(presets.map { it.id to (it.label.ifEmpty { TimerFormat.clock(it.countdownState.totalMs) }) + " · " + TimerFormat.clock(it.countdownState.totalMs) }, { false }) { pid ->
+                    val list = TimerStore.items(ctx)
+                    val fresh = TimerList.fromPreset(presets.first { it.id == pid }, TimerList.nextId(list, System.currentTimeMillis()))
+                    TimerStore.save(ctx, TimerList.add(list, fresh))
+                    applyChange(fresh.id) { cur -> cur.with(cur.countdownState.start(System.currentTimeMillis())) }
+                }
+            }
+        }
         items.forEach { item ->
             TimerItemCard(
                 item, now, st.hebrew, animate,
                 onChange = { f -> applyChange(item.id, f) },
                 onDelete = { CountdownAlarm.cancel(ctx, item.id); TimerStore.save(ctx, TimerList.remove(TimerStore.items(ctx), item.id)); ClockWidgetProvider.updateAll(ctx) },
                 onTest = { Notifier.postTimerDone(ctx, item) },
+                onSavePreset = { val ps = TimerStore.presets(ctx).filterNot { it.label == item.label && it.countdownState.totalMs == item.countdownState.totalMs }; TimerStore.savePresets(ctx, (ps + item.copy(cd = item.countdownState.reset().encode(), sw = "")).takeLast(8)) },
             )
         }
         OutlinedButton(
@@ -109,14 +122,14 @@ private fun TimersCard(st: RenderState, index: Int, animate: Boolean, countdown:
 }
 
 @Composable
-private fun TimerItemCard(item: TimerItem, now: Long, hebrew: Boolean, animate: Boolean, onChange: ((TimerItem) -> TimerItem) -> Unit, onDelete: () -> Unit, onTest: () -> Unit) {
+private fun TimerItemCard(item: TimerItem, now: Long, hebrew: Boolean, animate: Boolean, onChange: ((TimerItem) -> TimerItem) -> Unit, onDelete: () -> Unit, onTest: () -> Unit, onSavePreset: () -> Unit) {
     var label by remember(item.id) { mutableStateOf(item.label) }
     Column(Modifier.fillMaxWidth().padding(vertical = 6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
         OutlinedTextField(
             label, { label = it.take(TimerList.MAX_LABEL); onChange { cur -> cur.copy(label = label) } },
             label = { Text(stringResource(R.string.timer_label)) }, singleLine = true, modifier = Modifier.fillMaxWidth(),
         )
-        if (item.countdown) CountdownBody(item, now, animate, hebrew, onChange, onTest)
+        if (item.countdown) CountdownBody(item, now, animate, hebrew, onChange, onTest, onSavePreset)
         else StopwatchBody(item, now)
         TimerButtons(
             running = if (item.countdown) item.countdownState.running else item.stopwatch.running,
@@ -140,7 +153,15 @@ private fun StopwatchBody(item: TimerItem, now: Long) {
 }
 
 @Composable
-private fun CountdownBody(item: TimerItem, now: Long, animate: Boolean, hebrew: Boolean, onChange: ((TimerItem) -> TimerItem) -> Unit, onTest: () -> Unit) {
+private fun CountdownBody(item: TimerItem, now: Long, animate: Boolean, hebrew: Boolean, onChange: ((TimerItem) -> TimerItem) -> Unit, onTest: () -> Unit, onSavePreset: () -> Unit) {
+    val ctx = LocalContext.current
+    val picker = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { r ->
+        val data = r.data
+        if (r.resultCode == android.app.Activity.RESULT_OK && data != null) {
+            val uri = androidx.core.content.IntentCompat.getParcelableExtra(data, android.media.RingtoneManager.EXTRA_RINGTONE_PICKED_URI, android.net.Uri::class.java)
+            onChange { cur -> cur.copy(soundUri = uri?.toString().orEmpty()) }
+        }
+    }
     val cd = item.countdownState
     val fraction by animateFloatAsState(cd.fraction(now), tween(if (animate) 300 else 0), label = "ring")
     val color = if (cd.finished) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
@@ -167,7 +188,22 @@ private fun CountdownBody(item: TimerItem, now: Long, animate: Boolean, hebrew: 
     Text(stringResource(R.string.alert_when_done), style = MaterialTheme.typography.titleSmall)
     ChipRow(SoundKind.values().map { it to stringResource(Notifier.soundLabel(it)) }, { it == item.soundKind }, { k -> onChange { cur -> cur.copy(sound = k.name) } })
     SwitchRow(stringResource(R.string.vibrate), item.vibrate) { v -> onChange { cur -> cur.copy(vibrate = v) } }
-    OutlinedButton(onClick = onTest, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.test_alert)) }
+    FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        OutlinedButton(
+            onClick = {
+                picker.launch(
+                    android.content.Intent(android.media.RingtoneManager.ACTION_RINGTONE_PICKER)
+                        .putExtra(android.media.RingtoneManager.EXTRA_RINGTONE_TYPE, android.media.RingtoneManager.TYPE_ALARM or android.media.RingtoneManager.TYPE_NOTIFICATION or android.media.RingtoneManager.TYPE_RINGTONE)
+                        .putExtra(android.media.RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false)
+                        .putExtra(android.media.RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, item.soundUri.takeIf { it.isNotEmpty() }?.let { android.net.Uri.parse(it) }),
+                )
+            },
+            modifier = Modifier.heightIn(min = 48.dp),
+        ) { Text(stringResource(if (item.soundUri.isEmpty()) R.string.pick_ringtone else R.string.ringtone_chosen)) }
+        if (item.soundUri.isNotEmpty()) OutlinedButton(onClick = { onChange { cur -> cur.copy(soundUri = "") } }, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.default_ringtone)) }
+        OutlinedButton(onClick = onTest, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.test_alert)) }
+        OutlinedButton(onClick = onSavePreset, enabled = item.label.isNotBlank() && cd.totalMs > 0L, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.save_preset)) }
+    }
 }
 
 @Composable

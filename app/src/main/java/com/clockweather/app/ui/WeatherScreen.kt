@@ -106,14 +106,14 @@ private fun PlaceForecast(place: PlaceSetting, s: WidgetSettings) {
     val now = remember { LocalDateTime.now(forecast.zone) }
     val series = remember(place.id, dayIndex, metric, s.fahrenheit) { DayChart.series(hours, metric, s.fahrenheit) }
     val dayFmt = DateTimeFormatter.ofPattern("EEE d/M", if (hebrew) Locale("he") else Locale.ENGLISH)
-    val metricColor = when (metric) { Metric.TEMP -> Color(0xFFFF9800); Metric.RAIN -> Color(0xFF4FA3E0); Metric.HUMIDITY -> Color(0xFF26A69A) }
+    val metricColor = when (metric) { Metric.TEMP -> Color(0xFFFF9800); Metric.RAIN -> Color(0xFF4FA3E0); Metric.HUMIDITY -> Color(0xFF26A69A); Metric.UV -> Color(0xFF8E5BD6); Metric.WIND -> Color(0xFF607D8B) }
 
     LazyColumn(Modifier.fillMaxWidth(), contentPadding = androidx.compose.foundation.layout.PaddingValues(bottom = 24.dp)) {
         item { SummaryCard(place, forecast, dayIndex, s, hebrew) }
         item { ChipRow(forecast.days.mapIndexed { i, d -> i to d.date.format(dayFmt) }, { it == dayIndex }, { dayIndex = it }) }
         item {
             ChipRow(
-                listOf(Metric.TEMP to R.string.metric_temp, Metric.RAIN to R.string.metric_rain, Metric.HUMIDITY to R.string.metric_humidity).map { it.first.name to stringResource(it.second) },
+                listOf(Metric.TEMP to R.string.metric_temp, Metric.RAIN to R.string.metric_rain, Metric.HUMIDITY to R.string.metric_humidity, Metric.UV to R.string.metric_uv, Metric.WIND to R.string.metric_wind).map { it.first.name to stringResource(it.second) },
                 { it == metricName }, { metricName = it },
             )
         }
@@ -148,6 +148,10 @@ private fun SummaryCard(place: PlaceSetting, f: Forecast, dayIndex: Int, s: Widg
                 val rise = day.sunrise?.toLocalTime(); val set = day.sunset?.toLocalTime()
                 if (rise != null && set != null) Text("☀↑ $rise   ☀↓ $set", style = MaterialTheme.typography.bodySmall)
                 cur?.humidityPct?.let { Text("💧 $it%", style = MaterialTheme.typography.bodySmall) }
+                cur?.feelsLikeC?.let { Text("${stringResource(R.string.feels_like)} ${TempFormat.short(it, s.fahrenheit)} · ${com.clockweather.core.weather.Comfort.word(it, hebrew)}", style = MaterialTheme.typography.bodyMedium) }
+                f.hoursOf(day.date).mapNotNull { it.uvIndex }.maxOrNull()?.let { Text("UV ${Math.round(it)} · ${com.clockweather.core.weather.Comfort.uvWord(it, hebrew)}", style = MaterialTheme.typography.bodySmall) }
+                val ctx = androidx.compose.ui.platform.LocalContext.current
+                androidx.compose.material3.TextButton(onClick = { com.clockweather.app.data.SourceApps.openUrl(ctx, "https://www.windy.com/?rain,${place.lat},${place.lon},8") }, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.rain_radar)) }
             }
         }
     }

@@ -16,7 +16,8 @@ enum class DashTile(val id: String, val he: String, val en: String, val defaultV
     STEPS("steps", "צעדים", "Steps", defaultVisible = false),
     WORLD("world", "שעונים בעולם", "World clocks", defaultVisible = false),
     WORLD_PLACES("world_places", "מקומות בעולם", "Places around the world"),
-    MAP("map", "מפה ובחירת מקום", "Map and place picker");
+    MAP("map", "מפה ובחירת מקום", "Map and place picker"),
+    BEDSIDE("bedside", "מצב שעון שולחן", "Bedside clock");
 
     companion object { fun byId(id: String): DashTile? = values().firstOrNull { it.id == id } }
 }

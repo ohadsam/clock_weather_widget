@@ -75,6 +75,9 @@ data class HourPoint(
     val humidityPct: Int?,
     val sky: Sky,
     val isDay: Boolean,
+    val uvIndex: Double? = null,
+    val windKmh: Double? = null,
+    val feelsC: Double? = null,
 )
 
 data class DayForecast(

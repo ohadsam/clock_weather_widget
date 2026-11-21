@@ -50,6 +50,9 @@ Scope: **W** = affects the home-screen widget, **D** = the in-app dashboard, **S
 | `autoContent` | `Boolean` | `false` | Smart content: the widget and the dashboard show what matters now and drop what is empty ([com.clockweather.core.auto.AutoContent]). |
 | `showSpecialEvents` | `Boolean` | `true` | Special events (birthdays, memorials) from the Special Events app: nearest one in the widget row and the dashboard card. |
 | `specialEventsDays` | `Int` | `7` | The widget row shows a special event only when it is at most this many days away (1-30). |
+| `showParsha` | `Boolean` | `true` | Date line: the weekly Torah portion on Friday and Shabbat (Hebrew UI). |
+| `showOmer` | `Boolean` | `true` | Date line: the Omer count (days 1-49). |
+| `shabbatMode` | `Boolean` | `false` | From candle lighting to nightfall: no animations and no rain alerts. |
 | `showTimers` | `Boolean` | `true` | Show an active stopwatch / countdown as a row in the widget. |
 | `timerRowActive` | `Boolean` | `false` | DERIVED, never stored by the user: the app sets it from the timer state so the layout plan reserves the row. |
 | `rainAlert` | `Boolean` | `false` | Notify when rain is about to start at the active place (opt-in; needs the notification permission). |

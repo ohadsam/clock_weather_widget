@@ -2,7 +2,7 @@ package com.clockweather.core.weather
 
 import java.time.LocalDateTime
 
-enum class Metric { TEMP, RAIN, HUMIDITY }
+enum class Metric { TEMP, RAIN, HUMIDITY, UV, WIND }
 
 /** One metric over the hours of one day, ready for a chart: values may have gaps (null), [min]/[max] frame the axis. */
 data class ChartSeries(val metric: Metric, val hours: List<Int>, val values: List<Double?>, val min: Double, val max: Double) {
@@ -21,12 +21,16 @@ object DayChart {
                 Metric.TEMP -> if (fahrenheit) h.tempC * 9.0 / 5.0 + 32.0 else h.tempC
                 Metric.RAIN -> h.rainChancePct?.toDouble()
                 Metric.HUMIDITY -> h.humidityPct?.toDouble()
+                Metric.UV -> h.uvIndex
+                Metric.WIND -> h.windKmh
             }
         }
         val present = vals.filterNotNull()
         val (lo, hi) = when (metric) {
             Metric.TEMP -> if (present.isEmpty()) 0.0 to 1.0 else Math.floor(present.min() - 1) to Math.ceil(present.max() + 1)
             Metric.RAIN, Metric.HUMIDITY -> 0.0 to 100.0
+            Metric.UV -> 0.0 to maxOf(6.0, Math.ceil((present.maxOrNull() ?: 0.0) + 1))
+            Metric.WIND -> 0.0 to maxOf(20.0, Math.ceil(((present.maxOrNull() ?: 0.0) + 5) / 5) * 5)
         }
         return ChartSeries(metric, hours.map { it.time.hour }, vals, lo, hi)
     }
@@ -39,6 +43,7 @@ object DayChart {
     fun label(metric: Metric, value: Double?): String = when {
         value == null -> "–"
         metric == Metric.TEMP -> "${Math.round(value)}°"
+        metric == Metric.UV || metric == Metric.WIND -> "${Math.round(value)}"
         else -> "${Math.round(value)}%"
     }
 }

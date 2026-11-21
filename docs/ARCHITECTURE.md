@@ -68,6 +68,7 @@ The widget must stay correct with the app closed. Every piece of shown data has 
 | Event banner rotation | time | minute tick picks the event from the clock | <= 1 min |
 | The clock itself (safety net) | lost alarm chain, process death, reboot | `HeartbeatWorker` every 15 min (no network) re-arms the tick and redraws if the last tick (`TickState`) is over 2 min old; `RECEIVE_BOOT_COMPLETED` + `MY_PACKAGE_REPLACED` re-arm after reboot/update; Settings -> Widget status shows `WidgetHealth` and has a repair button | <= 15 min worst case, normally < 1 min |
 | Seasonal / night look | the date (holiday), sunset, sunrise | derived at every render in `Snapshot` (`Appearance`), so the minute tick applies it; no extra trigger | <= 1 min |
+| Shabbat mode / Omer / weekly portion | candle lighting, nightfall, the Hebrew date | computed offline at every minute tick (`ShabbatMode`, `Omer`, `WeeklyPortion`) | <= 1 min |
 | Countdown end | the end time | one exact `RTC_WAKEUP` alarm (`CountdownAlarm`) -> `CountdownReceiver` marks it finished, notifies, redraws the widget; re-armed after reboot/update | on time (exact-alarm permission) |
 | Stopwatch / countdown row in the widget | minute tick, start/pause/reset in the app | derived from stored timestamps at each minute tick (`TimerStore`); minutes only | <= 1 min |
 | Rain alert | new forecast | `RainAlerts.check` after every `WeatherWorker` run (every 30 min); at most one notification per 6 h; muted in quiet hours | <= 30 min |

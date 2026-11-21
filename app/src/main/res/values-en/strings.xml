@@ -277,4 +277,21 @@
     <string name="no_special_events_soon">No special events in the next 60 days</string>
     <string name="special_events_enable_hint">In the Special Events app turn on export to calendar (Settings > Export to calendar) and allow calendar access here.</string>
     <string name="special_events_missing">Install the Special Events app to see birthdays, memorials and other events here.</string>
+    <string name="metric_uv">UV</string>
+    <string name="metric_wind">Wind</string>
+    <string name="feels_like">Feels like</string>
+    <string name="rain_radar">Rain radar (browser)</string>
+    <string name="timer_presets">Saved presets</string>
+    <string name="pick_ringtone">Pick a ringtone from the phone</string>
+    <string name="ringtone_chosen">Ringtone chosen (tap to change)</string>
+    <string name="default_ringtone">Back to the standard ringtone</string>
+    <string name="save_preset">Save as preset</string>
+    <string name="open_bedside">Open bedside clock</string>
+    <string name="bedside_hint">A black screen with a big dim time, the date and the next alarm. The screen stays on at the lowest brightness. Tap to leave.</string>
+    <string name="bedside_exit">Leave bedside clock</string>
+    <string name="show_parsha">Weekly Torah portion (Friday and Shabbat)</string>
+    <string name="show_omer">Omer count</string>
+    <string name="shabbat_mode">Shabbat and Yom Tov mode</string>
+    <string name="shabbat_mode_hint">From candle lighting until Shabbat or the holiday ends: no animations and no rain alerts.</string>
+    <string name="health_lateness">Last %1$d updates: median %2$d s after the minute started, worst %3$d s.</string>
 </resources>

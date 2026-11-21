@@ -82,7 +82,12 @@ open class ClockWidgetProvider : AppWidgetProvider() {
         val zone = java.time.ZoneId.systemDefault()
         val screenOn = (context.getSystemService(Context.POWER_SERVICE) as? PowerManager)?.isInteractive != false
         // quiet hours (night mode) and "calm animations" both mean: only the plain minute update, no flip / lid / weather loop
-        val calm = settings.calmAnimations || com.clockweather.core.widget.QuietHours.isQuiet(settings.quietHoursEnabled, settings.quietFromHour, settings.quietToHour, now.atZone(zone).toLocalTime())
+        val shabbat = settings.shabbatMode && settings.places.firstOrNull { it.id == settings.activePlaceId }?.let { p ->
+            com.clockweather.core.sun.ShabbatMode.isActive(now.atZone(zone).toLocalDate(), now.atZone(zone).toLocalTime(), p.lat, p.lon, zone, settings.inIsrael)
+        } == true
+        // the system "remove animations" switch (animator scale 0) means: no animation here either
+        val reduceMotion = android.provider.Settings.Global.getFloat(context.contentResolver, android.provider.Settings.Global.ANIMATOR_DURATION_SCALE, 1f) == 0f
+        val calm = settings.calmAnimations || shabbat || reduceMotion || com.clockweather.core.widget.QuietHours.isQuiet(settings.quietHoursEnabled, settings.quietFromHour, settings.quietToHour, now.atZone(zone).toLocalTime())
         val before = now.minusSeconds(60).atZone(zone)
         val from = WorldClock.digits(before.hour, before.minute, settings.use24h)
         val flipKinds = if (screenOn && !calm) kindsWithStyle(context, manager, settings, ClockStyle.FLIP) else emptySet()
@@ -186,6 +191,7 @@ open class ClockWidgetProvider : AppWidgetProvider() {
                 val bmp = WidgetRenderer.render(context, (wDp * density).toInt(), (hDp * density).toInt(), density, st)
                 val rv = RemoteViews(context.packageName, R.layout.widget_clock)
                 rv.setImageViewBitmap(R.id.widget_image, bmp)
+                rv.setContentDescription(R.id.widget_image, Speech.describe(st))
                 val plan = com.clockweather.core.widget.WidgetLayout.plan(wDp, hDp, st.settings, kind)
                 val intents = HashMap<com.clockweather.core.widget.TapTarget, PendingIntent?>()
                 com.clockweather.core.widget.TapZones.rows(plan).forEachIndexed { i, target ->

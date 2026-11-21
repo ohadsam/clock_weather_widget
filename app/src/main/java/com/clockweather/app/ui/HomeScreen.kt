@@ -3,6 +3,7 @@ package com.clockweather.app.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -45,7 +46,7 @@ import kotlinx.coroutines.delay
  */
 @Composable
 fun HomeScreen(
-    settings: WidgetSettings, onSettings: () -> Unit, onOpenWeather: (String?) -> Unit, onOpenDetail: (DashTile) -> Unit, onOpenMap: () -> Unit,
+    settings: WidgetSettings, onSettings: () -> Unit, onOpenWeather: (String?) -> Unit, onOpenDetail: (DashTile) -> Unit, onOpenMap: () -> Unit, onOpenBedside: () -> Unit,
     onChange: (WidgetSettings) -> Unit,
 ) {
     val ctx = LocalContext.current
@@ -59,13 +60,18 @@ fun HomeScreen(
     } else chosen
     Column(Modifier.verticalScroll(rememberScrollState()).padding(bottom = 24.dp)) {
         ScreenHeader(stringResource(R.string.app_name), stringResource(R.string.back), null, brand = true) {
-            val season = if (settings.seasonalTheme) com.clockweather.core.widget.Season.of(st.now.atZone(st.zone).toLocalDate(), settings.inIsrael) else null
-            val orn = season?.let { ctx.resources.getIdentifier("orn_" + it.ornament, "drawable", ctx.packageName) } ?: 0
+            val localNow = st.now.atZone(st.zone)
+            val seasonDay = com.clockweather.core.widget.Season.effectiveDay(localNow.toLocalDate(), localNow.toLocalTime(), st.forecast?.today(st.now)?.sunset?.toLocalTime())
+            val season = if (settings.seasonalTheme) com.clockweather.core.widget.Season.of(seasonDay, settings.inIsrael) else null
+            val key = if (season != null) com.clockweather.core.widget.Season.ornamentKey(seasonDay, settings.inIsrael) else null
+            // Hanukkah: the picture with that day's candles when it exists, else the general one
+            val orn = key?.let { k -> ctx.resources.getIdentifier("orn_$k", "drawable", ctx.packageName).takeIf { it != 0 } ?: ctx.resources.getIdentifier("orn_" + season!!.ornament, "drawable", ctx.packageName) } ?: 0
             if (orn != 0) Image(painterResource(orn), contentDescription = if (st.hebrew) season!!.he else season!!.en, modifier = Modifier.height(40.dp))
             IconButton(onClick = onSettings) { Icon(Icons.Filled.Settings, contentDescription = stringResource(R.string.settings)) }
         }
         Column(Modifier.padding(horizontal = 12.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            tiles.forEachIndexed { i, tile ->
+            val wide = androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp >= 720
+            val render: @Composable (DashTile, Int) -> Unit = { tile, i ->
                 when (tile) {
                     DashTile.WIDGET -> WidgetTile(settings, tick, onChange)
                     DashTile.DATE -> DateTile(st, i, animate) { onOpenDetail(DashTile.DATE) }
@@ -82,8 +88,14 @@ fun HomeScreen(
                     DashTile.WORLD -> WorldTile(st, i, animate)
                     DashTile.WORLD_PLACES -> WorldPlacesTile(st, i, animate, onOpenWeather = { onOpenWeather(it) }, onAdd = onOpenMap)
                     DashTile.MAP -> MapTile(st, i, animate, onOpenMap)
+                    DashTile.BEDSIDE -> BedsideTile(st, i, animate, onOpenBedside)
                 }
             }
+            // tablets / landscape: two columns
+            if (wide) Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(12.dp)) { tiles.forEachIndexed { i, tl -> if (i % 2 == 0) render(tl, i) } }
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(12.dp)) { tiles.forEachIndexed { i, tl -> if (i % 2 == 1) render(tl, i) } }
+            } else tiles.forEachIndexed { i, tl -> render(tl, i) }
             if (settings.places.isEmpty()) {
                 Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Image(painterResource(R.drawable.spot_location), contentDescription = null, modifier = Modifier.height(140.dp))

@@ -18,6 +18,9 @@ Five widget types (picker entries): classic (everything), clock only, weather, a
 | Timers row (up to 3 labelled timers + nearest date countdown) | `TimerList.widgetLines`, `DateCountdowns.widgetLine`, `drawTimers` | `showTimers` | `TimersTest`, `TimerItemsTest` |
 | Special events row: the nearest birthday/memorial within N days (from the Special Events app's calendar), e.g. "🎂 דני · בעוד 3 ימים" | `SpecialEvents` (core), `SpecialEventsSource`, `Snapshot.special` | `showSpecialEvents`, `specialEventsDays` | `SpecialEventsTest` |
 | Holiday ornament (painted) in the top corner on the holiday, with festive looks on | `drawOrnament`, `Season.ornament`, `orn_*.webp` | `seasonalTheme` | `TimerItemsTest` (seasons) |
+| Date line extras: weekly Torah portion (Fri/Sat), Omer count; Hanukkah ornament changes every day with that day's candles (night starts at sunset) | `Parsha`, `Omer`, `Season.ornamentKey/effectiveDay` | `showParsha`, `showOmer` | `JewishDayTest` |
+| Shabbat and Yom Tov mode (calm look, no alerts) | `ShabbatMode`, tick in `ClockWidgetProvider` | `shabbatMode` | `JewishDayTest` |
+| TalkBack sentence for the whole widget; reduce-motion follows the system; High contrast and Big text presets | `Speech`, `WidgetSpeech`, `Preset` | - | `JewishDayTest` |
 | Tap zones: clock -> app, date/events -> calendar, weather -> weather app or our weather screen, alarm -> alarm app, footer -> sun screen, gear -> Settings | `TapZones`, `WidgetTaps`, `widget_clock.xml` | `showSettingsButton`, `weatherAppPackage` | `TapZonesAndHealthTest` |
 | Smart content (show only what matters now) | `AutoContent.apply` in `Snapshot` | `autoContent` | `AutoContentTest` |
 | Festive holiday looks, automatic night look | `Season`, `Appearance` | `seasonalTheme`, `autoDayNight`, `nightPaletteId` | `TimerItemsTest` (seasons) |
@@ -32,17 +35,18 @@ Five widget types (picker entries): classic (everything), clock only, weather, a
 |---|---|---|---|
 | `widget` | live widget preview (same renderer), size/wallpaper switches, style, presets, "add widget" | `WidgetTile` | - |
 | `date` | Gregorian + Hebrew date, holiday | `DateTile` | `DashDetailScreen(DATE)`: upcoming holidays |
-| `weather` | animated icon, now, max/min, rain chance | `WeatherTile` | `WeatherScreen` (pager over places, animated hourly charts: temperature / rain / humidity) |
+| `weather` | animated icon, now, max/min, rain chance | `WeatherTile` | `WeatherScreen` (pager over places, animated hourly charts: temperature / rain / humidity / UV / wind; feels-like with a comfort word; UV words; rain-radar link) |
 | `places` | every saved place at a glance (when 2+) | `PlacesOverview` | `WeatherScreen` at that place |
 | `alarm` | next alarm | `AlarmTile` | `DashDetailScreen(ALARM)` + open the alarm app |
 | `stopwatch` | any number of labelled stopwatches (start/pause, restart, cancel) | `TimerTiles` | - |
-| `countdown` | any number of labelled countdowns, ring progress, per-timer sound (alarm / notification / phone ringtone / none) + vibration, test button | `TimerTiles`, `CountdownAlarm`, `Notifier` | - |
+| `countdown` | any number of labelled countdowns, ring progress, per-timer sound (alarm / notification / phone ringtone / none / any ringtone picked with the phone's picker) + vibration, test button, saved presets (one tap starts "Eggs 8 min") | `TimerTiles`, `CountdownAlarm`, `Notifier` | - |
 | `date_countdown` | days until a holiday or a chosen date | `DateCountdownTile` | - |
 | `agenda` | today's events | `AgendaTile` | `DashDetailScreen(AGENDA)` + open calendar / event |
 | `sun` | sunrise, sunset, nightfall, candle lighting | `SunTile` | `DashDetailScreen(SUN)`: 7 days |
 | `steps` | today's steps (animated count) | `StepsTile` | - |
 | `world` | world clocks | `WorldTile` | - |
 | `special_events` | birthdays, anniversaries, memorials and other events from the Special Events app (next 60 days) | `SpecialEventsTile`, `SpecialEventsSource` | open the Special Events app |
+| `bedside` | bedside clock mode: black screen, big dim time, date, next alarm, screen on at lowest brightness | `BedsideTile`, `BedsideScreen` | full-screen mode, tap to leave |
 | `world_places` | weather + local time for up to 10 places around the world | `WorldPlacesTile` | `WeatherScreen` |
 | `map` | summary + "open map" | `MapTile` | `PlacePickerScreen` |
 
