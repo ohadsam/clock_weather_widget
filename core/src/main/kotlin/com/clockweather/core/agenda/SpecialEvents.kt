@@ -24,6 +24,18 @@ object SpecialEvents {
         }
     }
 
+    /** The symbol for an event type name written by the Special Events app (`EventType`), else guessed from the title. */
+    fun emojiForType(type: String, title: String): String = when (type) {
+        "BIRTHDAY" -> "🎂"; "ANNIVERSARY" -> "💍"; "YAHRZEIT" -> "🕯"; "BAR_BAT_MITZVAH" -> "🎉"; else -> emojiFor(title)
+    }
+
+    /** A row read from the other app's provider (already the next occurrence). */
+    fun fromRow(title: String, type: String, epochDay: Long, today: LocalDate): Item? {
+        val clean = Untrusted.clean(title, 40)
+        val days = epochDay - today.toEpochDay()
+        return if (clean.isEmpty() || days < 0) null else Item(clean, LocalDate.ofEpochDay(epochDay), days, emojiForType(type, clean))
+    }
+
     fun upcoming(events: List<AgendaEvent>, today: LocalDate, zone: ZoneId, withinDays: Int, max: Int = 8): List<Item> =
         events.asSequence()
             .map { e -> Triple(e, Instant.ofEpochMilli(e.startMs).atZone(zone).toLocalDate(), Untrusted.clean(e.title, 40)) }

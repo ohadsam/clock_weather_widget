@@ -12,6 +12,7 @@ The promise: **everything stays on the device**; the network is used only for th
 | `RECEIVE_BOOT_COMPLETED` | re-arm the minute tick after a reboot | clock after reboot | the heartbeat worker repairs it within 15 min |
 | `POST_NOTIFICATIONS` (Android 13+) | countdown finished, rain alert | those two notifications | no notifications |
 | `ACTIVITY_RECOGNITION` | steps from the phone's step counter | steps | no steps |
+| `READ_UPCOMING` (custom permission of the Special Events app) | read the upcoming events straight from its read-only provider (titles, types, dates) | birthdays/memorials in the widget without the calendar export | the calendar export route is used instead |
 | `REQUEST_INSTALL_PACKAGES` | install an app update from inside the app | in-app update | install the APK by hand |
 The Settings -> Permissions screen lists each one with its state and an Allow / Open settings button.
 

@@ -294,4 +294,6 @@
     <string name="shabbat_mode">Shabbat and Yom Tov mode</string>
     <string name="shabbat_mode_hint">From candle lighting until Shabbat or the holiday ends: no animations and no rain alerts.</string>
     <string name="health_lateness">Last %1$d updates: median %2$d s after the minute started, worst %3$d s.</string>
+    <string name="perm_special">Special Events (direct read)</string>
+    <string name="perm_special_why">To read the upcoming events straight from the Special Events app, without exporting to the calendar. Names are hidden if you turned on hide details there.</string>
 </resources>

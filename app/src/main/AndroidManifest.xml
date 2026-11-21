@@ -14,6 +14,8 @@
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
     <!-- Optional (Android 13+): the countdown-finished and rain-is-coming notifications. Nothing else is notified. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Optional: read the upcoming events of the Special Events app (its own read-only provider; the user grants it). -->
+    <uses-permission android:name="com.ohadsam.specialevents.permission.READ_UPCOMING" />
     <!-- Re-arms the minute tick after a reboot (exact alarms do not survive a restart). -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- In-app update: lets this app hand its own newer APK (same signing key) to the system installer as an update. -->

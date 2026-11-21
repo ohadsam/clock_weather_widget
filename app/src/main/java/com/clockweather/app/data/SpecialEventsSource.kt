@@ -31,7 +31,25 @@ object SpecialEventsSource {
         }.getOrNull()
     }
 
+    const val PERMISSION = "com.ohadsam.specialevents.permission.READ_UPCOMING"
+    private const val PROVIDER = "content://com.ohadsam.specialevents.public/upcoming"
+
+    /** True when the user granted ClockWise the other app's read permission (its provider is then preferred over the calendar). */
+    fun providerGranted(ctx: Context): Boolean = ctx.checkSelfPermission(PERMISSION) == android.content.pm.PackageManager.PERMISSION_GRANTED
+
+    private fun fromProvider(ctx: Context, today: java.time.LocalDate, withinDays: Int): List<SpecialEvents.Item> {
+        if (!providerGranted(ctx)) return emptyList()
+        return runCatching {
+            ctx.contentResolver.query(android.net.Uri.parse("$PROVIDER?days=$withinDays"), null, null, null, null)?.use { c ->
+                val t = c.getColumnIndexOrThrow("title"); val ty = c.getColumnIndexOrThrow("type"); val d = c.getColumnIndexOrThrow("epoch_day")
+                buildList { while (c.moveToNext() && size < 50) SpecialEvents.fromRow(c.getString(t) ?: "", c.getString(ty) ?: "", c.getLong(d), today)?.let { add(it) } }
+            } ?: emptyList()
+        }.getOrDefault(emptyList())
+    }
+
     fun upcoming(ctx: Context, now: Instant, zone: ZoneId, withinDays: Int): List<SpecialEvents.Item> {
+        val today0 = now.atZone(zone).toLocalDate()
+        fromProvider(ctx, today0, withinDays).takeIf { it.isNotEmpty() }?.let { return it.sortedBy { i -> i.daysLeft } }
         val id = calendarId(ctx) ?: return emptyList()
         val today = now.atZone(zone).toLocalDate()
         val from = today.atStartOfDay(zone).toInstant().toEpochMilli()

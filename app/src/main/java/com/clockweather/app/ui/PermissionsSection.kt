@@ -60,7 +60,8 @@ fun PermissionsSection() {
         refresh++
     }
     val notif = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { refresh++ }
-    val granted = refresh.let { listOf(has(ctx, Manifest.permission.ACCESS_COARSE_LOCATION), has(ctx, Manifest.permission.READ_CALENDAR), exactAlarms(ctx), canInstall(ctx), com.clockweather.app.data.StepSource.granted(ctx), com.clockweather.app.data.Notifier.canPost(ctx)) }
+    val special = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { refresh++ }
+    val granted = refresh.let { listOf(has(ctx, Manifest.permission.ACCESS_COARSE_LOCATION), has(ctx, Manifest.permission.READ_CALENDAR), exactAlarms(ctx), canInstall(ctx), com.clockweather.app.data.StepSource.granted(ctx), com.clockweather.app.data.Notifier.canPost(ctx), com.clockweather.app.data.SpecialEventsSource.providerGranted(ctx)) }
     SectionCard(stringResource(R.string.sec_permissions), stringResource(R.string.sec_permissions_sum, granted.count { it }, granted.size)) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(stringResource(R.string.permissions_hint), style = MaterialTheme.typography.bodySmall)
@@ -69,6 +70,7 @@ fun PermissionsSection() {
             PermRow(stringResource(R.string.perm_exact), stringResource(R.string.perm_exact_why), granted[2], null) { exactSettings(ctx) }
             PermRow(stringResource(R.string.perm_steps), stringResource(R.string.perm_steps_why), granted[4], { steps.launch(Manifest.permission.ACTIVITY_RECOGNITION) }) { appSettings(ctx) }
             PermRow(stringResource(R.string.perm_notifications), stringResource(R.string.perm_notifications_why), granted[5], { notif.launch(Manifest.permission.POST_NOTIFICATIONS) }) { appSettings(ctx) }
+            if (com.clockweather.app.data.SpecialEventsSource.installed(ctx)) PermRow(stringResource(R.string.perm_special), stringResource(R.string.perm_special_why), granted[6], { special.launch(com.clockweather.app.data.SpecialEventsSource.PERMISSION) }) { appSettings(ctx) }
             PermRow(stringResource(R.string.perm_install), stringResource(R.string.perm_install_why), granted[3], null) { installSettings(ctx) }
         }
     }

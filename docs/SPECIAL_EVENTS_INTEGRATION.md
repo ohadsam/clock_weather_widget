@@ -14,5 +14,8 @@ ClockWise shows birthdays, anniversaries, memorials and other events that the **
 - Only title, date and all-day flag are used. Titles are untrusted text (length-clamped, control characters removed).
 - An emoji is guessed from the title (birthday, anniversary, memorial, mitzvah, else a star).
 
-## Optional stronger integration (needs a change in `ohadsam/special_events`; not built, ask the owner first)
+## Direct provider (built 2026-11-21, Special Events 0.32.0)
+Special Events now exposes a read-only provider `content://com.ohadsam.specialevents.public/upcoming?days=N` (columns `_id`, `title`, `type`, `epoch_day`, `days_left`), guarded by the dangerous custom permission `com.ohadsam.specialevents.permission.READ_UPCOMING`; its own copy of the contract is `docs/PUBLIC_API.md` in that repo. ClockWise declares the permission, asks for it in Settings -> Permissions ("Special Events (direct read)", shown only when that app is installed) and, when granted, prefers the provider (exact types, no export step, names hidden when "hide details" is on there). Otherwise it falls back to the calendar route above.
+
+## (superseded) Optional stronger integration (needs a change in `ohadsam/special_events`; not built, ask the owner first)
 A small **read-only exported ContentProvider** in Special Events (for example authority `com.ohadsam.specialevents.public` with `events/upcoming?days=N`), protected by a signature-level custom permission (both apps are signed with the same sideload key idea, but each repo has its own key today, so a normal read permission with a user prompt would be needed), returning id, type, title, date (Gregorian and Hebrew), days left and a privacy-safe flag. Benefits: no calendar export step, exact types (birthday / yahrzeit) and Hebrew-date events without duplicates. ClockWise would then prefer the provider and fall back to the calendar.
