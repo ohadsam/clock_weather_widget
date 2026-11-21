@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import com.clockweather.app.widget.ClockWidgetProvider
+import com.clockweather.core.timers.Countdown
 import com.clockweather.core.timers.TimerItem
 
 /** One exact alarm per running countdown, at the moment it ends; the receiver marks it finished, rings / vibrates as configured and redraws the widget. */
@@ -43,6 +44,15 @@ class CountdownReceiver : BroadcastReceiver() {
             val item = TimerStore.items(ctx).firstOrNull { it.id == id } ?: return
             val c = item.countdownState
             if (!c.running || !c.isDue(System.currentTimeMillis() + 1500)) return
+            val plan = item.interval
+            val next = plan?.next()
+            if (next != null) { // interval timer: start the next work/rest segment right where this one ended (no drift), then a short signal
+                val advanced = TimerStore.update(ctx, id) { it.copy(iv = next.encode()).with(Countdown().withDuration(next.durationMs).start(c.endsAtMs)) } ?: return
+                schedule(ctx, advanced)
+                Notifier.postPhase(ctx, advanced, next)
+                ClockWidgetProvider.updateAll(ctx)
+                return
+            }
             val done = TimerStore.update(ctx, id) { it.with(c.finish()) } ?: return
             Notifier.postTimerDone(ctx, done)
             ClockWidgetProvider.updateAll(ctx)

@@ -39,7 +39,7 @@ Five widget types (picker entries): classic (everything), clock only, weather, a
 | `places` | every saved place at a glance (when 2+) | `PlacesOverview` | `WeatherScreen` at that place |
 | `alarm` | next alarm | `AlarmTile` | `DashDetailScreen(ALARM)` + open the alarm app |
 | `stopwatch` | any number of labelled stopwatches (start/pause, restart, cancel) | `TimerTiles` | - |
-| `countdown` | any number of labelled countdowns, ring progress, per-timer sound (alarm / notification / phone ringtone / none / any ringtone picked with the phone's picker) + vibration, test button, saved presets (one tap starts "Eggs 8 min") | `TimerTiles`, `CountdownAlarm`, `Notifier` | - |
+| `countdown` | any number of labelled countdowns, ring progress, per-timer sound (alarm / notification / phone ringtone / none / any ringtone picked with the phone's picker) + vibration, test button, saved presets (one tap starts "Eggs 8 min"); **interval timer** (work / rest / rounds, e.g. 40 s / 20 s x 8: a countdown whose segments chain; a short signal at each switch, the full alert at the end) via `IntervalPlan` | `TimerTiles`, `CountdownAlarm`, `Notifier` | - |
 | `date_countdown` | days until a holiday or a chosen date | `DateCountdownTile` | - |
 | `agenda` | today's events | `AgendaTile` | `DashDetailScreen(AGENDA)` + open calendar / event |
 | `sun` | sunrise, sunset, nightfall, candle lighting | `SunTile` | `DashDetailScreen(SUN)`: 7 days |
@@ -55,6 +55,7 @@ Five widget types (picker entries): classic (everything), clock only, weather, a
 - `WeatherWorker` refreshes every saved + world place every 30 minutes.
 
 ## 4. Alerts and timers
+- Interval timer: the receiver of each ending segment starts the next one from the exact end time (no drift), re-arms the alarm and posts a short non-insistent notification; after a reboot `CountdownAlarm.restore` continues the chain.
 - Countdown end: one exact `RTC_WAKEUP` alarm per running countdown -> `CountdownReceiver` -> notification channel per (sound x vibration) combination, insistent ring until dismissed or 5 minutes.
 - Rain alert (`RainAlert`, `RainAlerts`): one notification when rain is about to start at the active place; opt-in; muted in quiet hours.
 - Notifications need the Android 13+ permission; without it timers still work visually.

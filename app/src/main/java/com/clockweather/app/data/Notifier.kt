@@ -43,8 +43,14 @@ object Notifier {
      * A countdown ended. The ring and the vibration are per timer: one channel per combination (sound kind x vibrate),
      * created on first use, because Android fixes sound and vibration per channel.
      */
+    /** An interval timer moved to its next segment: a short signal (no insistent ringing) naming the segment. */
+    fun postPhase(ctx: Context, item: TimerItem, plan: com.clockweather.core.timers.IntervalPlan) {
+        val hebrew = com.clockweather.app.widget.Snapshot.isHebrew(ctx, SettingsStore.load(ctx).language)
+        postTimerDone(ctx, item, item.label.ifEmpty { ctx.getString(R.string.interval_title) }, plan.label(hebrew) + " · " + com.clockweather.core.timers.TimerFormat.clock(plan.durationMs), insistent = false)
+    }
+
     @SuppressLint("MissingPermission")
-    fun postTimerDone(ctx: Context, item: TimerItem) {
+    fun postTimerDone(ctx: Context, item: TimerItem, titleOverride: String? = null, textOverride: String? = null, insistent: Boolean = true) {
         if (!canPost(ctx)) return
         val sound = item.soundKind
         val custom = item.soundUri.takeIf { it.isNotEmpty() }
@@ -61,10 +67,10 @@ object Notifier {
         if (item.vibrate) ch.vibrationPattern = VIBRATION
         nm.createNotificationChannel(ch)
         val id = 5000 + (item.id.hashCode() and 0xFFF)
-        val title = item.label.ifEmpty { ctx.getString(R.string.countdown_done_title) }
+        val title = titleOverride ?: item.label.ifEmpty { ctx.getString(R.string.countdown_done_title) }
         val n = Notification.Builder(ctx, channel).setSmallIcon(android.R.drawable.ic_lock_idle_alarm).setContentTitle(title)
-            .setContentText(ctx.getString(R.string.countdown_done_text)).setContentIntent(open(ctx, id, "home")).setAutoCancel(true).setTimeoutAfter(5 * 60_000L).build()
-        if (sound != SoundKind.NONE || custom != null) n.flags = n.flags or Notification.FLAG_INSISTENT // keeps ringing until it is dismissed (or 30 s: the sound is a short loop)
+            .setContentText(textOverride ?: ctx.getString(R.string.countdown_done_text)).setContentIntent(open(ctx, id, "home")).setAutoCancel(true).setTimeoutAfter(5 * 60_000L).build()
+        if (insistent && (sound != SoundKind.NONE || custom != null)) n.flags = n.flags or Notification.FLAG_INSISTENT // keeps ringing until it is dismissed (or 30 s: the sound is a short loop)
         nm.notify(id, n)
     }
 

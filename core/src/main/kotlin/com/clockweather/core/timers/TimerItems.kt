@@ -27,7 +27,10 @@ data class TimerItem(
     val vibrate: Boolean = true,
     /** A ringtone chosen with the phone's own picker (content URI); overrides [sound] when not empty. */
     val soundUri: String = "",
+    /** Encoded [IntervalPlan] when this countdown is an interval timer (work/rest rounds), else empty. */
+    val iv: String = "",
 ) {
+    val interval: IntervalPlan? get() = IntervalPlan.decode(iv)
     val stopwatch: Stopwatch get() = Stopwatch.decode(sw)
     val countdownState: Countdown get() = Countdown.decode(cd)
     val soundKind: SoundKind get() = SoundKind.byName(sound)
@@ -53,7 +56,7 @@ object TimerList {
     }
 
     private fun clean(list: List<TimerItem>): List<TimerItem> =
-        list.map { it.copy(label = Untrusted.clean(it.label, MAX_LABEL), sound = SoundKind.byName(it.sound).name, soundUri = it.soundUri.takeIf { u -> u.length <= 300 && u.startsWith("content://") } ?: "") }
+        list.map { it.copy(label = Untrusted.clean(it.label, MAX_LABEL), sound = SoundKind.byName(it.sound).name, soundUri = it.soundUri.takeIf { u -> u.length <= 300 && u.startsWith("content://") } ?: "", iv = if (it.countdown) IntervalPlan.decode(it.iv)?.encode().orEmpty() else "") }
             .filter { it.id.isNotEmpty() }.distinctBy { it.id }.take(MAX_ITEMS)
 
     fun add(list: List<TimerItem>, item: TimerItem): List<TimerItem> = if (list.size >= MAX_ITEMS) list else list + item

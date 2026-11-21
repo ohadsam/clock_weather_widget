@@ -164,6 +164,21 @@ class JewishDayTest {
         assertTrue(com.clockweather.core.weather.AirQuality.url(32.0888, 34.88666).startsWith("https://air-quality-api.open-meteo.com/"))
     }
 
+    @Test fun intervalPlanPhasesAndClamps() {
+        val p = IntervalPlan.of(40, 20, 3)
+        assertEquals(5, p.phaseCount); assertEquals(IntervalPlan.Kind.WORK, p.kind); assertEquals(40_000L, p.durationMs)
+        val seq = generateSequence(p) { it.next() }.toList()
+        assertEquals(listOf("W1", "R1", "W2", "R2", "W3"), seq.map { (if (it.kind == IntervalPlan.Kind.WORK) "W" else "R") + it.round })
+        assertTrue(seq.last().isLast); assertNull(seq.last().next()); assertEquals(3 * 40_000L + 2 * 20_000L, p.total())
+        assertEquals(3, generateSequence(IntervalPlan.of(30, 0, 3)) { it.next() }.count()) // no rest: rounds follow each other
+        assertEquals("Round 1/3 · Rest", seq[1].label(false)); assertEquals("סבב 1/3 · מנוחה", seq[1].label(true))
+        assertEquals(IntervalPlan(5, 0, 1, 0), IntervalPlan.of(1, -4, 0))
+        assertEquals(p.copy(phase = 4), IntervalPlan.decode(p.copy(phase = 4).encode())); assertEquals(4, IntervalPlan.decode("40|20|3|99")!!.phase)
+        for (bad in listOf("", "x|1|2|3", "1|2|3", "40|20|3|-|1", "9".repeat(60))) assertNull(IntervalPlan.decode(bad), bad)
+        val kept = TimerList.decode(TimerList.encode(listOf(TimerItem("a", true, iv = p.encode()), TimerItem("b", false, iv = p.encode()), TimerItem("c", true, iv = "junk"))))
+        assertEquals(p, kept[0].interval); assertNull(kept[1].interval); assertNull(kept[2].interval)
+    }
+
     @Test fun comfortAndSpeechAndPresets() {
         assertEquals("נעים", com.clockweather.core.weather.Comfort.word(22.0, true)); assertEquals("Very cold", com.clockweather.core.weather.Comfort.word(0.0, false))
         assertEquals("Thursday 17:05, 25°, rain expected, alarm 06:30", com.clockweather.core.widget.WidgetSpeech.sentence(false, "17:05", "Thursday", "25°, rain expected", listOf("alarm 06:30")))

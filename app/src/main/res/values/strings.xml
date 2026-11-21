@@ -299,4 +299,10 @@
     <string name="channel_havdalah">התראת צאת שבת</string>
     <string name="show_air_quality">איכות אוויר, UV ואבקנים</string>
     <string name="show_air_quality_hint">שורה בכרטיס מזג האוויר: איכות אוויר, UV ואבקנים. פונה לשרת נוסף של Open-Meteo.</string>
+    <string name="interval_title">אינטרוולים</string>
+    <string name="add_interval">הוסף טיימר מרווחים</string>
+    <string name="interval_work">עבודה</string>
+    <string name="interval_rest">מנוחה</string>
+    <string name="interval_rounds">סבבים</string>
+    <string name="seconds_short">שנ׳</string>
 </resources>

@@ -299,4 +299,10 @@
     <string name="channel_havdalah">Shabbat ended</string>
     <string name="show_air_quality">Air quality, UV and pollen</string>
     <string name="show_air_quality_hint">A line on the weather card: air quality, UV and pollen. Contacts one more Open-Meteo host.</string>
+    <string name="interval_title">Intervals</string>
+    <string name="add_interval">Add interval timer</string>
+    <string name="interval_work">Work</string>
+    <string name="interval_rest">Rest</string>
+    <string name="interval_rounds">Rounds</string>
+    <string name="seconds_short">s</string>
 </resources>

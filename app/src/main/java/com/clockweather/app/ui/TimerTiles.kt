@@ -43,6 +43,7 @@ import com.clockweather.app.widget.ClockWidgetProvider
 import com.clockweather.app.widget.RenderState
 import com.clockweather.core.dashboard.DashTile
 import com.clockweather.core.timers.Countdown
+import com.clockweather.core.timers.IntervalPlan
 import com.clockweather.core.timers.SoundKind
 import com.clockweather.core.timers.Stopwatch
 import com.clockweather.core.timers.TimerFormat
@@ -110,6 +111,14 @@ private fun TimersCard(st: RenderState, index: Int, animate: Boolean, countdown:
                 onSavePreset = { val ps = TimerStore.presets(ctx).filterNot { it.label == item.label && it.countdownState.totalMs == item.countdownState.totalMs }; TimerStore.savePresets(ctx, (ps + item.copy(cd = item.countdownState.reset().encode(), sw = "")).takeLast(8)) },
             )
         }
+        if (countdown) OutlinedButton(
+            onClick = {
+                val list = TimerStore.items(ctx)
+                val plan = IntervalPlan.of(40, 20, 8)
+                TimerStore.save(ctx, TimerList.add(list, TimerItem(TimerList.nextId(list, System.currentTimeMillis()), true, iv = plan.encode()).with(Countdown().withDuration(plan.durationMs)))); ClockWidgetProvider.updateAll(ctx)
+            },
+            enabled = all.size < TimerList.MAX_ITEMS, modifier = Modifier.heightIn(min = 48.dp),
+        ) { Text(stringResource(R.string.add_interval)) }
         OutlinedButton(
             onClick = {
                 val list = TimerStore.items(ctx)
@@ -140,7 +149,7 @@ private fun TimerItemCard(item: TimerItem, now: Long, hebrew: Boolean, animate: 
                     else cur.stopwatch.let { sw -> cur.with(if (sw.running) sw.pause(now) else sw.start(now)) }
                 }
             },
-            onRestart = { onChange { cur -> if (cur.countdown) cur.with(cur.countdownState.reset().start(now)) else cur.with(Stopwatch().start(now)) } },
+            onRestart = { onChange { cur -> if (cur.countdown) cur.interval?.restarted()?.let { p -> cur.copy(iv = p.encode()).with(Countdown().withDuration(p.durationMs).start(now)) } ?: cur.with(cur.countdownState.reset().start(now)) else cur.with(Stopwatch().start(now)) } },
             onDelete = onDelete,
         )
     }
@@ -176,7 +185,19 @@ private fun CountdownBody(item: TimerItem, now: Long, animate: Boolean, hebrew: 
         }
         Text(if (cd.finished) stringResource(R.string.countdown_finished) else TimerFormat.clock(cd.remaining(now)), style = MaterialTheme.typography.headlineMedium)
     }
-    if (!cd.running) {
+    val plan = item.interval
+    if (plan != null) {
+        Text(if (cd.finished) stringResource(R.string.countdown_finished) else plan.label(hebrew), style = MaterialTheme.typography.titleSmall)
+        if (!cd.running && plan.phase == 0) {
+            fun edit(w: Int = plan.workSec, r: Int = plan.restSec, n: Int = plan.rounds) = onChange { cur -> IntervalPlan.of(w, r, n).let { p -> cur.copy(iv = p.encode()).with(Countdown().withDuration(p.durationMs)) } }
+            Text(stringResource(R.string.interval_work) + ": " + plan.workSec + " " + stringResource(R.string.seconds_short), style = MaterialTheme.typography.bodyMedium)
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) { for (d in listOf(-10, -5, 5, 10)) OutlinedButton(onClick = { edit(w = plan.workSec + d) }, modifier = Modifier.heightIn(min = 48.dp)) { Text(if (d > 0) "+$d" else "$d") } }
+            Text(stringResource(R.string.interval_rest) + ": " + plan.restSec + " " + stringResource(R.string.seconds_short), style = MaterialTheme.typography.bodyMedium)
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) { for (d in listOf(-10, -5, 5, 10)) OutlinedButton(onClick = { edit(r = plan.restSec + d) }, modifier = Modifier.heightIn(min = 48.dp)) { Text(if (d > 0) "+$d" else "$d") } }
+            Text(stringResource(R.string.interval_rounds) + ": " + plan.rounds, style = MaterialTheme.typography.bodyMedium)
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) { for (d in listOf(-1, 1, 5)) OutlinedButton(onClick = { edit(n = plan.rounds + d) }, modifier = Modifier.heightIn(min = 48.dp)) { Text(if (d > 0) "+$d" else "$d") } }
+        }
+    } else if (!cd.running) {
         ChipRow(listOf(1, 5, 10, 15, 30, 60).map { it to "$it ${if (hebrew) "דק׳" else "min"}" }, { cd.totalMs == it * 60_000L }, { m -> onChange { cur -> cur.with(Countdown().withDuration(m * 60_000L)) } })
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             for (delta in listOf(-5, -1, 1, 5)) OutlinedButton(

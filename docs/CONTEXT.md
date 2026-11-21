@@ -67,6 +67,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/main/kotlin/com/clockweather/core/auto/AutoContent.kt` | Smart content rules for the widget and the dashboard order |
 | `core/src/main/kotlin/com/clockweather/core/weather/PlaceIds.kt` | Place ids and fallback names for tapped map points |
 | `core/src/main/kotlin/com/clockweather/core/timers/Timers.kt` | Stopwatch and countdown state machines + text for app and widget |
+| `core/src/main/kotlin/com/clockweather/core/timers/IntervalPlan.kt` | Interval timer (work/rest rounds) plan: phases, clamps, wording; runs on a countdown |
 | `core/src/main/kotlin/com/clockweather/core/weather/RainAlert.kt` | Rain about to start: when to alert |
 | `core/src/main/kotlin/com/clockweather/core/weather/AirQuality.kt` | Air quality / UV / pollen: URL, parsing, wording (pure) |
 | `core/src/main/kotlin/com/clockweather/core/widget/QuietHours.kt` | Night mode hours (wrap past midnight) |
