@@ -24,3 +24,7 @@ jobs:
         run: |
           curl -sS --fail "https://geocoding-api.open-meteo.com/v1/search?name=%D7%A4%D7%AA%D7%97%20%D7%AA%D7%A7%D7%95%D7%95%D7%94&count=3&language=he&format=json" -o geo.json
           python3 -c "import json;d=json.load(open('geo.json'));r=d['results'][0];print({k:r.get(k) for k in ('name','admin1','country','latitude','longitude','timezone')});assert all(k in r for k in ('name','latitude','longitude'))"
+      - name: Air quality + pollen shape (for the weather extras)
+        run: |
+          curl -sS --fail "https://air-quality-api.open-meteo.com/v1/air-quality?latitude=32.089&longitude=34.886&current=european_aqi,pm10,pm2_5,uv_index&hourly=european_aqi,uv_index,birch_pollen,grass_pollen,olive_pollen&timezone=auto&forecast_days=2" -o aq.json
+          python3 -c "import json;d=json.load(open('aq.json'));print('current',d.get('current'));print('hourly keys',sorted(d.get('hourly',{}).keys()));print('olive[0:30]',d['hourly'].get('olive_pollen',[])[:30])"
