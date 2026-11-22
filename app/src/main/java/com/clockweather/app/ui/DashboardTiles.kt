@@ -63,6 +63,42 @@ internal fun DashCard(
     }
 }
 
+/** "Today and next": the day's holiday, weather, alarm, next events, timers, close special events and the evening's time marker in one list. */
+@Composable
+internal fun TodayTile(st: RenderState, index: Int, animate: Boolean) {
+    val ctx = LocalContext.current
+    val s = st.settings
+    val rows = remember(st.now.epochSecond / 30, s) {
+        val place = s.places.firstOrNull { it.id == s.activePlaceId }
+        val day = st.forecast?.today(st.now)
+        val cur = st.forecast?.current
+        val weather = if (cur == null && day == null) null else listOfNotNull(
+            cur?.let { TempFormat.short(it.tempC, s.fahrenheit) }, (cur?.sky ?: day?.sky)?.label(st.hebrew),
+            day?.let { "${TempFormat.short(it.maxC, s.fahrenheit)} / ${TempFormat.short(it.minC, s.fahrenheit)}" }, day?.rainChancePct?.let { "☂ $it%" },
+        ).joinToString(" · ")
+        val alarm = st.nextAlarm?.takeIf { AlarmIndicator.visible(it, st.now, 0, s.alarmPackage) }?.let { AlarmIndicator.label(it, st.now, st.zone, s.use24h, st.hebrew) }
+        com.clockweather.core.dashboard.TodaySummary.rows(
+            com.clockweather.core.dashboard.TodaySummary.Facts(
+                st.now, st.zone, st.hebrew, s.inIsrael, s.use24h, day?.sunset?.toLocalTime(),
+                place?.let { com.clockweather.core.sun.ShabbatMode.candleLightingOn(st.now.atZone(st.zone).toLocalDate(), it.lat, it.lon, st.zone, s.inIsrael) },
+                st.agenda,
+                if (s.showSpecialEvents) com.clockweather.app.data.SpecialEventsSource.upcoming(ctx, st.now, st.zone, 14) else emptyList(),
+                com.clockweather.core.timers.TimerList.widgetLines(com.clockweather.app.data.TimerStore.items(ctx), st.now.toEpochMilli(), st.hebrew, 2),
+                alarm, weather,
+            ),
+        )
+    }
+    DashCard(index, animate, DashTitles.of(com.clockweather.core.dashboard.DashTile.TODAY, st.hebrew), null) {
+        if (rows.isEmpty()) Text(stringResource(R.string.today_nothing), style = MaterialTheme.typography.bodyMedium)
+        rows.forEach { r ->
+            Row(Modifier.fillMaxWidth().heightIn(min = 36.dp), verticalAlignment = Alignment.CenterVertically) {
+                Text(r.icon, style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(end = 10.dp))
+                Text(r.text, style = MaterialTheme.typography.bodyLarge)
+            }
+        }
+    }
+}
+
 @Composable
 internal fun DateTile(st: RenderState, index: Int, animate: Boolean, onOpen: () -> Unit) {
     val s = st.settings

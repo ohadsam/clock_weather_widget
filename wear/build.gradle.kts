@@ -14,7 +14,7 @@ android {
         minSdk = 26
         targetSdk = 35
         versionCode = (project.findProperty("versionCodeOverride") as String?)?.toIntOrNull() ?: 1
-        versionName = "0.3.0"
+        versionName = "0.4.0"
     }
 
     // The same committed sideload key as the phone app (not secret; every build is an in-place update).

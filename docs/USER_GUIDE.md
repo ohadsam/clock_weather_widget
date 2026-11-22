@@ -66,6 +66,15 @@ Switch on "Steps today" in Settings and allow physical activity. The widget foot
 ## Permissions
 Settings > Permissions lists every optional permission, why it is asked, and lets you allow it or open system settings.
 
+## Today and next
+The "Today and next" card (right under the widget) lists everything coming up in one place: the day's holiday or weekly portion, the weather, the next alarm, your next calendar events, running timers, close special events and the evening's candle-lighting or sunset time. Hide or move it in Settings > Dashboard.
+
+## On the watch (Wear OS)
+Install `ClockWiseWear.apk` from the same release on the watch, then add the tiles "Hebrew date" (works alone) and "Weather and timers" (shows what your phone sends: weather, running timers, up to two upcoming events). The tiles only show; timers are started on the phone.
+
+## Shortcuts, notifications and backup
+Long-press the app icon for weather, desk clock and settings. With Shabbat mode on you get one notification 15 minutes before candle lighting and one when Shabbat ends. Settings > Backup can also save and load the backup as a file, and Settings > Updates shares the app straight to WhatsApp or e-mail.
+
 ## Updates and sharing
 Settings > Updates: check, download, install. Share the app as a link or as the installed APK.
 

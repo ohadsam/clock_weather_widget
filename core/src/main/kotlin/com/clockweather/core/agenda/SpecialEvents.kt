@@ -24,6 +24,13 @@ object SpecialEvents {
         }
     }
 
+    /** "today" / "tomorrow" / "in 3 days" for the card and the watch. */
+    fun whenText(daysLeft: Long, hebrew: Boolean): String = when {
+        daysLeft <= 0L -> if (hebrew) "היום" else "today"
+        daysLeft == 1L -> if (hebrew) "מחר" else "tomorrow"
+        else -> if (hebrew) "בעוד $daysLeft ימים" else "in $daysLeft days"
+    }
+
     /** The symbol for an event type name written by the Special Events app (`EventType`), else guessed from the title. */
     fun emojiForType(type: String, title: String): String = when (type) {
         "BIRTHDAY" -> "🎂"; "ANNIVERSARY" -> "💍"; "YAHRZEIT" -> "🕯"; "BAR_BAT_MITZVAH" -> "🎉"; else -> emojiFor(title)

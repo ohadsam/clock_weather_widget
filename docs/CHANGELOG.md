@@ -1,6 +1,7 @@
 # Changelog
 
-## 0.3.0
+## 0.4.0
+- New dashboard card "Today and next": holiday, weather, alarm, next events, timers, special events and sunset / candle lighting in one list.
 - Launcher shortcuts, candle-lighting notification, backup to/from a file, upcoming events on the watch tile.
 - Analog dial shows the daylight arc; rain / snow over the dashboard weather card; holiday picture and style preview animate in.
 - Watch tile with the phone's weather and running timers (Data Layer link; read-only).
@@ -17,6 +18,8 @@
 - Per-widget settings: each placed widget can have its own look and items.
 - Emulator UI tests with screenshots; complete documentation set kept honest by repo tests.
 
+## 0.3.0
+- Weekly portion, Omer, Hanukkah picture per day, Shabbat mode, bedside clock, timer presets and ringtones (first build on the `latest` release; its notes were folded into 0.4.0 below).
 ## 0.2.0
 - Dashboard home screen with animated, customisable cards (widget preview, date and holidays, weather, places, alarm, events, sun and nightfall, steps, world clocks, map) and drill-downs; shortcuts to the calendar and alarm apps.
 - Hourly forecast with animated charts (temperature, rain, humidity); several places side by side; map place picker (OpenStreetMap) and places around the world with local time.

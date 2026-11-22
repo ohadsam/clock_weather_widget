@@ -1,5 +1,11 @@
 # AGENT.md - memory for the next session
 
+## Release 0.4.0 (2026-11-22, release checklist by reading + CI)
+- Done since 0.3.0: Wear OS module (`:wear`, date tile + weather/timers/events tile fed over the Data Layer), interval timer, Havdalah + candle-lighting notifications, air quality line, share to WhatsApp / e-mail, launcher shortcuts, backup to a file, daylight arc on the analog dial, rain/snow on the weather card, chain art for the pocket watch, "Today and next" dashboard card, round 7B ornaments (Purim, flag, Hanukkah days).
+- Reviews (by reading the diff): architecture OK (`:core` stays pure; app code only fills facts); security OK (no new permission; Data Layer item is local to the owner's paired devices; backup file import is capped at 200 KB and prefix-checked; exported services are the tile services and the GMS listener only); performance OK (WearSync sends only changes; particles only while animation is on); QA: Today card rows capped at 9, empty state text, old watch payloads still decode.
+- Lint lesson: `Crossfade` target state must be used in the lambda (now a per-style test tag).
+- OPEN / not verifiable without a phone and a watch: everything visual (arc, chain placement on the bow, particles), the Data Layer link (phone to watch), shortcuts, notifications timing, file backup picker, update-over-install, Special Events provider permission, Hanukkah flame alignment. special_events: its full 4-persona checklist was not run.
+
 ## Recently done (2026-11-20/21, sessions 2-3)
 Everything in `docs/CHANGELOG.md` 0.2.0, ledger rows R39-R64. Release checklist run on 2026-11-21 by reading the code (see "Review 2026-11-21" below). Honest gaps: no emulator UI tests with screenshots, no per-widget settings, no `/simplify` or `/code-review` tool run, nothing verified on a phone.
 

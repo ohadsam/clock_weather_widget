@@ -7,7 +7,7 @@ plugins {
 }
 
 // versionName is the single source of truth (docs/CHANGELOG.md must have a matching section; a :core test checks it).
-val appVersionName = "0.3.0"
+val appVersionName = "0.4.0"
 
 android {
     namespace = "com.clockweather.app"

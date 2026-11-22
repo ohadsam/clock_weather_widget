@@ -62,6 +62,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/main/kotlin/com/clockweather/core/hebrew/HebrewDateFormat.kt` | Hebrew date text + roll at sunset |
 | `core/src/main/kotlin/com/clockweather/core/hebrew/Holidays.kt` | Jewish holidays/special days for a Gregorian day (Israel/diaspora) |
 | `core/src/main/kotlin/com/clockweather/core/steps/StepMath.kt` | Daily steps from a cumulative counter (reboot-safe) |
+| `core/src/main/kotlin/com/clockweather/core/dashboard/TodaySummary.kt` | The "Today and next" card: rows from the day's facts, pure |
 | `core/src/main/kotlin/com/clockweather/core/dashboard/Dashboard.kt` | Dashboard cards: ids, order and visibility maths |
 | `core/src/main/kotlin/com/clockweather/core/widget/TapZones.kt` | Which section each tap row of the widget opens (from the layout plan) |
 | `core/src/main/kotlin/com/clockweather/core/clock/WidgetHealth.kt` | Verdict: is the minute tick alive? |

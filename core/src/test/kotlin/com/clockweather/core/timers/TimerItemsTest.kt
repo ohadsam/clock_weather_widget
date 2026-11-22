@@ -225,6 +225,23 @@ class JewishDayTest {
         assertTrue(com.clockweather.core.wear.WearState.decode("""{"at":1,"place":"a","temp":"b","hiLo":"c","rain":null,"sky":"d","hebrew":false}""")!!.events.isEmpty()) // an older phone build still decodes
     }
 
+    @Test fun todaySummaryGroupsTheUpcomingThingsInOrder() {
+        val zone = ZoneId.of("Asia/Jerusalem")
+        val noon = LocalDate.of(2026, 11, 20).atTime(12, 0).atZone(zone).toInstant() // a Friday
+        fun ev(title: String, h: Int) = com.clockweather.core.agenda.AgendaEvent(h.toLong(), title, LocalDate.of(2026, 11, 20).atTime(h, 0).atZone(zone).toInstant().toEpochMilli(), LocalDate.of(2026, 11, 20).atTime(h + 1, 0).atZone(zone).toInstant().toEpochMilli(), false)
+        val f = com.clockweather.core.dashboard.TodaySummary.Facts(noon, zone, false, true, true, java.time.LocalTime.of(16, 40), java.time.LocalTime.of(16, 20),
+            listOf(ev("Past", 9), ev("Dentist", 14)), listOf(com.clockweather.core.agenda.SpecialEvents.Item("Dana", LocalDate.of(2026, 11, 21), 1, "🎂")), listOf("⏳ Eggs 5 min"), "Alarm 06:30", "24° · Clear")
+        val rows = com.clockweather.core.dashboard.TodaySummary.rows(f)
+        val texts = rows.map { it.text }
+        assertTrue(texts.indexOf("24° · Clear") < texts.indexOf("Alarm 06:30"))
+        assertTrue("14:00 Dentist" in texts); assertTrue(texts.none { it.contains("Past") }) // an event that is over is not listed
+        assertTrue("Eggs 5 min" in texts); assertTrue("Dana · tomorrow" in texts)
+        assertEquals("Candle lighting 16:20", texts.last()) // the next time marker of the evening comes last
+        assertTrue(rows.size <= com.clockweather.core.dashboard.TodaySummary.MAX_ROWS)
+        assertEquals("tomorrow", com.clockweather.core.agenda.SpecialEvents.whenText(1, false)); assertEquals("בעוד 3 ימים", com.clockweather.core.agenda.SpecialEvents.whenText(3, true))
+        assertTrue(com.clockweather.core.dashboard.DashTile.values().first { it.id == "today" } == com.clockweather.core.dashboard.Dashboard.visibleTiles(emptyList(), emptyList())[1])
+    }
+
     @Test fun comfortAndSpeechAndPresets() {
         assertEquals("נעים", com.clockweather.core.weather.Comfort.word(22.0, true)); assertEquals("Very cold", com.clockweather.core.weather.Comfort.word(0.0, false))
         assertEquals("Thursday 17:05, 25°, rain expected, alarm 06:30", com.clockweather.core.widget.WidgetSpeech.sentence(false, "17:05", "Thursday", "25°, rain expected", listOf("alarm 06:30")))

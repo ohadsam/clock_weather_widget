@@ -87,7 +87,7 @@ object AutoDashboard {
             if (rainy) add(DashTile.WEATHER)
             if (candle) add(DashTile.SUN)
         }.filter { it in present }
-        val head = present.filter { it == DashTile.WIDGET }
+        val head = present.filter { it == DashTile.WIDGET || it == DashTile.TODAY }
         return head + hot + present.filter { it !in head && it !in hot }
     }
 }

@@ -143,7 +143,11 @@
     <string name="perm_open_settings">פתח הגדרות</string>
     <string name="sec_whats_new">מה חדש</string>
     <string name="sec_whats_new_sum">גרסה %1$s</string>
-    <string name="whats_new_body">• עדכון והתקנה מתוך האפליקציה, ושיתוף האפליקציה
+    <string name="whats_new_body">• כרטיס "היום והקרוב": חג, מזג אוויר, התראה, אירועים, טיימרים ושקיעה ברשימה אחת
+• אריחים לשעון Wear OS: תאריך עברי, מזג אוויר, טיימרים ואירועים
+• טיימר מרווחים, התראת הדלקת נרות וצאת שבת, איכות אוויר
+• קיצורים באייקון, גיבוי לקובץ, שיתוף בוואטסאפ ובמייל
+• עדכון והתקנה מתוך האפליקציה, ושיתוף האפליקציה
 • תחזית לפי שעות עם גרפים מונפשים: טמפרטורה, משקעים, לחות
 • כמה מקומות במקביל
 • צאת הכוכבים והדלקת נרות
@@ -318,4 +322,5 @@
     <string name="backup_save_file">שמור גיבוי לקובץ</string>
     <string name="backup_load_file">טען גיבוי מקובץ</string>
     <string name="backup_file_saved">הגיבוי נשמר לקובץ</string>
+    <string name="today_nothing">אין מה להציג להיום כרגע</string>
 </resources>

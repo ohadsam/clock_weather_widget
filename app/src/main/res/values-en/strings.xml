@@ -143,7 +143,11 @@
     <string name="perm_open_settings">Open settings</string>
     <string name="sec_whats_new">What\'s new</string>
     <string name="sec_whats_new_sum">Version %1$s</string>
-    <string name="whats_new_body">• Update and install from inside the app, and share the app
+    <string name="whats_new_body">• "Today and next" card: holiday, weather, alarm, events, timers and sunset in one list
+• Wear OS tiles: Hebrew date, weather, timers and events
+• Interval timer, candle-lighting and Shabbat-ended notifications, air quality
+• App-icon shortcuts, backup to a file, sharing on WhatsApp and by e-mail
+• Update and install from inside the app, and share the app
 • Hourly forecast with animated charts: temperature, rain, humidity
 • Several places side by side
 • Nightfall and candle lighting
@@ -318,4 +322,5 @@
     <string name="backup_save_file">Save backup to a file</string>
     <string name="backup_load_file">Load backup from a file</string>
     <string name="backup_file_saved">Backup saved to the file</string>
+    <string name="today_nothing">Nothing to show for today</string>
 </resources>

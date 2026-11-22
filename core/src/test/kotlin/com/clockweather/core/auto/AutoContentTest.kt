@@ -43,8 +43,8 @@ class AutoContentTest {
     @Test fun dashboardPutsWhatMattersFirstAndDropsEmpty() {
         val all = DashTile.values().toList()
         val out = AutoDashboard.arrange(all, WidgetSettings(), facts(listOf(ev(30)), NextAlarm(noon.toEpochMilli() + 2 * 3_600_000L, null)))
-        assertEquals(DashTile.WIDGET, out.first())
-        assertEquals(listOf(DashTile.ALARM, DashTile.AGENDA), out.drop(1).take(2))
+        assertEquals(listOf(DashTile.WIDGET, DashTile.TODAY), out.take(2)) // the widget and the "Today and next" summary always lead
+        assertEquals(listOf(DashTile.ALARM, DashTile.AGENDA), out.drop(2).take(2))
         assertFalse(DashTile.STEPS in out); assertFalse(DashTile.WORLD in out); assertFalse(DashTile.PLACES in out)
         val quiet = AutoDashboard.arrange(all, WidgetSettings(), facts())
         assertFalse(DashTile.AGENDA in quiet); assertFalse(DashTile.ALARM in quiet)

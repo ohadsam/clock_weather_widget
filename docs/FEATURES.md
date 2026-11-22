@@ -34,6 +34,7 @@ Five widget types (picker entries): classic (everything), clock only, weather, a
 | Card id | What it shows | Code | Drill-down |
 |---|---|---|---|
 | `widget` | live widget preview (same renderer), size/wallpaper switches, style, presets, "add widget" | `WidgetTile` | - |
+| `today` | **Today and next**: one list of the day's holiday / weekly portion / Omer, weather, alarm, next calendar events, running timers, close special events and the evening's candle-lighting or sunset time (`TodaySummary`, max 9 rows; leads the dashboard with the widget) | `TodayTile` | `TimerItemsTest.todaySummary...` |
 | `date` | Gregorian + Hebrew date, holiday | `DateTile` | `DashDetailScreen(DATE)`: upcoming holidays |
 | `weather` | animated icon, now, max/min, rain chance | `WeatherTile` | `WeatherScreen` (pager over places, animated hourly charts: temperature / rain / humidity / UV / wind; feels-like with a comfort word; UV words; rain-radar link) |
 | `places` | every saved place at a glance (when 2+) | `PlacesOverview` | `WeatherScreen` at that place |

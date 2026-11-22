@@ -30,8 +30,7 @@ object WearSync {
             val sky = (cur?.sky ?: day?.sky)?.label(hebrew).orEmpty()
             val zone = java.time.ZoneId.systemDefault()
             val events = SpecialEventsSource.upcoming(ctx, Instant.ofEpochMilli(now), zone, 14).take(WearState.MAX_EVENTS).map { e ->
-                val when_ = if (e.daysLeft <= 0L) (if (hebrew) "היום" else "today") else if (e.daysLeft == 1L) (if (hebrew) "מחר" else "tomorrow") else (if (hebrew) "בעוד ${e.daysLeft} ימים" else "in ${e.daysLeft} days")
-                "${e.emoji} ${e.title}, $when_"
+                "${e.emoji} ${e.title}, ${com.clockweather.core.agenda.SpecialEvents.whenText(e.daysLeft, hebrew)}"
             }
             val state = WearState.of(now, place?.name.orEmpty(), temp, hiLo, day?.rainChancePct, sky, hebrew, TimerStore.items(ctx), events)
             val fingerprint = state.copy(at = 0L).encode()

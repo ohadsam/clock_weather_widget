@@ -3,6 +3,7 @@ package com.clockweather.core.dashboard
 /** The cards the in-app dashboard can show. [id] is what is stored in settings, so never rename one. */
 enum class DashTile(val id: String, val he: String, val en: String, val defaultVisible: Boolean = true) {
     WIDGET("widget", "הווידג'ט", "Widget"),
+    TODAY("today", "היום והקרוב", "Today and next"),
     DATE("date", "תאריך וחגים", "Date and holidays"),
     WEATHER("weather", "מזג אוויר", "Weather"),
     PLACES("places", "המקומות שלי", "My places"),

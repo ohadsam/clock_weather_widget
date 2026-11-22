@@ -80,6 +80,7 @@ fun HomeScreen(
             val render: @Composable (DashTile, Int) -> Unit = { tile, i ->
                 when (tile) {
                     DashTile.WIDGET -> WidgetTile(settings, tick, onChange)
+                    DashTile.TODAY -> TodayTile(st, i, animate)
                     DashTile.DATE -> DateTile(st, i, animate) { onOpenDetail(DashTile.DATE) }
                     DashTile.WEATHER -> WeatherTile(st, i, animate) { onOpenWeather(null) }
                     DashTile.PLACES -> PlacesOverview(settings, tick) { onOpenWeather(it) }
