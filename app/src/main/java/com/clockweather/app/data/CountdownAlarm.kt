@@ -48,7 +48,7 @@ class CountdownReceiver : BroadcastReceiver() {
             val next = plan?.next()
             if (next != null) { // interval timer: start the next work/rest segment right where this one ended (no drift), then a short signal
                 val advanced = TimerStore.update(ctx, id) { it.copy(iv = next.encode()).with(Countdown().withDuration(next.durationMs).start(c.endsAtMs)) } ?: return
-                schedule(ctx, advanced)
+                CountdownAlarm.schedule(ctx, advanced)
                 Notifier.postPhase(ctx, advanced, next)
                 ClockWidgetProvider.updateAll(ctx)
                 return
