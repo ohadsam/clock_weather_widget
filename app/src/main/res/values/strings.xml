@@ -305,4 +305,7 @@
     <string name="interval_rest">מנוחה</string>
     <string name="interval_rounds">סבבים</string>
     <string name="seconds_short">שנ׳</string>
+    <string name="share_whatsapp">שלח בוואטסאפ</string>
+    <string name="share_email">שלח במייל</string>
+    <string name="share_email_subject">ClockWise - ווידג׳ט שעון ומזג אוויר</string>
 </resources>

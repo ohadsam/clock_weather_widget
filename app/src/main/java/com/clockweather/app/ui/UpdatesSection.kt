@@ -93,6 +93,8 @@ fun UpdatesSection(hebrew: Boolean) {
             }
         }
         Text(stringResource(R.string.share_title), style = MaterialTheme.typography.titleSmall)
+        OutlinedButton(onClick = { AppSharer.shareWhatsApp(ctx, hebrew) }, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.share_whatsapp)) }
+        OutlinedButton(onClick = { AppSharer.shareEmail(ctx, hebrew, ctx.getString(R.string.share_email_subject)) }, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.share_email)) }
         OutlinedButton(onClick = { AppSharer.shareLink(ctx, hebrew) }, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.share_link)) }
         OutlinedButton(onClick = { AppSharer.shareApk(ctx) }, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.share_apk)) }
     }

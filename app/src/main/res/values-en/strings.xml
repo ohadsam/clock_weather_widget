@@ -305,4 +305,7 @@
     <string name="interval_rest">Rest</string>
     <string name="interval_rounds">Rounds</string>
     <string name="seconds_short">s</string>
+    <string name="share_whatsapp">Send on WhatsApp</string>
+    <string name="share_email">Send by e-mail</string>
+    <string name="share_email_subject">ClockWise - clock and weather widget</string>
 </resources>

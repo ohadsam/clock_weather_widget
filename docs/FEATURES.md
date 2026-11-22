@@ -61,7 +61,7 @@ Five widget types (picker entries): classic (everything), clock only, weather, a
 - Notifications need the Android 13+ permission; without it timers still work visually.
 
 ## 5. Updates, sharing, backup, guide
-- In-app update check/download/verify/install (`Updater`, `UpdatesSection`, `UpdateMath`); `latest-apk.yml` publishes `ClockWise.apk`, `.sha256`, `version.json`. Share the app as a link or as the installed APK (`AppSharer`).
+- In-app update check/download/verify/install (`Updater`, `UpdatesSection`, `UpdateMath`); `latest-apk.yml` publishes `ClockWise.apk`, `.sha256`, `version.json`. Share the app straight to WhatsApp, by e-mail, as a link or as the installed APK (`AppSharer`; WhatsApp falls back to the chooser when it is not installed).
 - Backup and sharing (`BackupSection`, `LookCode`): `CW1:` look code (no personal data), `CWB1:` full backup (includes places), restore by paste.
 - First-run guide (`GuideDialog`), re-shown from Settings.
 - Settings -> Permissions (`PermissionsSection`) and Settings -> Widget status (`WidgetStatusSection`: is the minute tick alive, repair button).
