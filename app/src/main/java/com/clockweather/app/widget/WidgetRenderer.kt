@@ -267,8 +267,9 @@ object WidgetRenderer {
             // the chain (round 8 art, optional): hangs from the bow ring at the top centre of the canvas, drawn only when the asset exists
             ArtCache.get(ctx, "chain_" + PocketMetal.byId(s.pocketMetal).id)?.let { chain ->
                 val cw = w * 0.5f; val chH = cw * chain.height / chain.width
-                val ringX = dst.centerX(); val ringY = dst.top + 0.03f * h
-                val cdst = RectF(ringX - 0.12f * cw, ringY - 0.08f * chH, ringX - 0.12f * cw + cw, ringY - 0.08f * chH + chH)
+                val ringX = dst.centerX(); val ringY = dst.top + 0.04f * h
+                // the chain art's ring centre (measured by make-art-assets.py chains) sits on the bow ring of the watch
+                val cdst = RectF(ringX - 0.1955f * cw, ringY - 0.1914f * chH, ringX - 0.1955f * cw + cw, ringY - 0.1914f * chH + chH)
                 c.save(); c.clipRect(r); c.drawBitmap(chain, null, cdst, p); c.restore()
             }
             // the lid: lower part of the case squashed towards the hinge

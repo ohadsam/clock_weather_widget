@@ -302,7 +302,26 @@ def ornaments():
     print(len(ims), 'ornaments')
 
 
+def chains():
+    """Round 8: the pocket-watch chain in 3 metals, keyed, 384 x 384 webp. Prints the ring centre (fraction of the image) of the gold one for ChainArt."""
+    src = 'design/chains/originals'
+    for metal in ('gold', 'silver', 'rose'):
+        im = drop_specks(key(f'{src}/chain_{metal}.png')).resize((384, 384), Image.LANCZOS)
+        im.save(f'{RES}/drawable-nodpi/chain_{metal}.webp', format='WEBP', quality=92, alpha_quality=100, method=6)
+        if metal == 'gold':
+            a = np.array(im.getchannel('A')) > 128
+            ys, xs = np.nonzero(a)
+            top = ys.min(); band = (ys < top + 12)
+            # the ring is the topmost blob: its centre = middle of the first rows horizontally, one ring radius below the top
+            cx = xs[band].mean() / im.width
+            ring = (ys < top + 60) & (xs < xs[band].mean() + 40) & (xs > xs[band].mean() - 40)
+            cy = (top + (ys[ring].max() - top) / 2) / im.height
+            print('RING', round(float(cx), 4), round(float(cy), 4), 'bbox', xs.min(), ys.min(), xs.max(), ys.max())
+    print('chains done')
+
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] == 'chains':
+        return chains()
     if len(sys.argv) > 1 and sys.argv[1] == 'holidays':
         return holidays()
     if len(sys.argv) > 1 and sys.argv[1] == 'ui':
