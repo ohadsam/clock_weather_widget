@@ -53,7 +53,7 @@ Scope: **W** = affects the home-screen widget, **D** = the in-app dashboard, **S
 | `showParsha` | `Boolean` | `true` | Date line: the weekly Torah portion on Friday and Shabbat (Hebrew UI). |
 | `showOmer` | `Boolean` | `true` | Date line: the Omer count (days 1-49). |
 | `showAirQuality` | `Boolean` | `false` | Dashboard weather card: one line with air quality, UV and pollen (needs the extra host `air-quality-api.open-meteo.com`; off by default). |
-| `shabbatMode` | `Boolean` | `false` | From candle lighting to nightfall: no animations and no rain alerts; one "Shabbat ended" notification at nightfall (needs the notification permission). |
+| `shabbatMode` | `Boolean` | `false` | From candle lighting to nightfall: no animations and no rain alerts; one "candle lighting" notification 15 minutes before it and one "Shabbat ended" notification at nightfall (needs the notification permission). |
 | `showTimers` | `Boolean` | `true` | Show an active stopwatch / countdown as a row in the widget. |
 | `timerRowActive` | `Boolean` | `false` | DERIVED, never stored by the user: the app sets it from the timer state so the layout plan reserves the row. |
 | `rainAlert` | `Boolean` | `false` | Notify when rain is about to start at the active place (opt-in; needs the notification permission). |

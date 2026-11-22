@@ -33,7 +33,8 @@ class StatusTileService : TileService() {
             val weather = state.weatherLines()
             weather.forEachIndexed { i, text -> column.addContent(line(text, if (i == 1) 22f else 14f, if (i == 1) 0xFFFFFFFF.toInt() else 0xFFCCCCCC.toInt(), bold = i == 1)) }
             state.timerLines(now).forEach { column.addContent(line(it, 14f, 0xFFF2B84B.toInt())) }
-            if (weather.isEmpty() && state.timers.isEmpty()) column.addContent(line(getString(R.string.status_nothing), 14f, 0xFFCCCCCC.toInt()))
+            state.eventLines().forEach { column.addContent(line(it, 13f, 0xFFB7D7F5.toInt())) }
+            if (weather.isEmpty() && state.timers.isEmpty() && state.events.isEmpty()) column.addContent(line(getString(R.string.status_nothing), 14f, 0xFFCCCCCC.toInt()))
             if (state.isStale(now)) column.addContent(line(getString(R.string.status_stale), 12f, 0xFF999999.toInt()))
         }
         val layout = LayoutElementBuilders.Box.Builder()

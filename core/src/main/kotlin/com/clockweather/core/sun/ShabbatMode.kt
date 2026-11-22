@@ -16,6 +16,10 @@ object ShabbatMode {
     fun havdalahOn(date: LocalDate, lat: Double, lon: Double, zone: ZoneId, inIsrael: Boolean): LocalTime? =
         if (isRestDay(date, inIsrael) && !isRestDay(date.plusDays(1), inIsrael)) Zmanim.of(date, lat, lon, zone)?.nightfall else null
 
+    /** Candle-lighting time on an eve (Friday, or the day before Yom Tov), else null. */
+    fun candleLightingOn(date: LocalDate, lat: Double, lon: Double, zone: ZoneId, inIsrael: Boolean): LocalTime? =
+        if (Zmanim.isCandleLightingDay(date, inIsrael)) Zmanim.of(date, lat, lon, zone)?.candleLighting else null
+
     fun isActive(date: LocalDate, time: LocalTime, lat: Double, lon: Double, zone: ZoneId, inIsrael: Boolean): Boolean {
         val today = Zmanim.of(date, lat, lon, zone) ?: return false
         if (Zmanim.isCandleLightingDay(date, inIsrael) && time >= today.candleLighting) return true // the eve, from candle lighting

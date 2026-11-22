@@ -28,7 +28,12 @@ object WearSync {
             val temp = cur?.let { TempFormat.short(it.tempC, s.fahrenheit) }.orEmpty()
             val hiLo = day?.let { "${TempFormat.short(it.maxC, s.fahrenheit)} / ${TempFormat.short(it.minC, s.fahrenheit)}" }.orEmpty()
             val sky = (cur?.sky ?: day?.sky)?.label(hebrew).orEmpty()
-            val state = WearState.of(now, place?.name.orEmpty(), temp, hiLo, day?.rainChancePct, sky, hebrew, TimerStore.items(ctx))
+            val zone = java.time.ZoneId.systemDefault()
+            val events = SpecialEventsSource.upcoming(ctx, Instant.ofEpochMilli(now), zone, 14).take(WearState.MAX_EVENTS).map { e ->
+                val when_ = if (e.daysLeft <= 0L) (if (hebrew) "היום" else "today") else if (e.daysLeft == 1L) (if (hebrew) "מחר" else "tomorrow") else (if (hebrew) "בעוד ${e.daysLeft} ימים" else "in ${e.daysLeft} days")
+                "${e.emoji} ${e.title}, $when_"
+            }
+            val state = WearState.of(now, place?.name.orEmpty(), temp, hiLo, day?.rainChancePct, sky, hebrew, TimerStore.items(ctx), events)
             val fingerprint = state.copy(at = 0L).encode()
             val prefs = ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
             if (!force && prefs.getString("last", null) == fingerprint) return

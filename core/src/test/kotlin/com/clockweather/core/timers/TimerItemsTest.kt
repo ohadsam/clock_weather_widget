@@ -214,6 +214,17 @@ class JewishDayTest {
         assertTrue(!com.clockweather.core.widget.SunArc.isDay(java.time.LocalTime.of(20, 0), java.time.LocalTime.of(6, 0), java.time.LocalTime.of(17, 0)))
     }
 
+    @Test fun candleLightingAndWatchEvents() {
+        val lat = 32.09; val lon = 34.88; val fri = LocalDate.of(2026, 11, 20)
+        fun c(d: LocalDate) = com.clockweather.core.sun.ShabbatMode.candleLightingOn(d, lat, lon, zone, true)
+        assertNotNull(c(fri)); assertNull(c(fri.minusDays(1))); assertNull(c(fri.plusDays(1)))
+        val at = c(fri)!!; assertTrue(at.hour in 15..18)
+        val s = com.clockweather.core.wear.WearState.of(1L, "x", "1°", "2/0", null, "Clear", false, emptyList(), listOf("🎂 Dana, today", "💍 Lee, tomorrow", "third"))
+        val back = com.clockweather.core.wear.WearState.decode(s.encode())!!
+        assertEquals(listOf("🎂 Dana, today", "💍 Lee, tomorrow"), back.eventLines())
+        assertTrue(com.clockweather.core.wear.WearState.decode("""{"at":1,"place":"a","temp":"b","hiLo":"c","rain":null,"sky":"d","hebrew":false}""")!!.events.isEmpty()) // an older phone build still decodes
+    }
+
     @Test fun comfortAndSpeechAndPresets() {
         assertEquals("נעים", com.clockweather.core.weather.Comfort.word(22.0, true)); assertEquals("Very cold", com.clockweather.core.weather.Comfort.word(0.0, false))
         assertEquals("Thursday 17:05, 25°, rain expected, alarm 06:30", com.clockweather.core.widget.WidgetSpeech.sentence(false, "17:05", "Thursday", "25°, rain expected", listOf("alarm 06:30")))

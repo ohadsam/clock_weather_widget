@@ -21,6 +21,7 @@ import com.clockweather.core.timers.TimerItem
 object Notifier {
     const val CH_RAIN = "rain"
     const val CH_HAVDALAH = "havdalah"
+    const val CH_CANDLE = "candle"
     private val VIBRATION = longArrayOf(0, 500, 300, 500, 300, 800)
 
     fun canPost(ctx: Context): Boolean =

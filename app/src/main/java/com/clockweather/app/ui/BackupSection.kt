@@ -31,12 +31,25 @@ fun BackupSection(s: WidgetSettings, onChange: (WidgetSettings) -> Unit) {
     val ctx = LocalContext.current
     var pasted by remember { mutableStateOf("") }
     var result by remember { mutableStateOf<Int?>(null) }
+    // a file through the system picker (no storage permission): save the backup text, or load one back
+    val saver = androidx.activity.compose.rememberLauncherForActivityResult(androidx.activity.result.contract.ActivityResultContracts.CreateDocument("text/plain")) { uri ->
+        if (uri != null) result = runCatching { ctx.contentResolver.openOutputStream(uri)?.use { it.write(LookCode.encodeBackup(s).toByteArray(Charsets.UTF_8)) }; R.string.backup_file_saved }.getOrDefault(R.string.code_invalid)
+    }
+    val loader = androidx.activity.compose.rememberLauncherForActivityResult(androidx.activity.result.contract.ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri != null) {
+            val text = runCatching { ctx.contentResolver.openInputStream(uri)?.use { it.readBytes().take(200_000).toByteArray().toString(Charsets.UTF_8) } }.getOrNull()?.trim().orEmpty()
+            val applied = if (text.startsWith("CWB1:")) LookCode.decodeBackup(text) else null
+            if (applied != null) { onChange(applied); result = R.string.code_applied } else result = R.string.code_invalid
+        }
+    }
     SectionCard(stringResource(R.string.sec_backup), stringResource(R.string.sec_backup_sum)) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(stringResource(R.string.backup_hint), style = MaterialTheme.typography.bodySmall)
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Button(onClick = { share(ctx, LookCode.encodeLook(s)) }, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.share_look)) }
                 OutlinedButton(onClick = { share(ctx, LookCode.encodeBackup(s)) }, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.share_backup)) }
+                OutlinedButton(onClick = { saver.launch("ClockWise-backup.txt") }, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.backup_save_file)) }
+                OutlinedButton(onClick = { loader.launch(arrayOf("text/plain", "*/*")) }, modifier = Modifier.heightIn(min = 48.dp)) { Text(stringResource(R.string.backup_load_file)) }
             }
             OutlinedTextField(pasted, { pasted = it.take(100_000) }, label = { Text(stringResource(R.string.paste_code)) }, modifier = Modifier.fillMaxWidth(), maxLines = 3)
             Button(

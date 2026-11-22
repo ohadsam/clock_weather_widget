@@ -16,7 +16,7 @@ data class WearTimer(val l: String, val run: Boolean, val end: Long = 0L, val re
 @Serializable
 data class WearState(
     val at: Long, val place: String, val temp: String, val hiLo: String, val rain: Int?, val sky: String, val hebrew: Boolean,
-    val timers: List<WearTimer> = emptyList(), val v: Int = 1,
+    val timers: List<WearTimer> = emptyList(), val v: Int = 1, val events: List<String> = emptyList(),
 ) {
     fun encode(): String = JSON.encodeToString(serializer(), this)
 
@@ -26,6 +26,9 @@ data class WearState(
         val rainPart = rain?.let { "  ☂ $it%" }.orEmpty()
         return listOf(place, "$temp  $sky", "$hiLo$rainPart")
     }
+
+    /** Up to 2 upcoming special events as ready-made lines ("🎂 Dana, today"). */
+    fun eventLines(): List<String> = events.take(MAX_EVENTS)
 
     /** `Eggs 8 min` style lines for the countdowns at [nowMs]; running ones count down (minutes rounded up), paused ones say so. */
     fun timerLines(nowMs: Long): List<String> = timers.take(MAX_TIMERS).map { t ->
@@ -40,6 +43,7 @@ data class WearState(
     companion object {
         const val PATH = "/clockwise/state"
         const val MAX_TIMERS = 3
+        const val MAX_EVENTS = 2
         const val STALE_MS = 3L * 3_600_000L
         private val JSON = Json { ignoreUnknownKeys = true; encodeDefaults = true; coerceInputValues = true }
 
@@ -55,18 +59,19 @@ data class WearState(
             return s.copy(
                 place = Untrusted.clean(s.place, 30), temp = Untrusted.clean(s.temp, 8), hiLo = Untrusted.clean(s.hiLo, 16), sky = Untrusted.clean(s.sky, 20),
                 rain = s.rain?.takeIf { it in 0..100 },
+                events = s.events.take(MAX_EVENTS).map { Untrusted.clean(it, 40) }.filter { it.isNotEmpty() },
                 timers = s.timers.take(MAX_TIMERS).map { it.copy(l = Untrusted.clean(it.l, 24), rem = it.rem.coerceIn(0L, 86_400_000L)) },
             )
         }
 
         /** Builds the state from what the phone already has (formatted weather strings and the countdown list). */
-        fun of(nowMs: Long, place: String, temp: String, hiLo: String, rain: Int?, sky: String, hebrew: Boolean, items: List<TimerItem>): WearState {
+        fun of(nowMs: Long, place: String, temp: String, hiLo: String, rain: Int?, sky: String, hebrew: Boolean, items: List<TimerItem>, events: List<String> = emptyList()): WearState {
             val timers = items.filter { it.countdown && it.countdownState.let { c -> c.running || (c.active && c.pausedRemainingMs in 1 until c.totalMs) } }.map { item ->
                 val c = item.countdownState
                 val label = item.interval?.label(hebrew) ?: item.label
                 WearTimer(label, c.running, if (c.running) c.endsAtMs else 0L, if (c.running) 0L else c.pausedRemainingMs)
             }
-            return WearState(nowMs, place, temp, hiLo, rain, sky, hebrew, timers.take(MAX_TIMERS))
+            return WearState(nowMs, place, temp, hiLo, rain, sky, hebrew, timers.take(MAX_TIMERS), events = events.take(MAX_EVENTS))
         }
     }
 }

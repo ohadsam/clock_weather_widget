@@ -38,6 +38,7 @@ No analytics, no ads, no accounts, no crash reporting. The phone's own geocoder 
 | `airq` | last air-quality JSON of the active place (only when switched on) |
 | `wear_sync` | the last state sent to the watch (to send only changes) |
 | `rain_alert` | when the last rain notification was shown |
+| `candle_alert` | the date of the last "candle lighting" notification |
 | `havdalah_alert` | the date of the last "Shabbat ended" notification |
 | `update` | last install status |
 | `guide` | whether the first-run guide was shown |
@@ -46,6 +47,7 @@ Cache directories: `cache/updates` (a downloaded APK, replaced on the next downl
 ## 4. What leaves the device by user action
 - "Share my look" (`CW1:` code): appearance only, no places or personal data.
 - "Back up all settings" (`CWB1:` text): **includes saved places and calendar ids**. The UI warns; keep it private.
+- Backup to / from a file: only through the system file picker (the file you choose; no storage permission). It has the same content as the text backup (**includes saved places**).
 - Share the app: a link or the APK itself.
 - **Watch (Wear OS tile)**: when a paired watch has the same app installed, the phone sends it one small JSON (`WearSync`): the active place's name, temperature, high/low, rain chance, sky word and the label and end time of the running / paused countdowns. It travels over the Google Play services Data Layer between the owner's own devices (Bluetooth / Wi-Fi); no server, no new permission, nothing is sent when no watch is paired. The watch keeps the last copy in its own app-private storage. The phone app depends on `play-services-wearable` for this.
 

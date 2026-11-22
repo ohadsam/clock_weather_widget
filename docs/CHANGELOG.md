@@ -1,6 +1,7 @@
 # Changelog
 
 ## 0.3.0
+- Launcher shortcuts, candle-lighting notification, backup to/from a file, upcoming events on the watch tile.
 - Analog dial shows the daylight arc; rain / snow over the dashboard weather card; holiday picture and style preview animate in.
 - Watch tile with the phone's weather and running timers (Data Layer link; read-only).
 - Share the app directly by WhatsApp or e-mail (next to link / APK) in Settings -> Updates.

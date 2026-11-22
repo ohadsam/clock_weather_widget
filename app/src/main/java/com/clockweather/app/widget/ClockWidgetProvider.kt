@@ -83,6 +83,7 @@ open class ClockWidgetProvider : AppWidgetProvider() {
         val screenOn = (context.getSystemService(Context.POWER_SERVICE) as? PowerManager)?.isInteractive != false
         // quiet hours (night mode) and "calm animations" both mean: only the plain minute update, no flip / lid / weather loop
         com.clockweather.app.data.HavdalahAlert.check(context, settings, now)
+        com.clockweather.app.data.CandleAlert.check(context, settings, now)
         val shabbat = settings.shabbatMode && settings.places.firstOrNull { it.id == settings.activePlaceId }?.let { p ->
             com.clockweather.core.sun.ShabbatMode.isActive(now.atZone(zone).toLocalDate(), now.atZone(zone).toLocalTime(), p.lat, p.lon, zone, settings.inIsrael)
         } == true

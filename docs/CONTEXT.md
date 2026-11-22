@@ -152,6 +152,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `app/src/main/java/com/clockweather/app/data/CountdownAlarm.kt` | Exact alarm + receiver when the countdown ends |
 | `app/src/main/java/com/clockweather/app/data/RainAlerts.kt` | Rain-is-about-to-start notification check |
 | `app/src/main/java/com/clockweather/app/data/HavdalahAlert.kt` | "Shabbat ended" notification at nightfall (Shabbat mode on), called by the minute tick |
+| `app/src/main/java/com/clockweather/app/data/CandleAlert.kt` | Candle-lighting notification 15 minutes before (Shabbat mode on), called by the minute tick |
 | `app/src/main/java/com/clockweather/app/ui/TimerTiles.kt` | Dashboard cards: stopwatch and countdown |
 | `app/src/main/java/com/clockweather/app/ui/DateCountdownTile.kt` | Dashboard card: days until a holiday or a chosen date |
 | `app/src/main/java/com/clockweather/app/ui/BackupSection.kt` | Settings: share my look, backup, restore by pasted code |

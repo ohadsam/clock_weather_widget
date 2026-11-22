@@ -308,4 +308,14 @@
     <string name="share_whatsapp">Send on WhatsApp</string>
     <string name="share_email">Send by e-mail</string>
     <string name="share_email_subject">ClockWise - clock and weather widget</string>
+    <string name="shortcut_weather">Weather</string>
+    <string name="shortcut_weather_long">Open the weather</string>
+    <string name="shortcut_bedside">Desk clock</string>
+    <string name="shortcut_bedside_long">Desk and bedside clock</string>
+    <string name="shortcut_settings">Settings</string>
+    <string name="shortcut_settings_long">Open the settings</string>
+    <string name="channel_candle">Candle lighting</string>
+    <string name="backup_save_file">Save backup to a file</string>
+    <string name="backup_load_file">Load backup from a file</string>
+    <string name="backup_file_saved">Backup saved to the file</string>
 </resources>

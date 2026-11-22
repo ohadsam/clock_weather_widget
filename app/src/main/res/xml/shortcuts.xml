@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut android:shortcutId="weather" android:enabled="true" android:icon="@mipmap/ic_launcher" android:shortcutShortLabel="@string/shortcut_weather" android:shortcutLongLabel="@string/shortcut_weather_long">
+        <intent android:action="android.intent.action.VIEW" android:targetPackage="com.clockweather.app" android:targetClass="com.clockweather.app.MainActivity">
+            <extra android:name="screen" android:value="weather" />
+        </intent>
+    </shortcut>
+    <shortcut android:shortcutId="bedside" android:enabled="true" android:icon="@mipmap/ic_launcher" android:shortcutShortLabel="@string/shortcut_bedside" android:shortcutLongLabel="@string/shortcut_bedside_long">
+        <intent android:action="android.intent.action.VIEW" android:targetPackage="com.clockweather.app" android:targetClass="com.clockweather.app.MainActivity">
+            <extra android:name="screen" android:value="bedside" />
+        </intent>
+    </shortcut>
+    <shortcut android:shortcutId="settings" android:enabled="true" android:icon="@mipmap/ic_launcher" android:shortcutShortLabel="@string/shortcut_settings" android:shortcutLongLabel="@string/shortcut_settings_long">
+        <intent android:action="android.intent.action.VIEW" android:targetPackage="com.clockweather.app" android:targetClass="com.clockweather.app.MainActivity">
+            <extra android:name="screen" android:value="settings" />
+        </intent>
+    </shortcut>
+</shortcuts>

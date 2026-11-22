@@ -308,4 +308,14 @@
     <string name="share_whatsapp">שלח בוואטסאפ</string>
     <string name="share_email">שלח במייל</string>
     <string name="share_email_subject">ClockWise - ווידג׳ט שעון ומזג אוויר</string>
+    <string name="shortcut_weather">מזג אוויר</string>
+    <string name="shortcut_weather_long">פתח את מזג האוויר</string>
+    <string name="shortcut_bedside">שעון שולחן</string>
+    <string name="shortcut_bedside_long">שעון שולחן וליד המיטה</string>
+    <string name="shortcut_settings">הגדרות</string>
+    <string name="shortcut_settings_long">פתח את ההגדרות</string>
+    <string name="channel_candle">הדלקת נרות</string>
+    <string name="backup_save_file">שמור גיבוי לקובץ</string>
+    <string name="backup_load_file">טען גיבוי מקובץ</string>
+    <string name="backup_file_saved">הגיבוי נשמר לקובץ</string>
 </resources>
