@@ -36,6 +36,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -69,8 +70,9 @@ fun WidgetTile(settings: WidgetSettings, tick: Long, onChange: (WidgetSettings) 
             contentAlignment = Alignment.Center,
         ) {
             // changing the clock style cross-fades the preview (the key is the style, so the once-a-minute redraw does not flicker)
-            androidx.compose.animation.Crossfade(settings.clockStyle, animationSpec = androidx.compose.animation.core.tween(if (settings.calmAnimations) 0 else 350), label = "style") {
-                Image(bmp.asImageBitmap(), contentDescription = stringResource(R.string.preview_description), modifier = Modifier.height(hDp.dp))
+            androidx.compose.animation.Crossfade(settings.clockStyle, animationSpec = androidx.compose.animation.core.tween(if (settings.calmAnimations) 0 else 350), label = "style") { style ->
+                // the style is also the test tag of the preview (UI tests can tell which style is showing)
+                Image(bmp.asImageBitmap(), contentDescription = stringResource(R.string.preview_description), modifier = Modifier.height(hDp.dp).testTag("preview_" + style.name))
             }
         }
         ChipRow(sizes.mapIndexed { i, t -> i to stringResource(t.first) }, { it == size }, { size = it })
