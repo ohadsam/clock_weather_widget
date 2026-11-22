@@ -36,7 +36,7 @@ jobs:
         if: failure()
         run: |
           f=app/build/reports/lint-results-debug.txt
-          [ -f "$f" ] && head -80 "$f" || true
+          [ -f "$f" ] && { echo "--- errors first ---"; grep -B1 -A4 -E "Error:|Fatal:" "$f" | cut -c1-300 | head -60; echo "--- start of report ---"; head -30 "$f" | cut -c1-200; } || true
       - name: Name the APK (version + commit)
         run: |
           VER=$(grep -m1 'val appVersionName' app/build.gradle.kts | sed -E 's/.*"([^"]+)".*/\1/')
