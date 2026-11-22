@@ -21,6 +21,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -66,7 +68,11 @@ fun HomeScreen(
             val key = if (season != null) com.clockweather.core.widget.Season.ornamentKey(seasonDay, settings.inIsrael) else null
             // Hanukkah: the picture with that day's candles when it exists, else the general one
             val orn = key?.let { k -> ctx.resources.getIdentifier("orn_$k", "drawable", ctx.packageName).takeIf { it != 0 } ?: ctx.resources.getIdentifier("orn_" + season!!.ornament, "drawable", ctx.packageName) } ?: 0
-            if (orn != 0) Image(painterResource(orn), contentDescription = if (st.hebrew) season!!.he else season!!.en, modifier = Modifier.height(40.dp))
+            // the holiday picture fades and grows in when the screen opens (instantly with calm animations)
+            var shown by remember { mutableStateOf(false) }
+            LaunchedEffect(orn) { shown = true }
+            val appear by androidx.compose.animation.core.animateFloatAsState(if (shown) 1f else 0f, androidx.compose.animation.core.tween(if (animate) 900 else 0), label = "ornament")
+            if (orn != 0) Image(painterResource(orn), contentDescription = if (st.hebrew) season!!.he else season!!.en, modifier = Modifier.height(40.dp).graphicsLayer { alpha = appear; scaleX = 0.85f + 0.15f * appear; scaleY = 0.85f + 0.15f * appear })
             IconButton(onClick = onSettings) { Icon(Icons.Filled.Settings, contentDescription = stringResource(R.string.settings)) }
         }
         Column(Modifier.padding(horizontal = 12.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {

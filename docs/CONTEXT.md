@@ -76,6 +76,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/main/kotlin/com/clockweather/core/timers/TimerItems.kt` | Many labelled timers, each with its own end-of-time sound/vibration |
 | `core/src/main/kotlin/com/clockweather/core/timers/DateCountdown.kt` | Days until an event |
 | `core/src/main/kotlin/com/clockweather/core/look/LookCode.kt` | Share-my-look code and full backup text |
+| `core/src/main/kotlin/com/clockweather/core/widget/SunArc.kt` | Daylight arc (sunrise -> sunset) on a 12-hour analog dial; pure |
 | `core/src/main/kotlin/com/clockweather/core/widget/Seasons.kt` | Holiday looks and the effective palette (night / season / chosen) |
 | `core/src/main/kotlin/com/clockweather/core/widget/WidgetOverride.kt` | What one placed widget changes vs the global settings |
 | `core/src/main/kotlin/com/clockweather/core/agenda/SpecialEvents.kt` | Birthdays / special events as "N days until" lines |
@@ -139,6 +140,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `app/src/main/java/com/clockweather/app/ui/DashboardDetails.kt` | Drill-down screens for dashboard cards |
 | `app/src/main/java/com/clockweather/app/ui/DashboardEditor.kt` | Settings: show/hide and reorder dashboard cards |
 | `app/src/main/java/com/clockweather/app/ui/WidgetTile.kt` | Dashboard card with the live widget preview and widget quick settings |
+| `app/src/main/java/com/clockweather/app/ui/WeatherParticles.kt` | Soft rain / snow drifting over the dashboard weather card (code-drawn, only while animation is on) |
 | `app/src/main/java/com/clockweather/app/data/TickState.kt` | When the minute tick last ran |
 | `app/src/main/java/com/clockweather/app/data/HeartbeatWorker.kt` | 15-minute safety net that re-arms the tick |
 | `app/src/main/java/com/clockweather/app/widget/WidgetTaps.kt` | What each widget tap zone opens (calendar, alarm, weather app, our screens) |

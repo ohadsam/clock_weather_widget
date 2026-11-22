@@ -206,6 +206,14 @@ object WidgetRenderer {
             val cx = r.centerX(); val cy = r.centerY()
             p.reset(); p.isAntiAlias = true; p.color = withAlpha(pal.cardTop, 92); p.setShadowLayer(dp(5f), 0f, dp(2f), 0x55000000)
             c.drawCircle(cx, cy, rad, p); p.clearShadowLayer()
+            // the daylight arc (sunrise -> sunset) just inside the rim; the dial shows at a glance how much of the day is left
+            val today = st.forecast?.today(st.now)
+            com.clockweather.core.widget.SunArc.of(today?.sunrise?.toLocalTime(), today?.sunset?.toLocalTime())?.let { arc ->
+                val ar = rad * 0.985f
+                p.style = Paint.Style.STROKE; p.strokeWidth = dp(2.2f); p.strokeCap = Paint.Cap.ROUND; p.color = withAlpha(pal.accent, 170)
+                c.drawArc(RectF(cx - ar, cy - ar, cx + ar, cy + ar), arc.startDeg - 90f, arc.sweepDeg, false, p)
+                p.style = Paint.Style.FILL
+            }
             p.color = pal.digit; p.strokeCap = Paint.Cap.ROUND
             for (i in 0 until 12) {
                 val a = Math.toRadians(i * 30.0 - 90.0); val big = i % 3 == 0
@@ -256,6 +264,13 @@ object WidgetRenderer {
             }
             // crown + bow ring (the part of the case above the hinge) always stay
             c.save(); c.clipRect(dst.left, dst.top, dst.right, hingeY); c.drawBitmap(case, null, dst, p); c.restore()
+            // the chain (round 8 art, optional): hangs from the bow ring at the top centre of the canvas, drawn only when the asset exists
+            ArtCache.get(ctx, "chain_" + PocketMetal.byId(s.pocketMetal).id)?.let { chain ->
+                val cw = w * 0.5f; val chH = cw * chain.height / chain.width
+                val ringX = dst.centerX(); val ringY = dst.top + 0.03f * h
+                val cdst = RectF(ringX - 0.12f * cw, ringY - 0.08f * chH, ringX - 0.12f * cw + cw, ringY - 0.08f * chH + chH)
+                c.save(); c.clipRect(r); c.drawBitmap(chain, null, cdst, p); c.restore()
+            }
             // the lid: lower part of the case squashed towards the hinge
             val open = st.lidOpen.coerceIn(0f, 1f)
             val squash = Math.cos(open * Math.PI / 2.0).toFloat() // 1 closed -> 0 open

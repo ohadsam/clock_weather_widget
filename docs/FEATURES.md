@@ -62,6 +62,7 @@ Five widget types (picker entries): classic (everything), clock only, weather, a
 
 ## 5. Updates, sharing, backup, guide
 - Wear OS (`:wear`, `ClockWiseWear.apk`, same applicationId and signing key as the phone app): a **date tile** (computed on the watch) and a **weather + timers tile** fed by the phone over the Data Layer (`WearSync` -> `DataLayerService` -> `StatusTileService`); read-only, countdown lines are recomputed from their end time at each redraw (about once a minute, the system may stretch that).
+- Design touches (2026-11-22): the analog dial draws a daylight arc from sunrise to sunset (`SunArc`); the dashboard weather card shows soft rain / snow while animation is on (`WeatherParticles`); the holiday picture in the header fades in; changing the clock style cross-fades the live preview; the pocket watch draws a chain when `chain_<metal>` art exists (round 8 prompt). Widget itself redraws once a minute, so these motions exist only in the app, not on the home screen.
 - In-app update check/download/verify/install (`Updater`, `UpdatesSection`, `UpdateMath`); `latest-apk.yml` publishes `ClockWise.apk`, `.sha256`, `version.json`. Share the app straight to WhatsApp, by e-mail, as a link or as the installed APK (`AppSharer`; WhatsApp falls back to the chooser when it is not installed).
 - Backup and sharing (`BackupSection`, `LookCode`): `CW1:` look code (no personal data), `CWB1:` full backup (includes places), restore by paste.
 - First-run guide (`GuideDialog`), re-shown from Settings.

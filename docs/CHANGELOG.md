@@ -1,6 +1,7 @@
 # Changelog
 
 ## 0.3.0
+- Analog dial shows the daylight arc; rain / snow over the dashboard weather card; holiday picture and style preview animate in.
 - Watch tile with the phone's weather and running timers (Data Layer link; read-only).
 - Share the app directly by WhatsApp or e-mail (next to link / APK) in Settings -> Updates.
 - Wear OS date tile (`ClockWiseWear.apk`, standalone): weekday + date, Hebrew date, holiday or weekly portion.

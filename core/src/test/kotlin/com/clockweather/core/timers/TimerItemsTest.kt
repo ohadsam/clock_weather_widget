@@ -204,6 +204,16 @@ class JewishDayTest {
         assertTrue(hostile.place.length <= 30); assertNull(hostile.rain)
     }
 
+    @Test fun sunArcOnATwelveHourDial() {
+        val a = com.clockweather.core.widget.SunArc.of(java.time.LocalTime.of(6, 0), java.time.LocalTime.of(17, 0))!!
+        assertEquals(180f, a.startDeg); assertEquals(330f, a.sweepDeg) // 11 hours of daylight = 330 degrees
+        val b = com.clockweather.core.widget.SunArc.of(java.time.LocalTime.of(6, 30), java.time.LocalTime.of(18, 30))!!
+        assertEquals(195f, b.startDeg); assertEquals(350f, b.sweepDeg) // 12 h = 360, clamped so the arc never closes
+        assertNull(com.clockweather.core.widget.SunArc.of(null, java.time.LocalTime.NOON)); assertNull(com.clockweather.core.widget.SunArc.of(java.time.LocalTime.NOON, java.time.LocalTime.of(6, 0)))
+        assertTrue(com.clockweather.core.widget.SunArc.isDay(java.time.LocalTime.of(12, 0), java.time.LocalTime.of(6, 0), java.time.LocalTime.of(17, 0)))
+        assertTrue(!com.clockweather.core.widget.SunArc.isDay(java.time.LocalTime.of(20, 0), java.time.LocalTime.of(6, 0), java.time.LocalTime.of(17, 0)))
+    }
+
     @Test fun comfortAndSpeechAndPresets() {
         assertEquals("נעים", com.clockweather.core.weather.Comfort.word(22.0, true)); assertEquals("Very cold", com.clockweather.core.weather.Comfort.word(0.0, false))
         assertEquals("Thursday 17:05, 25°, rain expected, alarm 06:30", com.clockweather.core.widget.WidgetSpeech.sentence(false, "17:05", "Thursday", "25°, rain expected", listOf("alarm 06:30")))

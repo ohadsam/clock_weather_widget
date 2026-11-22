@@ -87,7 +87,9 @@ internal fun WeatherTile(st: RenderState, index: Int, animate: Boolean, onOpen: 
     val day = f?.today(st.now)
     DashCard(index, animate, DashTitles.of(com.clockweather.core.dashboard.DashTile.WEATHER, st.hebrew), onOpen) {
         if (f == null || day == null) Text(stringResource(R.string.no_weather_yet), style = MaterialTheme.typography.bodyMedium)
-        else Row(verticalAlignment = Alignment.CenterVertically) {
+        else androidx.compose.foundation.layout.Box {
+          WeatherParticles(f.current?.sky ?: day.sky, animate && s.animateWeather, Modifier.matchParentSize())
+          Row(verticalAlignment = Alignment.CenterVertically) {
             SkyIcon(f.current?.sky ?: day.sky, f.current?.isDay ?: true, sizeDp = 72, animate = animate && s.animateWeather)
             Column(Modifier.padding(start = 12.dp)) {
                 Text(s.places.firstOrNull { it.id == s.activePlaceId }?.name ?: "", style = MaterialTheme.typography.bodyMedium)
@@ -95,6 +97,7 @@ internal fun WeatherTile(st: RenderState, index: Int, animate: Boolean, onOpen: 
                 Text("${TempFormat.short(day.maxC, s.fahrenheit)} / ${TempFormat.short(day.minC, s.fahrenheit)}" + (day.rainChancePct?.let { "   ☂ $it%" } ?: ""), style = MaterialTheme.typography.bodyMedium)
                 if (s.showAirQuality) com.clockweather.app.data.AirQualityRepository.cached(LocalContext.current)?.let { r -> com.clockweather.core.weather.AirQuality.line(r, st.hebrew)?.let { Text(it, style = MaterialTheme.typography.bodySmall) } }
             }
+          }
         }
     }
 }

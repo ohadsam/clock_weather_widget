@@ -68,7 +68,10 @@ fun WidgetTile(settings: WidgetSettings, tick: Long, onChange: (WidgetSettings) 
             Modifier.fillMaxWidth().height((hDp + 32).dp).clip(RoundedCornerShape(24.dp)).background(wall),
             contentAlignment = Alignment.Center,
         ) {
-            Image(bmp.asImageBitmap(), contentDescription = stringResource(R.string.preview_description), modifier = Modifier.height(hDp.dp))
+            // changing the clock style cross-fades the preview (the key is the style, so the once-a-minute redraw does not flicker)
+            androidx.compose.animation.Crossfade(settings.clockStyle, animationSpec = androidx.compose.animation.core.tween(if (settings.calmAnimations) 0 else 350), label = "style") {
+                Image(bmp.asImageBitmap(), contentDescription = stringResource(R.string.preview_description), modifier = Modifier.height(hDp.dp))
+            }
         }
         ChipRow(sizes.mapIndexed { i, t -> i to stringResource(t.first) }, { it == size }, { size = it })
         ChipRow(listOf(true to stringResource(R.string.wall_dark), false to stringResource(R.string.wall_light)), { it == darkWall }, { darkWall = it })
