@@ -76,4 +76,5 @@ jobs:
           ./gradlew :wear:lintDebug :wear:assembleRelease -PversionCodeOverride=$CODE --stacktrace 2>&1 | tee wear.log
       - name: Failure summary
         if: failure()
-        run: grep -E "^e: |error:|What went wrong|Execution failed|Lint found" wear.log | cut -c1-300 | head -25 || true
+        run: |
+          grep -E "^e: |error:|What went wrong|Execution failed|Lint found" wear.log | cut -c1-300 | head -25 || true

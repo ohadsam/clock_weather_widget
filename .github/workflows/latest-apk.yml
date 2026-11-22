@@ -22,7 +22,7 @@ jobs:
           chmod +x gradlew
           CODE=$((100 + $(git rev-list --count HEAD)))
           ./gradlew :core:test :app:assembleRelease -PversionCodeOverride=$CODE --stacktrace
-      - name: Build Wear OS tile APK (best effort: a watch build problem never blocks the phone release)
+      - name: Build Wear OS tile APK (best effort - a watch build problem never blocks the phone release)
         id: wear
         continue-on-error: true
         run: |
