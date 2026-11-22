@@ -58,6 +58,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/main/kotlin/com/clockweather/core/clock/WorldClock.kt` | Extra time-zone clocks, flip digits |
 | `core/src/main/kotlin/com/clockweather/core/hebrew/Gematria.kt` | Hebrew numerals for days and years |
 | `core/src/main/kotlin/com/clockweather/core/hebrew/HebrewDate.kt` | Hebrew calendar arithmetic (fixed-day algorithm), HebrewDate |
+| `core/src/main/kotlin/com/clockweather/core/hebrew/DateCardText.kt` | Date card lines (weekday/date, Hebrew date, holiday or portion) for the Wear tile; pure |
 | `core/src/main/kotlin/com/clockweather/core/hebrew/HebrewDateFormat.kt` | Hebrew date text + roll at sunset |
 | `core/src/main/kotlin/com/clockweather/core/hebrew/Holidays.kt` | Jewish holidays/special days for a Gregorian day (Israel/diaspora) |
 | `core/src/main/kotlin/com/clockweather/core/steps/StepMath.kt` | Daily steps from a cumulative counter (reboot-safe) |
@@ -157,6 +158,8 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `app/src/main/java/com/clockweather/app/ui/BedsideScreen.kt` | Bedside clock mode |
 | `app/src/main/java/com/clockweather/app/widget/Speech.kt` | TalkBack sentence for the widget |
 | `app/src/main/java/com/clockweather/app/ui/PlacesOverview.kt` | All saved places at a glance on Home |
+| `wear/build.gradle.kts`, `wear/src/main/AndroidManifest.xml`, `wear/src/main/res/values*/strings.xml` | Wear OS date tile module (standalone, no permissions, same sideload key) |
+| `wear/src/main/java/com/clockweather/wear/DateTileService.kt` | The watch tile: weekday + date, Hebrew date, holiday / weekly portion; redraws after midnight |
 | `app/build.gradle.kts`, `settings.gradle.kts`, `gradle/libs.versions.toml` | build (versionName here is the single source) |
 | `app/src/main/AndroidManifest.xml` | permissions (each commented), widget receiver, activities |
 | `app/src/main/res/*` | strings he/en, widget layout + info, theme, placeholder icon |

@@ -1,6 +1,7 @@
 # Changelog
 
 ## 0.3.0
+- Wear OS date tile (`ClockWiseWear.apk`, standalone): weekday + date, Hebrew date, holiday or weekly portion.
 - Interval timer (work / rest / rounds) on the countdown card.
 - Optional air quality / UV / pollen line on the dashboard weather card (off by default; one extra Open-Meteo host).
 - "Shabbat ended" notification at nightfall (with Shabbat mode on).

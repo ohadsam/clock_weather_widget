@@ -22,6 +22,13 @@ jobs:
           chmod +x gradlew
           CODE=$((100 + $(git rev-list --count HEAD)))
           ./gradlew :core:test :app:assembleRelease -PversionCodeOverride=$CODE --stacktrace
+      - name: Build Wear OS tile APK (best effort: a watch build problem never blocks the phone release)
+        id: wear
+        continue-on-error: true
+        run: |
+          CODE=$((100 + $(git rev-list --count HEAD)))
+          ./gradlew :wear:assembleRelease -PversionCodeOverride=$CODE --stacktrace
+          cp "$(ls wear/build/outputs/apk/release/*.apk | head -1)" ClockWiseWear.apk
       - name: Verify in-place update against the published APK
         env:
           GH_TOKEN: ${{ github.token }}
@@ -29,7 +36,7 @@ jobs:
           BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
           NEW=$(ls app/build/outputs/apk/release/*.apk | head -1)
           mkdir -p old && cd old
-          if gh release download latest --pattern '*.apk' --repo "$GITHUB_REPOSITORY" 2>/dev/null; then
+          if gh release download latest --pattern 'ClockWise.apk' --repo "$GITHUB_REPOSITORY" 2>/dev/null; then
             OLD=$(ls *.apk | head -1); cd ..
             cert() { "$BT/apksigner" verify --print-certs "$1" | grep -m1 'SHA-256 digest'; }
             pkg()  { "$BT/aapt2" dump badging "$1" | grep -m1 -oE "package: name='[^']+'" ; }
@@ -56,6 +63,7 @@ jobs:
           printf '{"versionName":"%s","versionCode":%s,"sha":"%s","sha256":"%s","apk":"https://github.com/%s/releases/download/latest/ClockWise.apk","notes":"%s"}\n' "$VER" "$CODE" "$SHA" "$HASH" "$GITHUB_REPOSITORY" "$NOTES" > version.json
           python3 -c "import json;d=json.load(open('version.json'));print('version.json ok',d['versionName'],d['versionCode'])"
           gh release delete latest --yes --cleanup-tag || true
-          gh release create latest ClockWise.apk ClockWise.apk.sha256 version.json --prerelease --target "$GITHUB_SHA" \
+          EXTRA=''; [ -f ClockWiseWear.apk ] && EXTRA='ClockWiseWear.apk'
+          gh release create latest ClockWise.apk ClockWise.apk.sha256 version.json $EXTRA --prerelease --target "$GITHUB_SHA" \
             --title "Latest build v${VER} (${SHA})" \
             --notes "Automatic build of main @ ${SHA}. Sideload-signed: installs over any previous build of this app. Use Settings -> Updates in the app to update."

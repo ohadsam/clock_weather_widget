@@ -179,6 +179,14 @@ class JewishDayTest {
         assertEquals(p, kept[0].interval); assertNull(kept[1].interval); assertNull(kept[2].interval)
     }
 
+    @Test fun dateCardTextForTheWatchTile() {
+        val c = com.clockweather.core.hebrew.DateCardText.of(LocalDate.of(2026, 11, 21), true, false)
+        assertTrue(c.gregorian.startsWith("Saturday")); assertTrue(c.hebrewDate.isNotBlank()); assertNotNull(c.extra) // a Shabbat: the weekly portion
+        val he = com.clockweather.core.hebrew.DateCardText.of(LocalDate.of(2026, 12, 8), true, true) // 28 Kislev: Hanukkah
+        assertTrue(he.extra!!.contains("חנוכה"))
+        assertTrue(com.clockweather.core.hebrew.DateCardText.untilMidnightMs(0L, ZoneId.of("UTC")) in 60_000L..86_400_000L)
+    }
+
     @Test fun comfortAndSpeechAndPresets() {
         assertEquals("נעים", com.clockweather.core.weather.Comfort.word(22.0, true)); assertEquals("Very cold", com.clockweather.core.weather.Comfort.word(0.0, false))
         assertEquals("Thursday 17:05, 25°, rain expected, alarm 06:30", com.clockweather.core.widget.WidgetSpeech.sentence(false, "17:05", "Thursday", "25°, rain expected", listOf("alarm 06:30")))

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-feature android:name="android.hardware.type.watch" />
+    <!-- No permissions: the tile is computed on the watch from the date, the time zone and :core. No network, no phone link. -->
+    <application
+        android:allowBackup="false"
+        android:icon="@android:drawable/ic_menu_today"
+        android:label="@string/app_name"
+        android:supportsRtl="true">
+        <meta-data android:name="com.google.android.wearable.standalone" android:value="true" />
+        <service
+            android:name=".DateTileService"
+            android:exported="true"
+            android:label="@string/tile_label"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+            <meta-data android:name="androidx.wear.tiles.DESCRIPTION" android:resource="@string/tile_description" />
+        </service>
+    </application>
+</manifest>

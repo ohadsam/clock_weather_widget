@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ClockWise</string>
+    <string name="tile_label">Hebrew date</string>
+    <string name="tile_description">Gregorian and Hebrew date, holiday or weekly portion</string>
+</resources>
