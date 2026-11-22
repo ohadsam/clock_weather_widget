@@ -36,6 +36,7 @@ No analytics, no ads, no accounts, no crash reporting. The phone's own geocoder 
 | `tick` | when the minute tick last ran and how late the last 30 ticks were (shown in Settings -> Widget status) |
 | `steps` | today's baseline and last reading of the step counter |
 | `airq` | last air-quality JSON of the active place (only when switched on) |
+| `wear_sync` | the last state sent to the watch (to send only changes) |
 | `rain_alert` | when the last rain notification was shown |
 | `havdalah_alert` | the date of the last "Shabbat ended" notification |
 | `update` | last install status |
@@ -46,6 +47,7 @@ Cache directories: `cache/updates` (a downloaded APK, replaced on the next downl
 - "Share my look" (`CW1:` code): appearance only, no places or personal data.
 - "Back up all settings" (`CWB1:` text): **includes saved places and calendar ids**. The UI warns; keep it private.
 - Share the app: a link or the APK itself.
+- **Watch (Wear OS tile)**: when a paired watch has the same app installed, the phone sends it one small JSON (`WearSync`): the active place's name, temperature, high/low, rain chance, sky word and the label and end time of the running / paused countdowns. It travels over the Google Play services Data Layer between the owner's own devices (Bluetooth / Wi-Fi); no server, no new permission, nothing is sent when no watch is paired. The watch keeps the last copy in its own app-private storage. The phone app depends on `play-services-wearable` for this.
 
 ## 5. Untrusted input
 Calendar titles/locations, place names, pasted codes and the update manifest are treated as untrusted: length-clamped, control and bidi characters stripped (`Untrusted.clean`), JSON parsed defensively with size caps, and everything stored passes `WidgetSettings.sanitized()` or a list `clean()`.

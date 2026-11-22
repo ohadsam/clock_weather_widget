@@ -187,6 +187,23 @@ class JewishDayTest {
         assertTrue(com.clockweather.core.hebrew.DateCardText.untilMidnightMs(0L, ZoneId.of("UTC")) in 60_000L..86_400_000L)
     }
 
+    @Test fun wearStateRoundTripLinesAndClamps() {
+        val now = 1_000_000_000L
+        val run = TimerItem("a", true, "Eggs").with(Countdown().withDuration(8 * 60_000L).start(now))
+        val paused = TimerItem("b", true, "Pasta").with(Countdown().withDuration(10 * 60_000L).start(now).pause(now + 120_000L))
+        val s = com.clockweather.core.wear.WearState.of(now, "Tel Aviv", "24°", "26° / 17°", 30, "Clear", false, listOf(run, paused, TimerItem("c", false)))
+        val back = com.clockweather.core.wear.WearState.decode(s.encode())!!
+        assertEquals(2, back.timers.size)
+        assertEquals(listOf("Tel Aviv", "24°  Clear", "26° / 17°  ☂ 30%"), back.weatherLines())
+        assertEquals(listOf("⏳ Eggs 8 min", "⏳ Pasta 8 min (paused)"), back.timerLines(now))
+        assertEquals("⏳ Eggs 3 min", back.timerLines(now + 5 * 60_000L)[0])
+        assertEquals("⏳ Eggs Done", back.timerLines(now + 9 * 60_000L)[0])
+        assertTrue(!back.isStale(now + 1000L) && back.isStale(now + 4 * 3_600_000L))
+        for (bad in listOf("", "{", "[]", "x".repeat(9000), """{"v":2,"at":1,"place":"a","temp":"b","hiLo":"c","sky":"d","hebrew":false}""")) assertNull(com.clockweather.core.wear.WearState.decode(bad), bad.take(20))
+        val hostile = com.clockweather.core.wear.WearState.decode(s.copy(place = "x".repeat(500), rain = 999).encode())!!
+        assertTrue(hostile.place.length <= 30); assertNull(hostile.rain)
+    }
+
     @Test fun comfortAndSpeechAndPresets() {
         assertEquals("נעים", com.clockweather.core.weather.Comfort.word(22.0, true)); assertEquals("Very cold", com.clockweather.core.weather.Comfort.word(0.0, false))
         assertEquals("Thursday 17:05, 25°, rain expected, alarm 06:30", com.clockweather.core.widget.WidgetSpeech.sentence(false, "17:05", "Thursday", "25°, rain expected", listOf("alarm 06:30")))

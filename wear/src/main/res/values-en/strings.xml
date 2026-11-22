@@ -3,4 +3,9 @@
     <string name="app_name">ClockWise</string>
     <string name="tile_label">Hebrew date</string>
     <string name="tile_description">Gregorian and Hebrew date, holiday or weekly portion</string>
+    <string name="status_label">Weather and timers</string>
+    <string name="status_description">Weather and running timers from your phone</string>
+    <string name="status_open_phone">Open ClockWise on your phone</string>
+    <string name="status_nothing">Nothing to show</string>
+    <string name="status_stale">Not up to date</string>
 </resources>

@@ -66,6 +66,7 @@ dependencies {
     implementation(libs.androidx.work.runtime)
     implementation(libs.coroutines.android)
     implementation(libs.osmdroid)
+    implementation(libs.play.services.wearable)
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)
     implementation(libs.compose.material3)

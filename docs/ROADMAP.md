@@ -48,4 +48,4 @@ Still open from the list: living weather layers beyond the loops, font choices, 
 10. **Widget themes from art**: the optional round 7 ornaments (`docs/prompts/ROUND7_SEASONAL_PROMPT.md`) plus painted backgrounds that follow the weather.
 11. **Reliability telemetry kept local**: a small on-device log of tick lateness and last errors shown in Widget status (no network), to debug launcher/OEM battery killers.
 12. **Accessibility**: TalkBack reads the whole widget as one sentence; high-contrast and big-text presets; reduce-motion follows the system setting automatically.
-13. **Wear / tablet**: a tablet layout of the dashboard (two columns) and a Wear OS tile (DONE 2026-11-21: standalone date tile `:wear`; weather / timers on the watch would need a phone link and are still open).
+13. **Wear / tablet**: a tablet layout of the dashboard (two columns) and a Wear OS tile (DONE 2026-11-21: standalone date tile `:wear`; weather + timers tile fed by the phone DONE 2026-11-22; starting / pausing timers from the watch still open).

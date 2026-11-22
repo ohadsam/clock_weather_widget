@@ -3,4 +3,9 @@
     <string name="app_name">ClockWise</string>
     <string name="tile_label">תאריך עברי</string>
     <string name="tile_description">התאריך הלועזי והעברי, חג או פרשת השבוע</string>
+    <string name="status_label">מזג אוויר וטיימרים</string>
+    <string name="status_description">מזג האוויר והטיימרים הרצים מהטלפון</string>
+    <string name="status_open_phone">פתח את ClockWise בטלפון</string>
+    <string name="status_nothing">אין מה להציג</string>
+    <string name="status_stale">לא מעודכן</string>
 </resources>

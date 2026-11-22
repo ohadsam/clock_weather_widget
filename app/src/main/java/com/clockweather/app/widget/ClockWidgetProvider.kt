@@ -179,6 +179,7 @@ open class ClockWidgetProvider : AppWidgetProvider() {
         fun updateAll(context: Context) {
             val manager = AppWidgetManager.getInstance(context)
             for ((k, ids) in idsByKind(context, manager)) pushAll(context, manager, ids, k)
+            com.clockweather.app.data.WearSync.push(context)
         }
 
         private fun pushAll(context: Context, manager: AppWidgetManager, ids: IntArray, kind: WidgetKind, now: Instant = Instant.now(), flipFrom: IntArray? = null, progress: Float = 1f, animMs: Long = -1L, lidOpen: Float = 1f) {

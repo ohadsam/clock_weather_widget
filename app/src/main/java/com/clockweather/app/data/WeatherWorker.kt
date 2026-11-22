@@ -21,6 +21,7 @@ class WeatherWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, params
         if (settings.places.isNotEmpty()) WeatherRepository.refreshAll(applicationContext, settings)
         ClockWidgetProvider.updateAll(applicationContext)
         AirQualityRepository.refresh(applicationContext, settings)
+        WearSync.push(applicationContext, force = true)
         RainAlerts.check(applicationContext, settings)
         // Heartbeat: every refresh also repairs the minute-tick chain and the calendar watcher if either was lost.
         if (ClockWidgetProvider.hasWidgets(applicationContext)) {

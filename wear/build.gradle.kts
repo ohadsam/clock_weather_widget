@@ -9,7 +9,8 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.clockweather.wear"
+        // the SAME applicationId as the phone app (and the same signing key): the Data Layer only links an app to its twin on the other device that way
+        applicationId = "com.clockweather.app"
         minSdk = 26
         targetSdk = 35
         versionCode = (project.findProperty("versionCodeOverride") as String?)?.toIntOrNull() ?: 1
@@ -45,4 +46,5 @@ dependencies {
     implementation("androidx.wear.tiles:tiles:1.4.1")
     implementation("androidx.wear.protolayout:protolayout:1.2.1")
     implementation("com.google.guava:guava:33.4.0-android")
+    implementation("com.google.android.gms:play-services-wearable:19.0.0")
 }

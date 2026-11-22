@@ -70,6 +70,7 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `core/src/main/kotlin/com/clockweather/core/timers/Timers.kt` | Stopwatch and countdown state machines + text for app and widget |
 | `core/src/main/kotlin/com/clockweather/core/timers/IntervalPlan.kt` | Interval timer (work/rest rounds) plan: phases, clamps, wording; runs on a countdown |
 | `core/src/main/kotlin/com/clockweather/core/weather/RainAlert.kt` | Rain about to start: when to alert |
+| `core/src/main/kotlin/com/clockweather/core/wear/WearState.kt` | What the phone sends the watch (weather line + countdowns): codec, clamps, tile lines; pure |
 | `core/src/main/kotlin/com/clockweather/core/weather/AirQuality.kt` | Air quality / UV / pollen: URL, parsing, wording (pure) |
 | `core/src/main/kotlin/com/clockweather/core/widget/QuietHours.kt` | Night mode hours (wrap past midnight) |
 | `core/src/main/kotlin/com/clockweather/core/timers/TimerItems.kt` | Many labelled timers, each with its own end-of-time sound/vibration |
@@ -159,6 +160,8 @@ Widget-first native Android app. The home-screen widget is the product: a big, b
 | `app/src/main/java/com/clockweather/app/widget/Speech.kt` | TalkBack sentence for the widget |
 | `app/src/main/java/com/clockweather/app/ui/PlacesOverview.kt` | All saved places at a glance on Home |
 | `wear/build.gradle.kts`, `wear/src/main/AndroidManifest.xml`, `wear/src/main/res/values*/strings.xml` | Wear OS date tile module (standalone, no permissions, same sideload key) |
+| `wear/src/main/java/com/clockweather/wear/StatusTileService.kt`, `DataLayerService.kt`, `StateStore.kt` | Watch tile with the phone's weather and running timers: Data Layer listener, stored copy, tile |
+| `app/src/main/java/com/clockweather/app/data/WearSync.kt` | Sends the weather line + countdowns to the watch over the Data Layer when they change |
 | `wear/src/main/java/com/clockweather/wear/DateTileService.kt` | The watch tile: weekday + date, Hebrew date, holiday / weekly portion; redraws after midnight |
 | `app/build.gradle.kts`, `settings.gradle.kts`, `gradle/libs.versions.toml` | build (versionName here is the single source) |
 | `app/src/main/AndroidManifest.xml` | permissions (each commented), widget receiver, activities |

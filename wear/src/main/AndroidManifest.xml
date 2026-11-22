@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-feature android:name="android.hardware.type.watch" />
-    <!-- No permissions: the tile is computed on the watch from the date, the time zone and :core. No network, no phone link. -->
+    <!-- No permissions. The date tile is computed on the watch (date, time zone, :core). The status tile shows what the phone sends over the Google Play services Data Layer (owner's own paired phone; no network of its own). -->
     <application
         android:allowBackup="false"
         android:icon="@android:drawable/ic_menu_today"
@@ -17,6 +17,22 @@
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
             <meta-data android:name="androidx.wear.tiles.DESCRIPTION" android:resource="@string/tile_description" />
+        </service>
+        <service
+            android:name=".StatusTileService"
+            android:exported="true"
+            android:label="@string/status_label"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+            <meta-data android:name="androidx.wear.tiles.DESCRIPTION" android:resource="@string/status_description" />
+        </service>
+        <service android:name=".DataLayerService" android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <data android:scheme="wear" android:host="*" android:pathPrefix="/clockwise" />
+            </intent-filter>
         </service>
     </application>
 </manifest>
