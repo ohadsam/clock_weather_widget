@@ -74,6 +74,14 @@ At the end of every stage (feature batch, asset integration, refactor, before a 
 ## 8. Ship
 Commit on the working branch, push, wait for CI green. On `main`, the release job publishes the APK; verify release + asset + version. Don't claim "done" before that.
 
+## Store - update "OS APPs and Downs" (every shipped version)
+The owner's app store (repo `ohadsam/os_app_store`, https://ohadsam.github.io/os_app_store/) must always show this app's latest version.
+1. After the release is live (APK release / Pages deployed), find the app's entry in `web/data/apps.json` (its `source` block says which file here holds the version).
+2. Preferred: trigger the store's sync - GitHub Actions -> "Sync catalog" -> Run workflow in `ohadsam/os_app_store` (or `mcp__github__actions_run_trigger` workflow `sync-catalog.yml`). It reads this repo's version + CHANGELOG and updates version, update date and what's-new.
+3. If this session can write to the store repo instead: edit the entry (`version`, `updated`, `whatsNew` he + en, `links` if the APK name/URL changed, new `shots`), run `npm test` there, push to `main`.
+4. If the change is user-visible, re-capture screenshots (`web/art/shots/<id>/`) from this app's e2e/journey images.
+5. A changed APK file name, package id, min Android, platforms or install flow also changes the entry (`links.apk`, `apk.*`, `platforms`). Say in the report that the store was updated (or why not).
+
 ## Known limitations (do not re-report as new)
 - The APK is signed with a committed sideload key (stable in-place updates, not secret); not for the Play Store.
 - Sandbox cannot reach Open-Meteo/Hebcal or Google Maven; API shapes are confirmed by probe workflows; `:app` by CI.
